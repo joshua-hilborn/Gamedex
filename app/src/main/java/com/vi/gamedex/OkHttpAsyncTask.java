@@ -14,7 +14,6 @@ import okhttp3.ResponseBody;
 public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
     private static final String IGDB_API_KEY_HEADER = "user-key";
-    private static final String IGDB_API_KEY = "API KEY HERE";
     private static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
@@ -36,7 +35,8 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
         Request request = new Request.Builder()
                 .url(IGDB_BASE_URL + endpoint)
                 //.header("Accept", "application/json")
-                .header(IGDB_API_KEY_HEADER, IGDB_API_KEY)
+                //.header(IGDB_API_KEY_HEADER, IGDB_API_KEY)
+                .header(IGDB_API_KEY_HEADER, BuildConfig.IGDB_API_KEY)
                 .post(body)
                 .build();
 
