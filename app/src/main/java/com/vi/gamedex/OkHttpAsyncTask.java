@@ -14,7 +14,7 @@ import okhttp3.ResponseBody;
 public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
     private static final String IGDB_API_KEY_HEADER = "user-key";
-    private static final String IGDB_API_KEY = "18611d16bbd6655f41e96f8aacda7d33";
+    private static final String IGDB_API_KEY = "API KEY HERE";
     private static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
