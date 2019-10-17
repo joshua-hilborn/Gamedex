@@ -17,7 +17,6 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
     private static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
-
     private OkHttpAsyncTaskCallback okHttpAsyncTaskCallback;
 
     OkHttpAsyncTask (OkHttpAsyncTaskCallback callback){
@@ -35,7 +34,6 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
         Request request = new Request.Builder()
                 .url(IGDB_BASE_URL + endpoint)
                 //.header("Accept", "application/json")
-                //.header(IGDB_API_KEY_HEADER, IGDB_API_KEY)
                 .header(IGDB_API_KEY_HEADER, BuildConfig.IGDB_API_KEY)
                 .post(body)
                 .build();
@@ -58,10 +56,8 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         // super.onPostExecute(result);
-        //mResponse = result;
         okHttpAsyncTaskCallback.onTaskComplete(result);
         Log.d("OkHttpAsyncTask: ", "onPostExecute: " + result);
-        //mJsonText.setText(mResponse);
     }
 
     public interface OkHttpAsyncTaskCallback {

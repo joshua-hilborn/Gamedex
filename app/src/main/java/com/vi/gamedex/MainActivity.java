@@ -11,7 +11,6 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private TextView jsonTextView;
-    private String responseString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         //fields *; where game.platforms = 48 & date > 1538129354; sort date asc;
 
-        //new OkHttpAsyncTask().execute("/genres", "fields *; where id = (8,9,11);");
-
         String endpoint = "/release_dates";
 
         String fields = "fields *;";
@@ -40,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
             public void onTaskComplete(String result) {
-                responseString = result;
-                jsonTextView.setText(responseString);
+                jsonTextView.setText(result);
                 Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
             }
         }).execute(endpoint, body);
