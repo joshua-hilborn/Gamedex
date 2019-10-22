@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -16,7 +15,6 @@ import com.vi.gamedex.model.Game;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,11 +53,14 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
 
         String fields = "fields *;";
         //String query = "where game.platforms = 48 & date > " + currentMillis + ";";
-        String query = "";
+        String searchString =  "Final Fantasy";
+        String query = "search \""+ searchString +"\";";
+        //String query = "";
         //String sort = "sort date desc;";
-        String sort = "";
+        String sort = "limit 50;";
 
-        String body = fields + " " + query + " " + sort;
+        //String body2 = "fields *;\nsearch \"Morta\";\nlimit 50;";
+        String body = fields + "\n" + query + "\n" + sort;
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
@@ -74,9 +75,7 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
 
                 //jsonTextView.setText(result);
                 //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
-                Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
-                Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.get(1).getName());
-                Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.get(1).getSummary());
+                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
 
             }
         }).execute(endpoint, body);
@@ -86,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
 
     @Override
     public void onGameClick(int position) {
+        //intent to do something here
 
     }
 }
