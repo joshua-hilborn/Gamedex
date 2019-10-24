@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -22,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
 
     //private TextView jsonTextView;
     private RecyclerView recyclerView;
+    private Button searchButton;
+    private EditText searchTextBox;
     private List<Game> gamesList;
 
     @Override
@@ -29,7 +34,10 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        searchButton = findViewById(R.id.btn_search);
+        searchTextBox = findViewById(R.id.et_searchBox);
         recyclerView = findViewById(R.id.rv_main);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final GameListAdapter gameListAdapter = new GameListAdapter(gamesList, this);
         recyclerView.setAdapter(gameListAdapter);
@@ -49,36 +57,57 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
         //fields *; where game.platforms = 48 & date > 1538129354; sort date asc;
 
         //String endpoint = "/release_dates";
-        String endpoint = "/games";
+        //String endpoint = "/games";
 
-        String fields = "fields *;";
+       // String fields = "fields *;";
         //String query = "where game.platforms = 48 & date > " + currentMillis + ";";
-        String searchString =  "Final Fantasy";
-        String query = "search \""+ searchString +"\";";
+        //String searchString =  "Final Fantasy";
+       // String query = "search \""+ searchString +"\";";
         //String query = "";
         //String sort = "sort date desc;";
-        String sort = "limit 50;";
+        //String sort = "limit 50;";
 
         //String body2 = "fields *;\nsearch \"Morta\";\nlimit 50;";
-        String body = fields + "\n" + query + "\n" + sort;
+        //String body = fields + "\n" + query + "\n" + sort;
 
-        new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTaskComplete(String result) {
-                try{
-                    gamesList = gamesJsonAdapter.fromJson(result);
-                    gameListAdapter.setGameList(gamesList);
+            public void onClick(View v) {
+                String endpoint = "/games";
+                String fields = "fields *;";
+                String searchString = searchTextBox.getText().toString();
+                //String searchString =  "Final Fantasy";
+                String query = "search \""+ searchString +"\";";
+                String sort = "limit 50;";
+                String body = fields + "\n" + query + "\n" + sort;
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
+                    @Override
+                    public void onTaskComplete(String result) {
+                        try{
+                            gamesList = gamesJsonAdapter.fromJson(result);
+                            gameListAdapter.setGameList(gamesList);
 
-                //jsonTextView.setText(result);
-                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
-                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        //jsonTextView.setText(result);
+                        //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
+                        //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
+
+                    }
+                }).execute(endpoint, body);
+
+
+
 
             }
-        }).execute(endpoint, body);
+        });
+
+
+
+
 
     }
 
