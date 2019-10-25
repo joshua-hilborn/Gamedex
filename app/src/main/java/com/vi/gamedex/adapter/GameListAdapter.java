@@ -3,11 +3,13 @@ package com.vi.gamedex.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
 import com.vi.gamedex.R;
 import com.vi.gamedex.model.Game;
 
@@ -39,6 +41,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
         String gameSummary = gameList.get(position).getSummary();
+        String gameCoverUrl = gameList.get(position).getCover().getUrl();
+
+        Picasso.get()
+                .load("https:" + gameCoverUrl)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground)
+                .into(holder.ivCover);
 
         // set name and summary Textview
         holder.tvName.setText(gameName);
@@ -59,13 +68,16 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         OnGameListener onGameListener;
         TextView tvName, tvSummary;
+        ImageView ivCover;
 
         public GameViewHolder(@NonNull View itemView, OnGameListener onGameListener) {
             super(itemView);
             this.onGameListener = onGameListener;
             // create .xml for list item and bind the views here
+
             tvName = itemView.findViewById(R.id.tv_gameListItem_Name);
             tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
+            ivCover = itemView.findViewById(R.id.iv_gameListItem_Cover);
 
             itemView.setOnClickListener(this);
         }
