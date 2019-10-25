@@ -41,7 +41,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
         String gameSummary = gameList.get(position).getSummary();
-        String gameCoverUrl = gameList.get(position).getCover().getUrl();
+        String gameCoverUrl = "";
+        if (gameList.get(position).getCover() != null ){
+            gameCoverUrl = gameList.get(position).getCover().getUrl();
+        }
+
 
         Picasso.get()
                 .load("https:" + gameCoverUrl)
