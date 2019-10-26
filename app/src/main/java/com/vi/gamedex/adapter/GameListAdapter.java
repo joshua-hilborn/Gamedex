@@ -1,5 +1,6 @@
 package com.vi.gamedex.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.vi.gamedex.model.Game;
 import java.util.List;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameViewHolder> {
+    private static final String TAG = "GameListAdapter: ";
     private List<Game> gameList;
     private OnGameListener onGameListener;
 
@@ -41,14 +43,22 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
         String gameSummary = gameList.get(position).getSummary();
-        String gameCoverUrl = "";
+        //https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
+        String gameCoverBaseUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
+        String coverId = "";
         if (gameList.get(position).getCover() != null ){
-            gameCoverUrl = gameList.get(position).getCover().getUrl();
+            coverId = gameList.get(position).getCover().getImageId();
+
+            Log.d(TAG, "onBindViewHolder: imageId: " + gameList.get(position).getCover().getImageId());
+            Log.d(TAG, "onBindViewHolder: url: " + gameList.get(position).getCover().getUrl());
         }
+        String imageUrl = gameCoverBaseUrl + coverId + ".jpg";
+        Log.d("GameListAdapter: ", "onBindViewHolder: imageUrl: " + imageUrl);
 
 
         Picasso.get()
-                .load("https:" + gameCoverUrl)
+                .load(imageUrl)
+                //.load("https:" + gameCoverUrl)
                 .placeholder(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.ivCover);

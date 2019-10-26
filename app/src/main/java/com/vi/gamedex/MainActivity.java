@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
                     public void onTaskComplete(String result) {
                         try{
                             gamesList = gamesJsonAdapter.fromJson(result);
+                            Log.d("MainActivity: ", "onTaskComplete: " + gamesList.get(0).getCover());
                             gameListAdapter.setGameList(gamesList);
 
                         } catch (IOException e) {
