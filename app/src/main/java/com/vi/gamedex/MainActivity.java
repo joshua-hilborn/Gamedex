@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
             @Override
             public void onClick(View v) {
                 String endpoint = "/games";
-                String fields = "fields *, cover.*;";
+                //String fields = "fields *, cover.*;";
+                String fields = "fields *, cover.*, artworks.*, external_games.*, game_modes.*, screenshots.*, platforms.*, genres.*, videos.*;";
                 String searchString = searchTextBox.getText().toString();
                 //String searchString =  "Final Fantasy";
                 String query = "search \""+ searchString +"\";";
