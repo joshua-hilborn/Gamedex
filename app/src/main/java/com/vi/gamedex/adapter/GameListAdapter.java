@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.vi.gamedex.R;
 import com.vi.gamedex.model.Game;
+import com.vi.gamedex.model.Video;
 
 import java.util.List;
 
@@ -43,6 +44,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
         String gameSummary = gameList.get(position).getSummary();
+        String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
+        List<Video> trailers = gameList.get(position).getVideos();
+        for ( Video video : trailers ){
+            Log.d(TAG, "onBindViewHolder: Videos: " + video.getName() + " " + youtubeBaseUrl + video.getVideoId() );
+        }
         //https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
         String gameCoverBaseUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
         String coverId = "";
