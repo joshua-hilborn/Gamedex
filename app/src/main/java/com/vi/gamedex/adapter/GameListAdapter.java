@@ -43,23 +43,26 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
+        Log.d(TAG, "onBindViewHolder: Name: " + gameName);
         String gameSummary = gameList.get(position).getSummary();
         String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
         List<Video> trailers = gameList.get(position).getVideos();
-        for ( Video video : trailers ){
-            Log.d(TAG, "onBindViewHolder: Videos: " + video.getName() + " " + youtubeBaseUrl + video.getVideoId() );
+        if (trailers != null){
+            for ( Video video : trailers ){
+                Log.d(TAG, "onBindViewHolder: Videos: " + video.getName() + " " + youtubeBaseUrl + video.getVideoId() );
+            }
         }
+
         //https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
         String gameCoverBaseUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
         String coverId = "";
         if (gameList.get(position).getCover() != null ){
             coverId = gameList.get(position).getCover().getImageId();
-
-            Log.d(TAG, "onBindViewHolder: imageId: " + gameList.get(position).getCover().getImageId());
-            Log.d(TAG, "onBindViewHolder: url: " + gameList.get(position).getCover().getUrl());
+            //Log.d(TAG, "onBindViewHolder: Cover: " + gameList.get(position).getCover().getImageId());
+            //Log.d(TAG, "onBindViewHolder: url: " + gameList.get(position).getCover().getUrl());
         }
         String imageUrl = gameCoverBaseUrl + coverId + ".jpg";
-        Log.d("GameListAdapter: ", "onBindViewHolder: imageUrl: " + imageUrl);
+        Log.d(TAG, "onBindViewHolder: Cover: " + imageUrl);
 
 
         Picasso.get()
