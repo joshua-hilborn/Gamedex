@@ -57,7 +57,7 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         // super.onPostExecute(result);
         okHttpAsyncTaskCallback.onTaskComplete(result);
-        Log.d("OkHttpAsyncTask: ", "onPostExecute: " + result);
+        //Log.d("OkHttpAsyncTask: ", "onPostExecute: " + result);
     }
 
     public interface OkHttpAsyncTaskCallback {

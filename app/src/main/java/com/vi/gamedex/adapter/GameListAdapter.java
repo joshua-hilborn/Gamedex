@@ -43,7 +43,12 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
+        double criticScore = gameList.get(position).getAggregatedRating();
+        int criticCount = gameList.get(position).getAggregatedRatingCount();
+        double userScore = gameList.get(position).getRating();
+        int userCount = gameList.get(position).getRatingCount();
         Log.d(TAG, "onBindViewHolder: Name: " + gameName);
+        Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
         String gameSummary = gameList.get(position).getSummary();
         String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
         List<Video> trailers = gameList.get(position).getVideos();

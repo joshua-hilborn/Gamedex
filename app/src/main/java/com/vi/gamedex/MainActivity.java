@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements GameListAdapter.OnGameListener {
+    public static final String TAG = "MainActivity: ";
 
     //private TextView jsonTextView;
     private RecyclerView recyclerView;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
         //new OkHttpAsyncTask().execute("/games", "fields *;");
         Date currentDate = new Date();
         long currentMillis = currentDate.getTime();
-        Log.d("MainActivity: ", "onCreate: " + currentMillis);
+        Log.d(TAG, "onCreate: " + currentMillis);
 
         //fields *; where game.platforms = 48 & date > 1538129354; sort date asc;
 
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
                     @Override
                     public void onTaskComplete(String result) {
                         try{
+                            Log.d(TAG, "onTaskComplete: " + result);
                             gamesList = gamesJsonAdapter.fromJson(result);
                             gameListAdapter.setGameList(gamesList);
 
