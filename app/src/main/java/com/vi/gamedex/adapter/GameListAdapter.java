@@ -47,9 +47,20 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         int criticCount = gameList.get(position).getAggregatedRatingCount();
         double userScore = gameList.get(position).getRating();
         int userCount = gameList.get(position).getRatingCount();
+        String ratingString = "";
+
+        if (criticCount >= userCount){
+            //ratingString = "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount;
+            ratingString = Math.round(criticScore) + " from " + criticCount;
+        } else {
+            ratingString = Math.round(userScore) + " from " + userCount;
+        }
+
+
+
         Log.d(TAG, "onBindViewHolder: Name: " + gameName);
         Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
-        String gameSummary = gameList.get(position).getSummary();
+        //String gameSummary = gameList.get(position).getSummary();
         String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
         List<Video> trailers = gameList.get(position).getVideos();
         if (trailers != null){
@@ -79,7 +90,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         // set name and summary Textview
         holder.tvName.setText(gameName);
-        holder.tvSummary.setText(gameSummary);
+        holder.tvRating.setText(ratingString);
+        //holder.tvSummary.setText(gameSummary);
 
     }
 
@@ -95,7 +107,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         OnGameListener onGameListener;
-        TextView tvName, tvSummary;
+        TextView tvName, tvRating;
         ImageView ivCover;
 
         public GameViewHolder(@NonNull View itemView, OnGameListener onGameListener) {
@@ -104,7 +116,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             // create .xml for list item and bind the views here
 
             tvName = itemView.findViewById(R.id.tv_gameListItem_Name);
-            tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
+            tvRating = itemView.findViewById(R.id.tv_gameListItem_Rating);
+            //tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
             ivCover = itemView.findViewById(R.id.iv_gameListItem_Cover);
 
             itemView.setOnClickListener(this);

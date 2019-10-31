@@ -39,7 +39,10 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
         searchTextBox = findViewById(R.id.et_searchBox);
         recyclerView = findViewById(R.id.rv_main);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        AutoFitGridLayoutManager autoFitGridLayoutManager = new AutoFitGridLayoutManager(this,350);
+
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(autoFitGridLayoutManager);
         final GameListAdapter gameListAdapter = new GameListAdapter(gamesList, this);
         recyclerView.setAdapter(gameListAdapter);
 
