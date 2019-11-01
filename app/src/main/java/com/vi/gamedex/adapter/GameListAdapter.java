@@ -51,9 +51,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         if (criticCount >= userCount){
             //ratingString = "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount;
-            ratingString = Math.round(criticScore) + " from " + criticCount;
+            if (criticCount == 0){
+                ratingString = holder.itemView.getContext().getString(R.string.rating_unavailable);
+            }else {
+                ratingString = Math.round(criticScore) + "% " + criticCount + " critics";
+
+            }
         } else {
-            ratingString = Math.round(userScore) + " from " + userCount;
+            ratingString = Math.round(userScore) + "% " + userCount + " users";
         }
 
 

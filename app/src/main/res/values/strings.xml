@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Gamedex</string>
+    <string name="rating_unavailable">Rating Unavailable</string>
 </resources>
