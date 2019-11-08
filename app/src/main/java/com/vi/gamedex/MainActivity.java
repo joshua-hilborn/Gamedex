@@ -91,8 +91,15 @@ public class MainActivity extends AppCompatActivity implements GameListAdapter.O
                     public void onTaskComplete(String result) {
                         try{
                             Log.d(TAG, "onTaskComplete: " + result);
-                            gamesList = gamesJsonAdapter.fromJson(result);
-                            gameListAdapter.setGameList(gamesList);
+                            if (result != null){
+                                gamesList = gamesJsonAdapter.fromJson(result);
+                                gameListAdapter.setGameList(gamesList);
+                            }else{
+                                //handle null result
+                                Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
+                            }
+                            
+                            
 
                         } catch (IOException e) {
                             e.printStackTrace();
