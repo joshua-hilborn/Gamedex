@@ -1,12 +1,61 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     cardview:cardCornerRadius="5dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
+        <ImageView
+            android:id="@+id/iv_gameListItem_Cover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_launcher"
+            cardview:layout_constraintStart_toStartOf="parent"
+            cardview:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_gameListItem_Name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="Game Name"
+            android:textSize="12sp"
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_Cover" />
+
+        <View
+            android:id="@+id/v_separator"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimaryDark"
+
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Name"
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            cardview:layout_constraintEnd_toEndOf="@id/tv_gameListItem_Name"
+            />
+        <TextView
+            android:id="@+id/tv_gameListItem_Rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textSize="12sp"
+            android:text="85 from 111"
+            cardview:layout_constraintTop_toBottomOf="@id/v_separator"
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
+
+<!--
+<LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -44,4 +93,6 @@
                 android:text="85 from 111"/>
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+-->
+
