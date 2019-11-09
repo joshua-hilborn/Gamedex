@@ -13,9 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.vi.gamedex.R;
 import com.vi.gamedex.model.Game;
+import com.vi.gamedex.model.Platform;
 import com.vi.gamedex.model.Video;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameViewHolder> {
     private static final String TAG = "GameListAdapter: ";
@@ -43,10 +47,32 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
+        List<Platform> gamePlatforms = gameList.get(position).getPlatforms();
+        String platformString = "";
+        if (gamePlatforms != null){
+            for ( int i = 0; i < gamePlatforms.size(); i++){
+                if (gamePlatforms.get(i).getAbbreviation() == null ){
+                    platformString = platformString + gamePlatforms.get(i).getName();
+
+                }else {
+                    platformString = platformString + gamePlatforms.get(i).getAbbreviation();
+                }
+
+                if ( i < gamePlatforms.size() - 1 ){
+                    platformString = platformString + " | ";
+                }
+            }
+        }
+        Log.d(TAG, "onBindViewHolder: PlatformString " + platformString);
+        String gameSummary = gameList.get(position).getSummary();
+        if (gameSummary == null){
+            gameSummary = holder.itemView.getContext().getString(R.string.summary_unavailable);
+        }
         double criticScore = gameList.get(position).getAggregatedRating();
         int criticCount = gameList.get(position).getAggregatedRatingCount();
         double userScore = gameList.get(position).getRating();
         int userCount = gameList.get(position).getRatingCount();
+        //String formattedRatingString = String.format(Locale.getDefault(), "%.1f");
         String ratingString = "";
 
         if (criticCount >= userCount){
@@ -54,18 +80,20 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             if (criticCount == 0){
                 ratingString = holder.itemView.getContext().getString(R.string.rating_unavailable);
             }else {
-                ratingString = Math.round(criticScore) + "% from " + criticCount + " critics";
+                ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
+                //ratingString = Math.round(criticScore) + "% from " + criticCount + " critics";
 
             }
         } else {
-            ratingString = Math.round(userScore) + "% from " + userCount + " users";
+            ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
+            //ratingString = Math.round(userScore) + "% from " + userCount + " users";
         }
 
 
 
         Log.d(TAG, "onBindViewHolder: Name: " + gameName);
         Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
-        //String gameSummary = gameList.get(position).getSummary();
+
         String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
         List<Video> trailers = gameList.get(position).getVideos();
         if (trailers != null){
@@ -93,10 +121,23 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 .error(R.drawable.ic_launcher_foreground)
                 .into(holder.ivCover);
 
+        int gameReleaseDateTimeStamp = gameList.get(position).getFirstReleaseDate();
+        Log.d(TAG, "onBindViewHolder: Release Timestamp: " + gameReleaseDateTimeStamp);
+        String gameReleaseDateString = holder.itemView.getContext().getString(R.string.to_be_determined_abbreviation);
+        if (gameReleaseDateTimeStamp != 0){
+            //SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd G 'at' HH:mm:ss z");
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+            gameReleaseDateString = sdf.format( (long) gameReleaseDateTimeStamp * 1000 );
+
+        }
         // set name and summary Textview
         holder.tvName.setText(gameName);
         holder.tvRating.setText(ratingString);
-        //holder.tvSummary.setText(gameSummary);
+        holder.tvPlatform.setText(platformString);
+        //s.substring(0, Math.min(s.length(), 10));
+        Log.d(TAG, "onBindViewHolder: STRLEN " + holder.itemView.getContext().getString(R.string.placeholder_summary).length());
+        holder.tvSummary.setText(gameSummary.substring(0, Math.min(gameSummary.length(), 160)));
+        holder.tvReleaseDate.setText(gameReleaseDateString);
 
     }
 
@@ -112,7 +153,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         OnGameListener onGameListener;
-        TextView tvName, tvRating;
+        TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
         ImageView ivCover;
 
         public GameViewHolder(@NonNull View itemView, OnGameListener onGameListener) {
@@ -121,9 +162,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             // create .xml for list item and bind the views here
 
             tvName = itemView.findViewById(R.id.tv_gameListItem_Name);
+            tvPlatform = itemView.findViewById(R.id.tv_gameListItem_Platform);
             tvRating = itemView.findViewById(R.id.tv_gameListItem_Rating);
-            //tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
+            tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
             ivCover = itemView.findViewById(R.id.iv_gameListItem_Cover);
+            tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
 
             itemView.setOnClickListener(this);
         }

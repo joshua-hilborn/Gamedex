@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     cardview:cardCornerRadius="5dp">
@@ -19,15 +19,58 @@
             cardview:layout_constraintStart_toStartOf="parent"
             cardview:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/iv_gameListItem_StarIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_star_solid"
+            android:tint="#777777"
+            cardview:layout_constraintBottom_toBottomOf="@+id/tv_gameListItem_Rating"
+            cardview:layout_constraintEnd_toStartOf="@id/tv_gameListItem_Rating"
+            cardview:layout_constraintTop_toBottomOf="@+id/iv_gameListItem_Cover" />
+
+        <TextView
+            android:id="@+id/tv_gameListItem_Rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/rating_unavailable"
+            android:textSize="18sp"
+            cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_StarIcon"
+            cardview:layout_constraintTop_toBottomOf="@id/iv_gameListItem_Cover" />
+
         <TextView
             android:id="@+id/tv_gameListItem_Name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="Game Name"
-            android:textSize="12sp"
+            android:text="@string/placeholder_name"
+            android:textSize="20sp"
+            cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
             cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_Cover" />
+        <TextView
+            android:id="@+id/tv_gameListItem_Platform"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/placeholder_platform"
+            android:textSize="10sp"
+            cardview:layout_constraintEnd_toEndOf="parent"
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Name" />
+        <TextView
+            android:id="@+id/tv_gameListItem_Summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/placeholder_summary"
+            android:textSize="12sp"
+            cardview:layout_constraintEnd_toEndOf="parent"
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Platform" />
 
         <View
             android:id="@+id/v_separator"
@@ -35,20 +78,23 @@
             android:layout_height="1dp"
             android:background="@color/colorPrimaryDark"
 
-            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Name"
-            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Summary"
             cardview:layout_constraintEnd_toEndOf="@id/tv_gameListItem_Name"
-            />
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            tools:layout_editor_absoluteY="116dp" />
+
         <TextView
-            android:id="@+id/tv_gameListItem_Rating"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_gameListItem_ReleaseDate"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:text="@string/placeholder_releaseDate"
             android:textSize="12sp"
-            android:text="85 from 111"
-            cardview:layout_constraintTop_toBottomOf="@id/v_separator"
+            cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
-            />
+            cardview:layout_constraintTop_toBottomOf="@id/v_separator" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
