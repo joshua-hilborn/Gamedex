@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class SearchFragment extends Fragment implements GameListAdapter.OnGameListener {
 
-    public static final String TAG = "MainActivity: ";
+    public static final String TAG = "SearchFragment: ";
 
     //private TextView jsonTextView;
     private RecyclerView recyclerView;
@@ -127,9 +127,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
                     }
                 }).execute(endpoint, body);
-
-
-
 
             }
         });

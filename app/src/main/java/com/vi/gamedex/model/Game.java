@@ -29,8 +29,10 @@ public class Game {
     private List<Genre> genres = null;
     @Json(name = "hypes")
     private int hypes;
+
     @Json(name = "involved_companies")
     private List<Integer> involvedCompanies = null;
+
     @Json(name = "keywords")
     private List<Integer> keywords = null;
     @Json(name = "multiplayer_modes")
