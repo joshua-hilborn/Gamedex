@@ -3,12 +3,16 @@ package com.vi.gamedex.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,6 +37,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     public static final String TAG = "DiscoverFragment: ";
 
     RecyclerView recyclerView;
+    GameListAdapter gameListAdapter;
     List<Game> gameList;
 
 
@@ -44,22 +49,18 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
+        setHasOptionsMenu(true);
         //List<ReleaseDate> releaseDates;
 
         recyclerView = rootView.findViewById(R.id.rv_discover);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        final GameListAdapter gameListAdapter = new GameListAdapter(gameList, this);
+        gameListAdapter = new GameListAdapter(gameList, this);
         recyclerView.setAdapter(gameListAdapter);
 
-        Moshi moshi = new Moshi.Builder().build();
-        Type type = Types.newParameterizedType(List.class, ReleaseDate.class);
-        final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
+        queryIGDBComingSoon();
 
-        Date currentDate = new Date();
-        long currentMillis = currentDate.getTime();
-        long currentTimestamp = currentMillis / 1000;
-        Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
+
 
         /*
         fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.similar_games.*, game.videos.*, game.involved_companies.*;
@@ -69,11 +70,7 @@ sort date asc;
 
 
 
-        String endpoint = "/release_dates";
-        String body = "fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;\n" +
-                "where date > " + currentTimestamp + ";\n" +
-                "sort date asc;\n" +
-                "limit 50;";
+
 
         //String fields = "fields *, cover.*, artworks.*, external_games.*, game_modes.*, screenshots.*, platforms.*, genres.*, videos.*;";
         //String searchString = searchTextBox.getText().toString();
@@ -83,6 +80,51 @@ sort date asc;
 
         //String sort = "limit 50;";
         //String body = fields + "\n" + query + "\n" + sort;
+
+
+
+
+
+
+        return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        //super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_discover, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.menu_d_refresh){
+            //gameListAdapter.setGameList(new ArrayList<Game>());
+            queryIGDBComingSoon();
+        }
+        //return super.onOptionsItemSelected(item);
+        return true;
+    }
+
+    @Override
+    public void onGameClick(int position) {
+
+    }
+
+    public void queryIGDBComingSoon(){
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, ReleaseDate.class);
+        final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
+
+        Date currentDate = new Date();
+        long currentMillis = currentDate.getTime();
+        long currentTimestamp = currentMillis / 1000;
+        Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
+
+        String endpoint = "/release_dates";
+        String body = "fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;\n" +
+                "where date > " + currentTimestamp + ";\n" +
+                "sort date asc;\n" +
+                "limit 50;";
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
@@ -122,15 +164,6 @@ sort date asc;
 
             }
         }).execute(endpoint, body);
-
-
-
-
-        return rootView;
-    }
-
-    @Override
-    public void onGameClick(int position) {
 
     }
 }
