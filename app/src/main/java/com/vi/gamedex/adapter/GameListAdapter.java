@@ -26,6 +26,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     private List<Game> gameList;
     private OnGameListener onGameListener;
 
+    public GameListAdapter(OnGameListener listener) {
+        //this.gameList = gList;
+        this.onGameListener = listener;
+    }
+
     public GameListAdapter(List<Game> gList, OnGameListener listener) {
         this.gameList = gList;
         this.onGameListener = listener;
@@ -78,7 +83,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         if (criticCount >= userCount){
             //ratingString = "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount;
             if (criticCount == 0){
-                ratingString = holder.itemView.getContext().getString(R.string.rating_unavailable);
+                ratingString = holder.itemView.getContext().getString(R.string.to_be_determined_abbreviation);
             }else {
                 ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
                 //ratingString = Math.round(criticScore) + "% from " + criticCount + " critics";

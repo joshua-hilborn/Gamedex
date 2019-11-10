@@ -36,9 +36,9 @@ import java.util.List;
 public class DiscoverFragment extends Fragment implements GameListAdapter.OnGameListener {
     public static final String TAG = "DiscoverFragment: ";
 
-    RecyclerView recyclerView;
-    GameListAdapter gameListAdapter;
-    List<Game> gameList;
+    private RecyclerView recyclerView;
+    private GameListAdapter gameListAdapter;
+    //private List<Game> gameList;
 
 
     public DiscoverFragment() {
@@ -50,41 +50,14 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         setHasOptionsMenu(true);
-        //List<ReleaseDate> releaseDates;
 
         recyclerView = rootView.findViewById(R.id.rv_discover);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter(gameList, this);
+        gameListAdapter = new GameListAdapter( this);
         recyclerView.setAdapter(gameListAdapter);
 
         queryIGDBComingSoon();
-
-
-
-        /*
-        fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.similar_games.*, game.videos.*, game.involved_companies.*;
-where date > 1538129354;
-sort date asc;
-         */
-
-
-
-
-
-        //String fields = "fields *, cover.*, artworks.*, external_games.*, game_modes.*, screenshots.*, platforms.*, genres.*, videos.*;";
-        //String searchString = searchTextBox.getText().toString();
-
-        //String searchString =  "Final Fantasy";
-        //String query = "search \""+ searchString +"\";";
-
-        //String sort = "limit 50;";
-        //String body = fields + "\n" + query + "\n" + sort;
-
-
-
-
-
 
         return rootView;
     }
@@ -158,9 +131,6 @@ sort date asc;
                     e.printStackTrace();
                 }
 
-                //jsonTextView.setText(result);
-                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
-                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
 
             }
         }).execute(endpoint, body);
