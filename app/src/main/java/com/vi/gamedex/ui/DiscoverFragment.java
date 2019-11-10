@@ -59,7 +59,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         Date currentDate = new Date();
         long currentMillis = currentDate.getTime();
         long currentTimestamp = currentMillis / 1000;
-        Log.d(TAG, "onCreate: " + currentMillis);
+        Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
 
         /*
         fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.similar_games.*, game.videos.*, game.involved_companies.*;
@@ -71,7 +71,7 @@ sort date asc;
 
         String endpoint = "/release_dates";
         String body = "fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;\n" +
-                "where date > 1538129354;\n" +
+                "where date > " + currentTimestamp + ";\n" +
                 "sort date asc;\n" +
                 "limit 50;";
 
@@ -93,8 +93,13 @@ sort date asc;
 
                         List<ReleaseDate> releaseDates = gamesJsonAdapter.fromJson(result);
                         List<Game> upcomingList = new ArrayList<Game>();
+                        List<Integer> uniqueIds = new ArrayList<Integer>();
                         for (ReleaseDate releaseDate : releaseDates){
-                            upcomingList.add(releaseDate.getGame());
+                            if ( !uniqueIds.contains(releaseDate.getGame().getId())  ){
+                                upcomingList.add(releaseDate.getGame());
+                                uniqueIds.add(releaseDate.getGame().getId());
+                            }
+
                             //gameList.add(releaseDate.getGame());
                         }
                         //gameList = gamesJsonAdapter.fromJson(result);

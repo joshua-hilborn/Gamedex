@@ -91,7 +91,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
 
 
-        Log.d(TAG, "onBindViewHolder: Name: " + gameName);
+        Log.d(TAG, "onBindViewHolder: Name: " + gameName + "(" + gameList.get(position).getId() + ")");
         Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
 
         String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
