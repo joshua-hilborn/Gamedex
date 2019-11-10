@@ -1,7 +1,9 @@
-package com.vi.gamedex;
+package com.vi.gamedex.ui;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.vi.gamedex.BuildConfig;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;

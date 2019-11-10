@@ -7,4 +7,7 @@
     <string name="placeholder_platform">PC | MAC | PS4 | XONE</string>
     <string name="placeholder_name">Game Name</string>
     <string name="placeholder_releaseDate">Jan 11, 2011</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
