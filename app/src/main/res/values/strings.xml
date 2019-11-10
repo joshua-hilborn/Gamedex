@@ -5,6 +5,7 @@
     <string name="rating_unavailable">N/A</string>
     <string name="summary_unavailable">Summary Unavailable</string>
 
+    <string name="search_game_button">SEARCH</string>
     <string name="search_game_hint">Search Game Title</string>
 
     <string name="placeholder_summary">This game is about staying alive and shooting them before they can shoot you.  Use a variety of household objects, improvised weapons, and guns.  You know, just go nuts.</string>

@@ -10,9 +10,9 @@
 
     <Button
         android:id="@+id/btn_search"
-        android:layout_width="100dp"
+        android:layout_width="45dp"
         android:layout_height="50dp"
-        android:text="SEARCH"
+        android:drawableEnd="@drawable/ic_search_black_24dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/et_searchBox"
