@@ -19,8 +19,11 @@ public class Game {
     private Cover cover;
     @Json(name = "created_at")
     private int createdAt;
+
     @Json(name = "external_games")
-    private List<ExternalGame> externalGames = null;
+    private List<Integer> externalGames = null;
+    //private List<ExternalGame> externalGames = null;
+
     @Json(name = "first_release_date")
     private int firstReleaseDate;
     @Json(name = "game_modes")
@@ -136,13 +139,25 @@ public class Game {
         this.createdAt = createdAt;
     }
 
+    /*
     public List<ExternalGame> getExternalGames() {
         return externalGames;
     }
 
+     */
+    public List<Integer> getExternalGames() {
+        return externalGames;
+    }
+    public void setExternalGames(List<Integer> externalGames) {
+        this.externalGames = externalGames;
+    }
+/*
     public void setExternalGames(List<ExternalGame> externalGames) {
         this.externalGames = externalGames;
     }
+
+ */
+
 
     public int getFirstReleaseDate() {
         return firstReleaseDate;

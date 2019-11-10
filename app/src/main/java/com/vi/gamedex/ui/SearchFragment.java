@@ -95,7 +95,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
             public void onClick(View v) {
                 String endpoint = "/games";
                 //String fields = "fields *, cover.*;";
-                String fields = "fields *, cover.*, artworks.*, external_games.*, game_modes.*, screenshots.*, platforms.*, genres.*, videos.*;";
+                String fields = "fields *, cover.*, artworks.*, game_modes.*, screenshots.*, platforms.*, genres.*, videos.*;";
                 String searchString = searchTextBox.getText().toString();
                 //String searchString =  "Final Fantasy";
                 String query = "search \""+ searchString +"\";";

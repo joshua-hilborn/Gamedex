@@ -94,9 +94,9 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
 
         String endpoint = "/release_dates";
-        String body = "fields *, game.*, game.cover.*, game.artworks.*, game.external_games.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;\n" +
-                "where date > " + currentTimestamp + ";\n" +
-                "sort date asc;\n" +
+        String body = "fields *, game.*, game.cover.*, game.artworks.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;" +
+                "where date > " + currentTimestamp + ";" +
+                "sort date asc;" +
                 "limit 50;";
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
