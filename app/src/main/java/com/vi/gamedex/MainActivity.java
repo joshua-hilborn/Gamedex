@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
+        // Stop Tabs from refreshing by navigating to different tab, cache them
+        viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
 
 
