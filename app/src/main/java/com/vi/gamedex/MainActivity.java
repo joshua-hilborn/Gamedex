@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tl_main);
         viewPager = findViewById(R.id.vp_main);
-
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pageAdapter);
         // Stop Tabs from refreshing by navigating to different tab, cache them
@@ -40,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
 
 
 }

@@ -2,12 +2,6 @@ package com.vi.gamedex.ui;
 
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,11 +10,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
+import com.vi.gamedex.igdb.OkHttpAsyncTask;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.ReleaseDate;
 
@@ -136,4 +136,5 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         }).execute(endpoint, body);
 
     }
+
 }

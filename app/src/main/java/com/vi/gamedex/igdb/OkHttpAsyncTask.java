@@ -1,4 +1,4 @@
-package com.vi.gamedex.ui;
+package com.vi.gamedex.igdb;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,16 +12,19 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_API_KEY_HEADER;
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_BASE_URL;
+
 // Async Task used for rubric requirement, OKHTTP can do async too though
 public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
-    private static final String IGDB_API_KEY_HEADER = "user-key";
-    private static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
+    //private static final String IGDB_API_KEY_HEADER = "user-key";
+    //private static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private OkHttpAsyncTaskCallback okHttpAsyncTaskCallback;
 
-    OkHttpAsyncTask (OkHttpAsyncTaskCallback callback){
+    public OkHttpAsyncTask(OkHttpAsyncTaskCallback callback){
         this.okHttpAsyncTaskCallback = callback;
     }
 

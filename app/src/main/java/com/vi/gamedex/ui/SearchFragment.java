@@ -19,6 +19,7 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
+import com.vi.gamedex.igdb.OkHttpAsyncTask;
 import com.vi.gamedex.model.Game;
 
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         //recyclerView.setLayoutManager(autoFitGridLayoutManager);
         recyclerView.setHasFixedSize(true);
-        final GameListAdapter gameListAdapter = new GameListAdapter(gamesList, this);
+        final GameListAdapter gameListAdapter = new GameListAdapter(this, gamesList);
         recyclerView.setAdapter(gameListAdapter);
 
         Moshi moshi = new Moshi.Builder().build();

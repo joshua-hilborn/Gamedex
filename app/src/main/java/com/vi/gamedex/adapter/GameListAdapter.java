@@ -31,7 +31,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         this.onGameListener = listener;
     }
 
-    public GameListAdapter(List<Game> gList, OnGameListener listener) {
+    public GameListAdapter(OnGameListener listener, List<Game> gList) {
         this.gameList = gList;
         this.onGameListener = listener;
     }
