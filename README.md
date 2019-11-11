@@ -3,6 +3,7 @@ Discover new upcoming games.  Watch trailers and gameplay videos.  Create a wish
 
 ## Project Setup
 An Indie Games Database (IGDB) API Key is required.
+
 IGDB API SETUP:
 1. Sign up for an account and obtain an IGDB API Key from www.igdb.com
 2. Add the following line to gradle.properties: (use the key you get in step 1)
