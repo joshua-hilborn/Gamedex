@@ -1,10 +1,10 @@
 # Gamedex
 Discover new upcoming games.  Watch trailers and gameplay videos.  Create a wishlist.  Add release dates to your calendar.    
 
-##Intended User
+## Intended User
 Gamers, Game Collectors, Shoppers
 
-##Features
+## Features
 - Saves list of Favorites/Wishlist selected by user
 - Tracks selected release dates on google calendar
 - View YouTube videos of trailers and gameplay
