@@ -1,86 +1,133 @@
 package com.vi.gamedex.model;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 import com.squareup.moshi.Json;
 
+@Entity(tableName = "gameFavorites")
 public class Game {
 
+    @PrimaryKey
     @Json(name = "id")
     private int id;
+
     @Json(name = "aggregated_rating")
     private double aggregatedRating;
+
     @Json(name = "aggregated_rating_count")
     private int aggregatedRatingCount;
+
     @Json(name = "artworks")
     private List<Artwork> artworks = null;
+
     @Json(name = "category")
     private int category;
+
     @Json(name = "cover")
     private Cover cover;
+
     @Json(name = "created_at")
     private int createdAt;
 
     @Json(name = "external_games")
+    @Ignore
     private List<Integer> externalGames = null;
-    //private List<ExternalGame> externalGames = null;
 
     @Json(name = "first_release_date")
     private int firstReleaseDate;
+
     @Json(name = "game_modes")
+    @Ignore
     private List<Integer> gameModes = null;
+
     @Json(name = "genres")
+    @Ignore
     private List<Genre> genres = null;
+
     @Json(name = "hypes")
     private int hypes;
 
     @Json(name = "involved_companies")
+    @Ignore
     private List<Integer> involvedCompanies = null;
 
     @Json(name = "keywords")
+    @Ignore
     private List<Integer> keywords = null;
+
     @Json(name = "multiplayer_modes")
+    @Ignore
     private List<Integer> multiplayerModes = null;
+
     @Json(name = "name")
     private String name;
+
     @Json(name = "platforms")
     private List<Platform> platforms = null;
+
     @Json(name = "player_perspectives")
+    @Ignore
     private List<Integer> playerPerspectives = null;
+
     @Json(name = "popularity")
     private double popularity;
+
     @Json(name = "pulse_count")
     private int pulseCount;
+
     @Json(name = "rating")
     private double rating;
+
     @Json(name = "rating_count")
     private int ratingCount;
+
     @Json(name = "release_dates")
+    @Ignore
     private List<Integer> releaseDates = null;
+
     @Json(name = "screenshots")
+    @Ignore
     private List<Screenshot> screenshots = null;
+
     @Json(name = "similar_games")
+    @Ignore
     private List<Integer> similarGames = null;
-    //@Json(name = "similar_games")
-    //private List<SimilarGame> similarGames = null;
+
     @Json(name = "slug")
     private String slug;
+
     @Json(name = "summary")
     private String summary;
+
     @Json(name = "tags")
+    @Ignore
     private List<Integer> tags = null;
+
     @Json(name = "themes")
+    @Ignore
     private List<Integer> themes = null;
+
     @Json(name = "total_rating")
     private double totalRating;
+
     @Json(name = "total_rating_count")
     private int totalRatingCount;
+
     @Json(name = "updated_at")
     private int updatedAt;
+
     @Json(name = "url")
     private String url;
+
     @Json(name = "videos")
+    @Ignore
     private List<Integer> videos = null;
+
     @Json(name = "websites")
+    @Ignore
     private List<Integer> websites = null;
 
     public int getId() {
