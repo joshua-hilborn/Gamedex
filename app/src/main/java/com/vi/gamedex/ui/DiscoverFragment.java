@@ -97,7 +97,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         //String endpoint = "/release_dates";
         String endpoint = "/games";
         //String body = "fields *, game.*, game.cover.*, game.artworks.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;" +
-        String body = "fields *, cover.*, artworks.*, game_modes.*, screenshots.*, platforms.*, genres.*;" +
+        String body = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;" +
                 "where first_release_date > " + currentTimestamp + ";" +
                 "sort date asc;" +
                 "limit 50; offset 50;";
@@ -114,8 +114,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                         //handle null result
                         Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
                     }
-
-
 
                 } catch (IOException e) {
                     e.printStackTrace();

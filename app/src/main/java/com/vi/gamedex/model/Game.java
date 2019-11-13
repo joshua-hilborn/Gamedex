@@ -27,7 +27,7 @@ public class Game {
     @Json(name = "first_release_date")
     private int firstReleaseDate;
     @Json(name = "game_modes")
-    private List<GameMode> gameModes = null;
+    private List<Integer> gameModes = null;
     @Json(name = "genres")
     private List<Genre> genres = null;
     @Json(name = "hypes")
@@ -167,11 +167,11 @@ public class Game {
         this.firstReleaseDate = firstReleaseDate;
     }
 
-    public List<GameMode> getGameModes() {
+    public List<Integer> getGameModes() {
         return gameModes;
     }
 
-    public void setGameModes(List<GameMode> gameModes) {
+    public void setGameModes(List<Integer> gameModes) {
         this.gameModes = gameModes;
     }
 
