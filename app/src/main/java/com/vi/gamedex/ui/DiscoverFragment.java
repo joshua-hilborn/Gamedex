@@ -38,7 +38,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
-    //private List<Game> gameList;
+    private List<Game> gameList;
 
 
     public DiscoverFragment() {
@@ -84,8 +84,9 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     }
 
     public void queryIGDBComingSoon(){
-        Moshi moshi = new Moshi.Builder().build();
-        Type type = Types.newParameterizedType(List.class, ReleaseDate.class);
+        Moshi moshi = new Moshi.Builder()
+                .build();
+        Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
 
         Date currentDate = new Date();
@@ -93,11 +94,13 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         long currentTimestamp = currentMillis / 1000;
         Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
 
-        String endpoint = "/release_dates";
-        String body = "fields *, game.*, game.cover.*, game.artworks.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;" +
-                "where date > " + currentTimestamp + ";" +
+        //String endpoint = "/release_dates";
+        String endpoint = "/games";
+        //String body = "fields *, game.*, game.cover.*, game.artworks.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;" +
+        String body = "fields *, cover.*, artworks.*, game_modes.*, screenshots.*, platforms.*, genres.*;" +
+                "where first_release_date > " + currentTimestamp + ";" +
                 "sort date asc;" +
-                "limit 50;";
+                "limit 50; offset 50;";
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
@@ -105,21 +108,8 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                 try{
                     Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
-
-                        List<ReleaseDate> releaseDates = gamesJsonAdapter.fromJson(result);
-                        List<Game> upcomingList = new ArrayList<Game>();
-                        List<Integer> uniqueIds = new ArrayList<Integer>();
-                        for (ReleaseDate releaseDate : releaseDates){
-                            if ( !uniqueIds.contains(releaseDate.getGame().getId())  ){
-                                upcomingList.add(releaseDate.getGame());
-                                uniqueIds.add(releaseDate.getGame().getId());
-                            }
-
-                            //gameList.add(releaseDate.getGame());
-                        }
-                        //gameList = gamesJsonAdapter.fromJson(result);
-
-                        gameListAdapter.setGameList(upcomingList);
+                        gameList = gamesJsonAdapter.fromJson(result);
+                        gameListAdapter.setGameList(gameList);
                     }else{
                         //handle null result
                         Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
@@ -130,7 +120,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
             }
         }).execute(endpoint, body);

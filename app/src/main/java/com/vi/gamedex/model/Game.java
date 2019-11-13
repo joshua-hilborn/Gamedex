@@ -79,7 +79,7 @@ public class Game {
     @Json(name = "url")
     private String url;
     @Json(name = "videos")
-    private List<Video> videos = null;
+    private List<Integer> videos = null;
     @Json(name = "websites")
     private List<Integer> websites = null;
 
@@ -367,11 +367,11 @@ public class Game {
         this.url = url;
     }
 
-    public List<Video> getVideos() {
+    public List<Integer> getVideos() {
         return videos;
     }
 
-    public void setVideos(List<Video> videos) {
+    public void setVideos(List<Integer> videos) {
         this.videos = videos;
     }
 

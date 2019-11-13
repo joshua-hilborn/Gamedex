@@ -99,13 +99,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         Log.d(TAG, "onBindViewHolder: Name: " + gameName + "(" + gameList.get(position).getId() + ")");
         Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
 
-        String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
-        List<Video> trailers = gameList.get(position).getVideos();
-        if (trailers != null){
-            for ( Video video : trailers ){
-                Log.d(TAG, "onBindViewHolder: Videos: " + video.getName() + " " + youtubeBaseUrl + video.getVideoId() );
-            }
-        }
+        //String youtubeBaseUrl = "https://www.youtube.com/watch?v=";
+        //List<Video> trailers = gameList.get(position).getVideos();
+        //if (trailers != null){
+        //    for ( Video video : trailers ){
+        //        Log.d(TAG, "onBindViewHolder: Videos: " + video.getName() + " " + youtubeBaseUrl + video.getVideoId() );
+        //    }
+        //}
 
         //https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
         String gameCoverBaseUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
