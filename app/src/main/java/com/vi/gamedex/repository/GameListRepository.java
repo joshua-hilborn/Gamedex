@@ -16,6 +16,10 @@ import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_API_GAMELIST_FIELDS;
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_API_PAGE_LIMIT;
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_ENDPOINT_GAMES;
+
 public class GameListRepository {
     private static final String TAG = "GameListRepository: ";
 
@@ -49,11 +53,9 @@ public class GameListRepository {
         Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
 
-        String endpoint = "/games";
-        String fields = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;";
         String query = "search \""+ searchString +"\";";
-        String sort = "limit 50;";
-        String body = fields + "\n" + query + "\n" + sort;
+        String limit = "limit " + IGDB_API_PAGE_LIMIT + ";";
+        String body = IGDB_API_GAMELIST_FIELDS + " " + query + " " + limit;
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
@@ -64,7 +66,7 @@ public class GameListRepository {
                         searchResultsList.postValue(gamesJsonAdapter.fromJson(result));
                     }else{
                         //handle null result
-                        Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
+                        Log.d(TAG, "onTaskComplete: Null Result");
                     }
 
                 } catch (IOException e) {
@@ -72,7 +74,7 @@ public class GameListRepository {
                 }
 
             }
-        }).execute(endpoint, body);
+        }).execute(IGDB_ENDPOINT_GAMES, body);
 
     }
 
@@ -85,14 +87,12 @@ public class GameListRepository {
         Date currentDate = new Date();
         long currentMillis = currentDate.getTime();
         long currentTimestamp = currentMillis / 1000;
-        Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
 
-        String endpoint = "/games";
-        int offset = page * 50;
-        String body = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;" +
+        int offset = page * IGDB_API_PAGE_LIMIT;
+        String body = IGDB_API_GAMELIST_FIELDS +
                 "where first_release_date > " + currentTimestamp + ";" +
-                "sort date asc;" +
-                "limit 50; " +
+                "sort first_release_date asc;" +
+                "limit " + IGDB_API_PAGE_LIMIT + "; " +
                 "offset " + offset + ";"; // add offset 50 to start at page 2
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
@@ -104,7 +104,7 @@ public class GameListRepository {
                         gameList.postValue(gamesJsonAdapter.fromJson(result));
                     }else{
                         //handle null result
-                        Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
+                        Log.d(TAG, "onTaskComplete: Null Result");
                     }
 
                 } catch (IOException e) {
@@ -113,7 +113,7 @@ public class GameListRepository {
 
             }
 
-        }).execute(endpoint, body);
+        }).execute(IGDB_ENDPOINT_GAMES, body);
 
     }
 }
