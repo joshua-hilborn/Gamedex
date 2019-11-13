@@ -41,7 +41,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     @NonNull
     @Override
     public GameViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //create .xml for list item and inflate here
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.game_list_item, parent, false);
         return new GameViewHolder(view, onGameListener);
     }

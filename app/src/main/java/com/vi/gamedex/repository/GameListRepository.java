@@ -78,8 +78,6 @@ public class GameListRepository {
 
     public void queryIGDBComingSoon(int page){
 
-
-        //final List<Game> resultsList;
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);

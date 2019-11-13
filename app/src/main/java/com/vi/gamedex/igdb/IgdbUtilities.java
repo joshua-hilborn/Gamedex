@@ -6,6 +6,8 @@ public class IgdbUtilities {
             "where date > " +  ";" +
             "sort date asc;" +
             "limit 50;";
+
+
     public static final String IGDB_API_KEY_HEADER = "user-key";
     public static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
 

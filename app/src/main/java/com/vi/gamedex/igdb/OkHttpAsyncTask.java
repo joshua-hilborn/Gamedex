@@ -1,7 +1,6 @@
 package com.vi.gamedex.igdb;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.vi.gamedex.BuildConfig;
 
@@ -18,9 +17,6 @@ import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_BASE_URL;
 // Async Task used for rubric requirement, OKHTTP can do async too though
 public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
-    //private static final String IGDB_API_KEY_HEADER = "user-key";
-    //private static final String IGDB_BASE_URL = "https://api-v3.igdb.com";
-
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private OkHttpAsyncTaskCallback okHttpAsyncTaskCallback;
 
@@ -35,7 +31,6 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
         MediaType mediaType = MediaType.parse("text/plain");
         RequestBody body = RequestBody.create(bodyString, mediaType);
-
         Request request = new Request.Builder()
                 .url(IGDB_BASE_URL + endpoint)
                 //.header("Accept", "application/json")
@@ -60,10 +55,7 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        //Log.d("", "onPostExecute: ");
-        // super.onPostExecute(result);
         okHttpAsyncTaskCallback.onTaskComplete(result);
-        //Log.d("OkHttpAsyncTask: ", "onPostExecute: " + result);
     }
 
     public interface OkHttpAsyncTaskCallback {

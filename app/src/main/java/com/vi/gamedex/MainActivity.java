@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.vi.gamedex.adapter.PageAdapter;
 
@@ -14,10 +13,8 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     TabLayout tabLayout;
-    TabItem discoverTab, searchTab, wishlistTab;
     ViewPager viewPager;
     PageAdapter pageAdapter;
-
 
 
     @Override
@@ -36,11 +33,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
         tabLayout.setupWithViewPager(viewPager);
 
-
-
     }
-
-
-
 
 }
