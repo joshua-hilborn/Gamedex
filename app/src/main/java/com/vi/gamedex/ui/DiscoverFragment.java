@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +25,8 @@ import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.igdb.OkHttpAsyncTask;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.ReleaseDate;
+import com.vi.gamedex.repository.GameListRepository;
+import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -38,7 +42,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
-    private List<Game> gameList;
+    private GameListViewModel gameListViewModel;
 
 
     public DiscoverFragment() {
@@ -51,13 +55,22 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         final View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         setHasOptionsMenu(true);
 
+        gameListViewModel = ViewModelProviders.of(this).get(GameListViewModel.class);
+        gameListViewModel.getGameList().observe(this, new Observer<List<Game>>() {
+            @Override
+            public void onChanged(List<Game> gameList) {
+                gameListAdapter.setGameList(gameList);
+
+            }
+        });
+
         recyclerView = rootView.findViewById(R.id.rv_discover);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
         gameListAdapter = new GameListAdapter( this);
         recyclerView.setAdapter(gameListAdapter);
 
-        queryIGDBComingSoon();
+        GameListRepository.getInstance().queryIGDBComingSoon();
 
         return rootView;
     }
@@ -71,10 +84,8 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_d_refresh){
-            //gameListAdapter.setGameList(new ArrayList<Game>());
-            queryIGDBComingSoon();
+            GameListRepository.getInstance().queryIGDBComingSoon();
         }
-        //return super.onOptionsItemSelected(item);
         return true;
     }
 
@@ -83,45 +94,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     }
 
-    public void queryIGDBComingSoon(){
-        Moshi moshi = new Moshi.Builder()
-                .build();
-        Type type = Types.newParameterizedType(List.class, Game.class);
-        final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
 
-        Date currentDate = new Date();
-        long currentMillis = currentDate.getTime();
-        long currentTimestamp = currentMillis / 1000;
-        Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
-
-        //String endpoint = "/release_dates";
-        String endpoint = "/games";
-        //String body = "fields *, game.*, game.cover.*, game.artworks.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;" +
-        String body = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;" +
-                "where first_release_date > " + currentTimestamp + ";" +
-                "sort date asc;" +
-                "limit 50; offset 50;";
-
-        new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
-            @Override
-            public void onTaskComplete(String result) {
-                try{
-                    Log.d(TAG, "onTaskComplete: " + result);
-                    if (result != null){
-                        gameList = gamesJsonAdapter.fromJson(result);
-                        gameListAdapter.setGameList(gameList);
-                    }else{
-                        //handle null result
-                        Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }).execute(endpoint, body);
-
-    }
 
 }
