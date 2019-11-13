@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/placeholder_platform"
-            android:textSize="10sp"
+            android:textSize="12sp"
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
             cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Name" />
