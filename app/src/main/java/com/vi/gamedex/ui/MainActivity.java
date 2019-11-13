@@ -1,4 +1,4 @@
-package com.vi.gamedex;
+package com.vi.gamedex.ui;
 
 import android.os.Bundle;
 
@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.PageAdapter;
 
 public class MainActivity extends AppCompatActivity {
