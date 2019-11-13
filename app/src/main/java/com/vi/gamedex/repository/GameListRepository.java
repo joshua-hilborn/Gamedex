@@ -13,7 +13,6 @@ import com.vi.gamedex.model.Game;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,11 +23,7 @@ public class GameListRepository {
     private MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
     private MutableLiveData<List<Game>> searchResultsList = new MutableLiveData<>();
 
-
-
-    //public GameListRepository(){
-    //    queryIGDBComingSoon();
-    //}
+    // SINGLETON
     public static GameListRepository getInstance() {
         if(instance == null) {
             synchronized (GameListRepository.class) {
@@ -55,10 +50,7 @@ public class GameListRepository {
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
 
         String endpoint = "/games";
-        //String fields = "fields *, cover.*;";
         String fields = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;";
-
-        //String searchString =  "Final Fantasy";
         String query = "search \""+ searchString +"\";";
         String sort = "limit 50;";
         String body = fields + "\n" + query + "\n" + sort;
@@ -70,29 +62,23 @@ public class GameListRepository {
                     Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
                         searchResultsList.postValue(gamesJsonAdapter.fromJson(result));
-                        //gamesList = gamesJsonAdapter.fromJson(result);
-                        //gameListAdapter.setGameList(gamesList);
                     }else{
                         //handle null result
                         Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
                     }
 
-
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                //jsonTextView.setText(result);
-                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
-                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
 
             }
         }).execute(endpoint, body);
 
     }
 
-    public void queryIGDBComingSoon(){
+    public void queryIGDBComingSoon(int page){
+
+
         //final List<Game> resultsList;
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
@@ -103,13 +89,13 @@ public class GameListRepository {
         long currentTimestamp = currentMillis / 1000;
         Log.d(TAG, "onCreate: Current Time Stamp " + currentTimestamp);
 
-        //String endpoint = "/release_dates";
         String endpoint = "/games";
-        //String body = "fields *, game.*, game.cover.*, game.artworks.*, game.game_modes.*, game.screenshots.*, game.platforms.*, game.genres.*, game.videos.*;" +
+        int offset = page * 50;
         String body = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;" +
                 "where first_release_date > " + currentTimestamp + ";" +
                 "sort date asc;" +
-                "limit 50; offset 50;";
+                "limit 50; " +
+                "offset " + offset + ";"; // add offset 50 to start at page 2
 
         new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
@@ -118,8 +104,6 @@ public class GameListRepository {
                     Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
                         gameList.postValue(gamesJsonAdapter.fromJson(result));
-                        //gameList = gamesJsonAdapter.fromJson(result);
-                        //gameListAdapter.setGameList(gameList);
                     }else{
                         //handle null result
                         Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
@@ -130,6 +114,7 @@ public class GameListRepository {
                 }
 
             }
+
         }).execute(endpoint, body);
 
     }

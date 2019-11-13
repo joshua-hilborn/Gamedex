@@ -2,7 +2,6 @@ package com.vi.gamedex.ui;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,21 +16,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.moshi.JsonAdapter;
-import com.squareup.moshi.Moshi;
-import com.squareup.moshi.Types;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
-import com.vi.gamedex.igdb.OkHttpAsyncTask;
 import com.vi.gamedex.model.Game;
-import com.vi.gamedex.model.ReleaseDate;
 import com.vi.gamedex.repository.GameListRepository;
 import com.vi.gamedex.viewmodel.GameListViewModel;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +33,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
+    private int currentPage = 0;
 
 
     public DiscoverFragment() {
@@ -70,7 +61,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         gameListAdapter = new GameListAdapter( this);
         recyclerView.setAdapter(gameListAdapter);
 
-        GameListRepository.getInstance().queryIGDBComingSoon();
+        GameListRepository.getInstance().queryIGDBComingSoon(currentPage);
 
         return rootView;
     }
@@ -84,7 +75,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_d_refresh){
-            GameListRepository.getInstance().queryIGDBComingSoon();
+            GameListRepository.getInstance().queryIGDBComingSoon(currentPage);
         }
         return true;
     }

@@ -14,8 +14,8 @@ import java.util.List;
 public class GameListViewModel extends AndroidViewModel {
 
     private GameListRepository repo = GameListRepository.getInstance();
-    private LiveData<List<Game>> gameList;
 
+    private LiveData<List<Game>> gameList;
     private LiveData<List<Game>> searchResultsList;
 
 
