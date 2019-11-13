@@ -16,13 +16,20 @@ public class GameListViewModel extends AndroidViewModel {
     private GameListRepository repo = GameListRepository.getInstance();
     private LiveData<List<Game>> gameList;
 
+    private LiveData<List<Game>> searchResultsList;
+
 
     public GameListViewModel(@NonNull Application application) {
         super(application);
         gameList = repo.getGameList();
+        searchResultsList = repo.getSearchResultsList();
     }
 
     public LiveData<List<Game>> getGameList() {
         return gameList;
+    }
+
+    public LiveData<List<Game>> getSearchResultsList() {
+        return searchResultsList;
     }
 }

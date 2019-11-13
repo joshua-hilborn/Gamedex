@@ -22,6 +22,7 @@ public class GameListRepository {
 
     private static GameListRepository instance;
     private MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
+    private MutableLiveData<List<Game>> searchResultsList = new MutableLiveData<>();
 
 
 
@@ -44,10 +45,56 @@ public class GameListRepository {
         return gameList;
     }
 
+    public LiveData<List<Game>> getSearchResultsList() {
+        return searchResultsList;
+    }
+
+    public void queryIGDBSearch( String searchString){
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Game.class);
+        final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
+
+        String endpoint = "/games";
+        //String fields = "fields *, cover.*;";
+        String fields = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;";
+
+        //String searchString =  "Final Fantasy";
+        String query = "search \""+ searchString +"\";";
+        String sort = "limit 50;";
+        String body = fields + "\n" + query + "\n" + sort;
+
+        new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
+            @Override
+            public void onTaskComplete(String result) {
+                try{
+                    Log.d(TAG, "onTaskComplete: " + result);
+                    if (result != null){
+                        searchResultsList.postValue(gamesJsonAdapter.fromJson(result));
+                        //gamesList = gamesJsonAdapter.fromJson(result);
+                        //gameListAdapter.setGameList(gamesList);
+                    }else{
+                        //handle null result
+                        Log.d(TAG, "onTaskComplete: Null Result, operation Bluto'd");
+                    }
+
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //jsonTextView.setText(result);
+                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + result);
+                //Log.d("MainActivity: ", "OkHttpCallback: onTaskComplete: " + gamesList.size());
+
+            }
+        }).execute(endpoint, body);
+
+    }
+
     public void queryIGDBComingSoon(){
-        final List<Game> resultsList;
-        Moshi moshi = new Moshi.Builder()
-                .build();
+        //final List<Game> resultsList;
+        Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
 
