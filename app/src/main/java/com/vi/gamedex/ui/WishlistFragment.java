@@ -66,4 +66,14 @@ public class WishlistFragment extends Fragment implements GameListAdapter.OnGame
     public void onGameClick(int position) {
 
     }
+
+    @Override
+    public void onFavoritesButtonClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onCalendarButtonClick(View view, int position) {
+
+    }
 }

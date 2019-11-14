@@ -135,9 +135,9 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         OnGameListener onGameListener;
         TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
-        ImageView ivCover;
+        ImageView ivCover, ivFavorite, ivCalendar;
 
-        public GameViewHolder(@NonNull View itemView, OnGameListener onGameListener) {
+        public GameViewHolder(@NonNull View itemView, final OnGameListener onGameListener) {
             super(itemView);
             this.onGameListener = onGameListener;
             // create .xml for list item and bind the views here
@@ -148,18 +148,38 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
             ivCover = itemView.findViewById(R.id.iv_gameListItem_Cover);
             tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
+            ivFavorite = itemView.findViewById(R.id.iv_gameListItem_Favorite);
+            ivCalendar = itemView.findViewById(R.id.iv_gameListItem_Calendar);
 
             itemView.setOnClickListener(this);
+            ivFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onGameListener.onFavoritesButtonClick(v, getAdapterPosition());
+                }
+            });
+
+            ivCalendar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onGameListener.onCalendarButtonClick(v, getAdapterPosition());
+
+                }
+            });
         }
 
         @Override
         public void onClick(View v) {
             onGameListener.onGameClick(getAdapterPosition());
         }
+
     }
 
+    // interface for clicking the viewholder to open detail screen
     public interface OnGameListener {
         void onGameClick (int position);
+        void onFavoritesButtonClick(View view, int position);
+        void onCalendarButtonClick (View view, int position);
     }
 
 }

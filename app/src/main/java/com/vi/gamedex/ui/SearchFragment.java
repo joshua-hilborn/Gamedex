@@ -24,7 +24,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment implements GameListAdapter.OnGameListener {
+public class SearchFragment extends Fragment implements
+        GameListAdapter.OnGameListener {
 
     public static final String TAG = "SearchFragment: ";
 
@@ -77,9 +78,19 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
     }
 
+
     @Override
     public void onGameClick(int position) {
 
     }
 
+    @Override
+    public void onFavoritesButtonClick(View view, int position) {
+
+    }
+
+    @Override
+    public void onCalendarButtonClick(View view, int position) {
+
+    }
 }

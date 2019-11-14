@@ -26,7 +26,8 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiscoverFragment extends Fragment implements GameListAdapter.OnGameListener {
+public class DiscoverFragment extends Fragment implements
+        GameListAdapter.OnGameListener {
     public static final String TAG = "DiscoverFragment: ";
 
     private RecyclerView recyclerView;
@@ -79,11 +80,19 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         return true;
     }
 
+
     @Override
     public void onGameClick(int position) {
 
     }
 
+    @Override
+    public void onFavoritesButtonClick(View view, int position) {
 
+    }
 
+    @Override
+    public void onCalendarButtonClick(View view, int position) {
+
+    }
 }
