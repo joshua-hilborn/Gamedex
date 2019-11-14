@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.model.Game;
-import com.vi.gamedex.repository.GameListRepository;
 import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.util.List;
@@ -61,7 +60,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         gameListAdapter = new GameListAdapter( this);
         recyclerView.setAdapter(gameListAdapter);
 
-        GameListRepository.getInstance().queryIGDBComingSoon(currentPage);
+        gameListViewModel.queryDiscover(currentPage);
 
         return rootView;
     }
@@ -75,7 +74,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_d_refresh){
-            GameListRepository.getInstance().queryIGDBComingSoon(currentPage);
+            gameListViewModel.queryDiscover(currentPage);
         }
         return true;
     }

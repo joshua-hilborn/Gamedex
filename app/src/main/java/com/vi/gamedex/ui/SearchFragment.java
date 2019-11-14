@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.model.Game;
-import com.vi.gamedex.repository.GameListRepository;
 import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.util.List;
@@ -69,7 +68,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
             @Override
             public void onClick(View v) {
                 String searchString = searchTextBox.getText().toString();
-                GameListRepository.getInstance().queryIGDBSearch(searchString);
+                gameListViewModel.querySearch(searchString);
 
             }
         });

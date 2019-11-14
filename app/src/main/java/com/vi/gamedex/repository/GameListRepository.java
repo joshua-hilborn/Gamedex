@@ -1,5 +1,6 @@
 package com.vi.gamedex.repository;
 
+import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -8,8 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
+import com.vi.gamedex.database.GameDao;
+import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.igdb.OkHttpAsyncTask;
 import com.vi.gamedex.model.Game;
+import com.vi.gamedex.ui.MainActivity;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -26,13 +30,22 @@ public class GameListRepository {
     private static GameListRepository instance;
     private MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
     private MutableLiveData<List<Game>> searchResultsList = new MutableLiveData<>();
+    private LiveData<List<Game>> favoritesList = new MutableLiveData<>();
+
+    private GameDao gameDao;
+
+    GameListRepository( Application application) {
+        GameDatabase gameDatabase = GameDatabase.getInstance(application);
+        gameDao = gameDatabase.gameDao();
+        favoritesList = gameDao.loadAllGameFavorites();
+    }
 
     // SINGLETON
-    public static GameListRepository getInstance() {
+    public static GameListRepository getInstance( Application application) {
         if(instance == null) {
             synchronized (GameListRepository.class) {
                 if(instance == null) {
-                    instance = new GameListRepository();
+                    instance = new GameListRepository(application);
                 }
             }
         }
@@ -47,6 +60,11 @@ public class GameListRepository {
     public LiveData<List<Game>> getSearchResultsList() {
         return searchResultsList;
     }
+
+    public LiveData<List<Game>> getFavoritesList(){
+        return favoritesList;
+    }
+
 
     public void queryIGDBSearch( String searchString){
         Moshi moshi = new Moshi.Builder().build();

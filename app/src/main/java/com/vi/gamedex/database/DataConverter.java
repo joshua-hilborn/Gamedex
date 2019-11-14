@@ -7,7 +7,6 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import com.vi.gamedex.model.Artwork;
 import com.vi.gamedex.model.Cover;
-import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.Platform;
 
 import java.io.IOException;
@@ -110,34 +109,4 @@ public class DataConverter {
     }
 
 
-
-
-
 }
-
-/*
-public class DataConverter {
-
-    @TypeConverter
-    public String fromCountryLangList(List<CountryLang> countryLang) {
-        if (countryLang == null) {
-            return (null);
-        }
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<CountryLang>>() {}.getType();
-        String json = gson.toJson(countryLang, type);
-        return json;
-    }
-
-    @TypeConverter
-    public List<CountryLang> toCountryLangList(String countryLangString) {
-        if (countryLangString == null) {
-            return (null);
-        }
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<CountryLang>>() {}.getType();
-        List<CountryLang> countryLangList = gson.fromJson(countryLangString, type);
-        return countryLangList;
-    }
- }
- */

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class GameListViewModel extends AndroidViewModel {
 
-    private GameListRepository repo = GameListRepository.getInstance();
+    private GameListRepository repo;
 
     private LiveData<List<Game>> gameList;
     private LiveData<List<Game>> searchResultsList;
@@ -21,8 +21,11 @@ public class GameListViewModel extends AndroidViewModel {
 
     public GameListViewModel(@NonNull Application application) {
         super(application);
+        repo = GameListRepository.getInstance(application);
         gameList = repo.getGameList();
         searchResultsList = repo.getSearchResultsList();
+
+
     }
 
     public LiveData<List<Game>> getGameList() {
@@ -31,5 +34,13 @@ public class GameListViewModel extends AndroidViewModel {
 
     public LiveData<List<Game>> getSearchResultsList() {
         return searchResultsList;
+    }
+
+    public void queryDiscover (int page){
+        repo.queryIGDBComingSoon(page);
+    }
+
+    public void querySearch (String searchString){
+        repo.queryIGDBSearch(searchString);
     }
 }
