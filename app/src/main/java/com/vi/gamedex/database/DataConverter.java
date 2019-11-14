@@ -7,7 +7,9 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
 import com.vi.gamedex.model.Artwork;
 import com.vi.gamedex.model.Cover;
+import com.vi.gamedex.model.Genre;
 import com.vi.gamedex.model.Platform;
+import com.vi.gamedex.model.Screenshot;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -108,5 +110,94 @@ public class DataConverter {
         return cover;
     }
 
+    @TypeConverter
+    public String fromIntegerList(List<Integer> intList) {
+        if (intList == null) {
+            return (null);
+        }
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Integer.class);
+        JsonAdapter<List> jsonAdapter = moshi.adapter(type);
+        String json = jsonAdapter.toJson(intList);
+        return json;
+    }
+
+    @TypeConverter
+    public List<Integer> toIntegerList(String jsonString) {
+        if (jsonString == null) {
+            return (null);
+        }
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Integer.class);
+        JsonAdapter<List> jsonAdapter = moshi.adapter(type);
+        List<Integer> intList = new ArrayList<>();
+
+        try {
+            intList = jsonAdapter.fromJson(jsonString);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return intList;
+    }
+
+    @TypeConverter
+    public String fromGenreList (List<Genre> genreList) {
+        if (genreList == null) {
+            return (null);
+        }
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Genre.class);
+        JsonAdapter<List> jsonAdapter = moshi.adapter(type);
+        String json = jsonAdapter.toJson(genreList);
+        return json;
+    }
+
+    @TypeConverter
+    public List<Genre> toGenreList (String jsonString) {
+        if (jsonString == null) {
+            return (null);
+        }
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Genre.class);
+        JsonAdapter<List> jsonAdapter = moshi.adapter(type);
+        List<Genre> genreList = new ArrayList<>();
+
+        try {
+            genreList = jsonAdapter.fromJson(jsonString);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return genreList;
+    }
+
+    @TypeConverter
+    public String fromScreenshotList (List<Screenshot> screenshotList) {
+        if (screenshotList == null) {
+            return (null);
+        }
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Screenshot.class);
+        JsonAdapter<List> jsonAdapter = moshi.adapter(type);
+        String json = jsonAdapter.toJson(screenshotList);
+        return json;
+    }
+
+    @TypeConverter
+    public List<Screenshot> toScreenshotList (String jsonString) {
+        if (jsonString == null) {
+            return (null);
+        }
+        Moshi moshi = new Moshi.Builder().build();
+        Type type = Types.newParameterizedType(List.class, Screenshot.class);
+        JsonAdapter<List> jsonAdapter = moshi.adapter(type);
+        List<Screenshot> screenshotList = new ArrayList<>();
+
+        try {
+            screenshotList = jsonAdapter.fromJson(jsonString);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return screenshotList;
+    }
 
 }

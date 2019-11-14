@@ -33,33 +33,27 @@ public class Game {
     private int createdAt;
 
     @Json(name = "external_games")
-    @Ignore
     private List<Integer> externalGames = null;
 
     @Json(name = "first_release_date")
     private int firstReleaseDate;
 
     @Json(name = "game_modes")
-    @Ignore
     private List<Integer> gameModes = null;
 
     @Json(name = "genres")
-    @Ignore
     private List<Genre> genres = null;
 
     @Json(name = "hypes")
     private int hypes;
 
     @Json(name = "involved_companies")
-    @Ignore
     private List<Integer> involvedCompanies = null;
 
     @Json(name = "keywords")
-    @Ignore
     private List<Integer> keywords = null;
 
     @Json(name = "multiplayer_modes")
-    @Ignore
     private List<Integer> multiplayerModes = null;
 
     @Json(name = "name")
@@ -69,7 +63,6 @@ public class Game {
     private List<Platform> platforms = null;
 
     @Json(name = "player_perspectives")
-    @Ignore
     private List<Integer> playerPerspectives = null;
 
     @Json(name = "popularity")
@@ -85,15 +78,12 @@ public class Game {
     private int ratingCount;
 
     @Json(name = "release_dates")
-    @Ignore
     private List<Integer> releaseDates = null;
 
     @Json(name = "screenshots")
-    @Ignore
     private List<Screenshot> screenshots = null;
 
     @Json(name = "similar_games")
-    @Ignore
     private List<Integer> similarGames = null;
 
     @Json(name = "slug")
@@ -103,11 +93,9 @@ public class Game {
     private String summary;
 
     @Json(name = "tags")
-    @Ignore
     private List<Integer> tags = null;
 
     @Json(name = "themes")
-    @Ignore
     private List<Integer> themes = null;
 
     @Json(name = "total_rating")
@@ -123,11 +111,9 @@ public class Game {
     private String url;
 
     @Json(name = "videos")
-    @Ignore
     private List<Integer> videos = null;
 
     @Json(name = "websites")
-    @Ignore
     private List<Integer> websites = null;
 
     public int getId() {
