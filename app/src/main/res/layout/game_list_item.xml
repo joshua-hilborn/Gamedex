@@ -12,7 +12,7 @@
 
         <ImageView
             android:id="@+id/iv_gameListItem_Cover"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_launcher"
@@ -27,8 +27,9 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_favorite_border_black_24dp"
-            android:tint="#777777"
+            android:tint="@color/color_primary_dark_blueGrey"
             cardview:layout_constraintTop_toBottomOf="@id/iv_gameListItem_Cover"
+            cardview:layout_constraintEnd_toStartOf="@id/iv_gameListItem_Calendar"
             cardview:layout_constraintStart_toStartOf="parent"
             />
 
@@ -40,8 +41,9 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_calendar_event_black_24dp"
-            android:tint="#777777"
+            android:tint="@color/color_primary_dark_blueGrey"
             cardview:layout_constraintTop_toBottomOf="@id/iv_gameListItem_Cover"
+            cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_Favorite"
             cardview:layout_constraintEnd_toEndOf="@id/iv_gameListItem_Cover"
             />
 
