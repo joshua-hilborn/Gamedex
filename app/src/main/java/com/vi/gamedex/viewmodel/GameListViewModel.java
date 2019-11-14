@@ -17,6 +17,7 @@ public class GameListViewModel extends AndroidViewModel {
 
     private LiveData<List<Game>> gameList;
     private LiveData<List<Game>> searchResultsList;
+    private LiveData<List<Game>> favoritesList;
 
 
     public GameListViewModel(@NonNull Application application) {
@@ -24,6 +25,7 @@ public class GameListViewModel extends AndroidViewModel {
         repo = GameListRepository.getInstance(application);
         gameList = repo.getGameList();
         searchResultsList = repo.getSearchResultsList();
+        favoritesList = repo.getFavoritesList();
 
 
     }
@@ -35,6 +37,8 @@ public class GameListViewModel extends AndroidViewModel {
     public LiveData<List<Game>> getSearchResultsList() {
         return searchResultsList;
     }
+
+    public LiveData<List<Game>> getFavoritesList() { return favoritesList; }
 
     public void queryDiscover (int page){
         repo.queryIGDBComingSoon(page);

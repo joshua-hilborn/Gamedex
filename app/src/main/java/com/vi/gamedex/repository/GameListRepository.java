@@ -13,7 +13,6 @@ import com.vi.gamedex.database.GameDao;
 import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.igdb.OkHttpAsyncTask;
 import com.vi.gamedex.model.Game;
-import com.vi.gamedex.ui.MainActivity;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -30,13 +29,14 @@ public class GameListRepository {
     private static GameListRepository instance;
     private MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
     private MutableLiveData<List<Game>> searchResultsList = new MutableLiveData<>();
-    private LiveData<List<Game>> favoritesList = new MutableLiveData<>();
+    private LiveData<List<Game>> favoritesList;
 
     private GameDao gameDao;
 
     GameListRepository( Application application) {
         GameDatabase gameDatabase = GameDatabase.getInstance(application);
         gameDao = gameDatabase.gameDao();
+        Log.d(TAG, "GameListRepository: Loading Favorites from db" );
         favoritesList = gameDao.loadAllGameFavorites();
     }
 
