@@ -79,7 +79,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         final MenuItem searchItem = menu.findItem(R.id.menu_s_search);
         final SearchView searchTextBox = (SearchView) searchItem.getActionView();
 
-        searchTextBox.setQueryHint("Search Game Name");
+        searchTextBox.setQueryHint(getString(R.string.search_game_hint));
         searchTextBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
