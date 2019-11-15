@@ -1,6 +1,7 @@
 package com.vi.gamedex.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -40,11 +41,11 @@ public class GameListViewModel extends AndroidViewModel {
 
     public LiveData<List<Game>> getFavoritesList() { return favoritesList; }
 
-    public void queryDiscover (int page){
-        repo.queryIGDBComingSoon(page);
+    public void queryDiscover (Context context, int page){
+        repo.queryIGDBComingSoon(context, page);
     }
 
-    public void querySearch (String searchString){
-        repo.queryIGDBSearch(searchString);
+    public void querySearch (Context context, String searchString){
+        repo.queryIGDBSearch(context, searchString);
     }
 }

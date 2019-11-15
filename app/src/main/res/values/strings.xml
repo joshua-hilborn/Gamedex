@@ -4,6 +4,7 @@
     <string name="to_be_determined_abbreviation">TBD</string>
     <string name="rating_unavailable">N/A</string>
     <string name="summary_unavailable">Summary Unavailable</string>
+    <string name="progress_message">Fetching Games…</string>
 
     <string name="search_game_button">SEARCH</string>
     <string name="search_game_hint">Search Game Title</string>

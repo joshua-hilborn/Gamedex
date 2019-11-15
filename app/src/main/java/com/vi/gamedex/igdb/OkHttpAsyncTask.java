@@ -1,8 +1,12 @@
 package com.vi.gamedex.igdb;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ProgressBar;
 
 import com.vi.gamedex.BuildConfig;
+import com.vi.gamedex.R;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -20,8 +24,17 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
     private final OkHttpClient okHttpClient = new OkHttpClient();
     private OkHttpAsyncTaskCallback okHttpAsyncTaskCallback;
 
-    public OkHttpAsyncTask(OkHttpAsyncTaskCallback callback){
+    private ProgressDialog progressDialog;
+
+    public OkHttpAsyncTask(Context context, OkHttpAsyncTaskCallback callback){
         this.okHttpAsyncTaskCallback = callback;
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setTitle(context.getString(R.string.progress_message));
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog.show();
     }
 
     @Override
@@ -55,6 +68,7 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+        progressDialog.dismiss();
         okHttpAsyncTaskCallback.onTaskComplete(result);
     }
 

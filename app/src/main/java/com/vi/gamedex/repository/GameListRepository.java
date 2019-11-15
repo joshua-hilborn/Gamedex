@@ -1,6 +1,7 @@
 package com.vi.gamedex.repository;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -78,7 +79,7 @@ public class GameListRepository {
     }
 
 
-    public void queryIGDBSearch( String searchString){
+    public void queryIGDBSearch(Context context, String searchString){
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
@@ -87,7 +88,8 @@ public class GameListRepository {
         String limit = "limit " + IGDB_API_PAGE_LIMIT + ";";
         String body = IGDB_API_GAMELIST_FIELDS + " " + query + " " + limit;
 
-        new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
+        new OkHttpAsyncTask(context ,new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
+
             @Override
             public void onTaskComplete(String result) {
                 try{
@@ -108,7 +110,7 @@ public class GameListRepository {
 
     }
 
-    public void queryIGDBComingSoon(int page){
+    public void queryIGDBComingSoon(Context context, int page){
 
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
@@ -125,7 +127,7 @@ public class GameListRepository {
                 "limit " + IGDB_API_PAGE_LIMIT + "; " +
                 "offset " + offset + ";"; // add offset 50 to start at page 2
 
-        new OkHttpAsyncTask(new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
+        new OkHttpAsyncTask(context, new OkHttpAsyncTask.OkHttpAsyncTaskCallback() {
             @Override
             public void onTaskComplete(String result) {
                 try{

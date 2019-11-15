@@ -134,7 +134,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
         return ratingString;
     }
-    
+
     private String generatePlatformString(int position) {
         List<Platform> gamePlatforms = gameList.get(position).getPlatforms();
         String platformString = "";

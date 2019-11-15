@@ -63,7 +63,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         gameListAdapter = new GameListAdapter(getContext(),  this);
         recyclerView.setAdapter(gameListAdapter);
 
-        gameListViewModel.queryDiscover(currentPage);
+        gameListViewModel.queryDiscover(getContext(), currentPage);
 
         return rootView;
     }
@@ -77,7 +77,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_d_refresh){
-            gameListViewModel.queryDiscover(currentPage);
+            gameListViewModel.queryDiscover(getContext(), currentPage);
         }
         return true;
     }

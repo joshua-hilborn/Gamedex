@@ -67,7 +67,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
     }
 
     private void performSearch(String searchString) {
-        gameListViewModel.querySearch(searchString);
+        gameListViewModel.querySearch(getContext(), searchString);
     }
 
 
