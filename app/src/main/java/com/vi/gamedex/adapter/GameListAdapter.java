@@ -91,7 +91,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
     }
 
-    @NotNull
     private String generateCoverUrlString(int position) {
         // Image link format https://images.igdb.com/igdb/image/upload/t_{size}/{id}.jpg
         String coverId = "";
@@ -116,7 +115,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         return gameReleaseDateString;
     }
 
-    @NotNull
     private String generateHighestRatingString(int position) {
         double criticScore = gameList.get(position).getAggregatedRating();
         int criticCount = gameList.get(position).getAggregatedRatingCount();
@@ -136,8 +134,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
         return ratingString;
     }
-
-    @NotNull
+    
     private String generatePlatformString(int position) {
         List<Platform> gamePlatforms = gameList.get(position).getPlatforms();
         String platformString = "";
