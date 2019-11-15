@@ -18,15 +18,15 @@ public interface GameDao {
     LiveData<List<Game>> loadAllGameFavorites();
 
     @Insert
-    void insertMovie(Game game);
+    void insertGame (Game game);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMovie(Game game);
+    void updateGame (Game game);
 
     @Delete
-    void deleteMovie(Game game);
+    void deleteGame (Game game);
 
     @Query("SELECT * FROM gameFavorites WHERE id = :id")
-    Game loadMovieById(int id);
+    Game loadGameById(int id);
 
 }

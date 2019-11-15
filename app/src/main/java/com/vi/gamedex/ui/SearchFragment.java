@@ -24,8 +24,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment implements
-        GameListAdapter.OnGameListener {
+public class SearchFragment extends Fragment implements GameListAdapter.OnGameListener {
 
     public static final String TAG = "SearchFragment: ";
 
@@ -62,7 +61,7 @@ public class SearchFragment extends Fragment implements
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter(this);
+        gameListAdapter = new GameListAdapter(getContext(), this);
         recyclerView.setAdapter(gameListAdapter);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -84,13 +83,4 @@ public class SearchFragment extends Fragment implements
 
     }
 
-    @Override
-    public void onFavoritesButtonClick(View view, int position) {
-
-    }
-
-    @Override
-    public void onCalendarButtonClick(View view, int position) {
-
-    }
 }

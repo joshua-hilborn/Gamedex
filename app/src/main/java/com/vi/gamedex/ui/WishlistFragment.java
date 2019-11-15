@@ -54,10 +54,9 @@ public class WishlistFragment extends Fragment implements GameListAdapter.OnGame
         recyclerView = rootView.findViewById(R.id.rv_wishlist);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter( this);
+        gameListAdapter = new GameListAdapter( getContext(), this);
         recyclerView.setAdapter(gameListAdapter);
 
-        //gameListViewModel.queryDiscover(currentPage);
         // Inflate the layout for this fragment
         return rootView;
     }
@@ -67,13 +66,5 @@ public class WishlistFragment extends Fragment implements GameListAdapter.OnGame
 
     }
 
-    @Override
-    public void onFavoritesButtonClick(View view, int position) {
 
-    }
-
-    @Override
-    public void onCalendarButtonClick(View view, int position) {
-
-    }
 }

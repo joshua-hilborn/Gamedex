@@ -2,12 +2,14 @@ package com.vi.gamedex.ui;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vi.gamedex.AppExecutors;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.model.Game;
@@ -26,8 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiscoverFragment extends Fragment implements
-        GameListAdapter.OnGameListener {
+public class DiscoverFragment extends Fragment implements GameListAdapter.OnGameListener {
     public static final String TAG = "DiscoverFragment: ";
 
     private RecyclerView recyclerView;
@@ -58,7 +60,7 @@ public class DiscoverFragment extends Fragment implements
         recyclerView = rootView.findViewById(R.id.rv_discover);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter( this);
+        gameListAdapter = new GameListAdapter(getContext(),  this);
         recyclerView.setAdapter(gameListAdapter);
 
         gameListViewModel.queryDiscover(currentPage);
@@ -83,16 +85,11 @@ public class DiscoverFragment extends Fragment implements
 
     @Override
     public void onGameClick(int position) {
+        // Detail Activity NYI
+        //Toast.makeText(getActivity(), gameListViewModel.getGameList().getValue().get(position).getName() + " Clicked", Toast.LENGTH_SHORT).show();
 
     }
 
-    @Override
-    public void onFavoritesButtonClick(View view, int position) {
 
-    }
 
-    @Override
-    public void onCalendarButtonClick(View view, int position) {
-
-    }
 }

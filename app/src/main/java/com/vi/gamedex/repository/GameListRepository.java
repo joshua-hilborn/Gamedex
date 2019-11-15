@@ -65,6 +65,18 @@ public class GameListRepository {
         return favoritesList;
     }
 
+    public Game loadGameById (int gameId){
+        return gameDao.loadGameById(gameId);
+    }
+
+    public void addGametoFavorites ( Game game ){
+        gameDao.insertGame(game);
+    }
+
+    public void deleteGameFromFavorites ( Game game ){
+        gameDao.deleteGame(game);
+    }
+
 
     public void queryIGDBSearch( String searchString){
         Moshi moshi = new Moshi.Builder().build();

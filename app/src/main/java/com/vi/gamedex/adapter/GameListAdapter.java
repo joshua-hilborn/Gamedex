@@ -1,5 +1,6 @@
 package com.vi.gamedex.adapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,27 +9,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.vi.gamedex.AppExecutors;
 import com.vi.gamedex.R;
+import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.Platform;
+import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameViewHolder> {
+
     private static final String TAG = "GameListAdapter: ";
+    private Context context;
     private List<Game> gameList;
     private OnGameListener onGameListener;
 
-    public GameListAdapter(OnGameListener listener) {
+    public GameListAdapter(Context context, OnGameListener listener) {
+        this.context = context;
         this.onGameListener = listener;
     }
 
-    public GameListAdapter(OnGameListener listener, List<Game> gList) {
+    public GameListAdapter(Context context, OnGameListener listener, List<Game> gList) {
+        this.context = context;
         this.gameList = gList;
         this.onGameListener = listener;
     }
@@ -119,6 +130,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         holder.tvPlatform.setText(platformString);
         holder.tvSummary.setText(gameSummary.substring(0, Math.min(gameSummary.length(), 160)));
         holder.tvReleaseDate.setText(gameReleaseDateString);
+        holder.isThisAFavorite(gameList.get(position).getId());
+        //holder.setFavoriteDrawable(holder.isFavorite);
 
     }
 
@@ -133,9 +146,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
 
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        GameDatabase gameDatabase = GameDatabase.getInstance(context);
+        //GameListViewModel gameListViewModel;
+        //GameListRepository repo = GameListRepository.getInstance(context.);
         OnGameListener onGameListener;
         TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
         ImageView ivCover, ivFavorite, ivCalendar;
+        boolean isFavorite;
 
         public GameViewHolder(@NonNull View itemView, final OnGameListener onGameListener) {
             super(itemView);
@@ -150,19 +167,52 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
             ivFavorite = itemView.findViewById(R.id.iv_gameListItem_Favorite);
             ivCalendar = itemView.findViewById(R.id.iv_gameListItem_Calendar);
+            //gameListViewModel = ViewModelProviders.of((FragmentActivity) context).get(GameListViewModel.class);
+
+            setFavoriteDrawable(isFavorite);
+
+
+
 
             itemView.setOnClickListener(this);
+
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onGameListener.onFavoritesButtonClick(v, getAdapterPosition());
+
+                    //onGameListener.onFavoritesButtonClick(v, getAdapterPosition(), isFavorite);
+                    final Game clickedGame = gameList.get(getAdapterPosition());
+
+                    setFavoriteDrawable(!isFavorite);
+
+                    // Add To Favorites/ Wishlist
+                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Log.d(TAG, "run: Is this a favorite? : " + gameListViewModel.isThisAFavorite(clickedGame.getId()) );
+                            Log.d(TAG, "run: Is this a favorite? : " + isFavorite );
+                            if (isFavorite){
+                                //delete from db
+                                isFavorite = false;
+                                gameDatabase.gameDao().deleteGame(clickedGame);
+                                //gameListViewModel.deleteFavorite(clickedGame);
+                            } else {
+                                //insert into db
+                                isFavorite = true;
+                                gameDatabase.gameDao().insertGame(clickedGame);
+                                //gameListViewModel.addFavorite(clickedGame);
+                            }
+
+                        }
+                    });
+
                 }
             });
 
             ivCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onGameListener.onCalendarButtonClick(v, getAdapterPosition());
+                    //onGameListener.onCalendarButtonClick(v, getAdapterPosition());
 
                 }
             });
@@ -173,13 +223,49 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             onGameListener.onGameClick(getAdapterPosition());
         }
 
+        public void isThisAFavorite (final int gameId ){
+            AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    //if ( gameListViewModel.isThisAFavorite(gameId)) {
+                    if ( gameDatabase.gameDao().loadGameById(gameId) == null) {
+                        isFavorite = false;
+                        setFavoriteDrawable(isFavorite);
+                    } else{
+                        isFavorite = true;
+                        setFavoriteDrawable(isFavorite);
+                    }
+
+                }
+            });
+
+
+        }
+
+        private void setFavoriteDrawable (boolean isFavorite){
+            if (isFavorite) {
+                //isFavorite = false;
+                ivFavorite.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+                //mFavoritesButtonImageView.setImageResource(R.drawable.ic_favorite_filled_black_24);
+            } else {
+               // isFavorite = false;
+                ivFavorite.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+            }
+        }
+
+
+
     }
 
     // interface for clicking the viewholder to open detail screen
     public interface OnGameListener {
+        // Send holder click to fragment
         void onGameClick (int position);
-        void onFavoritesButtonClick(View view, int position);
-        void onCalendarButtonClick (View view, int position);
+        // Send button clicks to Fragment
+       // void onFavoritesButtonClick(View view, int position, boolean isFav);
+        //void onCalendarButtonClick (View view, int position);
     }
+
+
 
 }
