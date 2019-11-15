@@ -47,8 +47,6 @@
             cardview:layout_constraintEnd_toEndOf="@id/iv_gameListItem_Cover"
             />
 
-
-
         <TextView
             android:id="@+id/tv_gameListItem_Name"
             android:layout_width="0dp"
@@ -85,8 +83,6 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/colorPrimaryDark"
-
-
             cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Summary"
             cardview:layout_constraintEnd_toEndOf="@id/tv_gameListItem_Name"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
