@@ -2,11 +2,14 @@ package com.vi.gamedex.ui;
 
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -64,17 +67,51 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         gameListAdapter = new GameListAdapter(getContext(), this);
         recyclerView.setAdapter(gameListAdapter);
 
+
+        searchTextBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ( (event.getAction() == KeyEvent.ACTION_DOWN) && ( actionId == KeyEvent.KEYCODE_ENTER )){
+                    performSearch();
+                    //performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+
+        searchTextBox.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    performSearch();
+                    // Perform action on key press
+                    //Toast.makeText(HelloFormStuff.this, edittext.getText(), Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String searchString = searchTextBox.getText().toString();
-                gameListViewModel.querySearch(searchString);
+                performSearch();
 
             }
         });
 
         return rootView;
 
+    }
+
+    private void performSearch() {
+        String searchString = searchTextBox.getText().toString();
+        gameListViewModel.querySearch(searchString);
     }
 
 
