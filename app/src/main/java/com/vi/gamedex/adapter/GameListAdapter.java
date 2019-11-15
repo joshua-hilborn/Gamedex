@@ -128,7 +128,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         holder.tvName.setText(gameName);
         holder.tvRating.setText(ratingString);
         holder.tvPlatform.setText(platformString);
-        holder.tvSummary.setText(gameSummary.substring(0, Math.min(gameSummary.length(), 160)));
+        holder.tvSummary.setText(gameSummary);
+        //holder.tvSummary.setText(gameSummary.substring(0, Math.min(gameSummary.length(), 160)));
         holder.tvReleaseDate.setText(gameReleaseDateString);
         holder.isThisAFavorite(gameList.get(position).getId());
         //holder.setFavoriteDrawable(holder.isFavorite);
@@ -153,6 +154,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
         ImageView ivCover, ivFavorite, ivCalendar;
         boolean isFavorite;
+        boolean isSummaryExpanded = false;
 
         public GameViewHolder(@NonNull View itemView, final OnGameListener onGameListener) {
             super(itemView);
@@ -175,6 +177,27 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
 
             itemView.setOnClickListener(this);
+
+            tvSummary.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isSummaryExpanded){
+                        isSummaryExpanded = false;
+                        final float scale = context.getResources().getDisplayMetrics().density;
+                        int pixels = (int) (80 * scale + 0.5f);
+                        ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
+                        layoutParams.height = pixels;
+                        tvSummary.setLayoutParams(layoutParams);
+
+                    }else {
+                        isSummaryExpanded = true;
+                        ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
+                        layoutParams.height = layoutParams.WRAP_CONTENT;
+                        tvSummary.setLayoutParams(layoutParams);
+                    }
+
+                }
+            });
 
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -221,6 +244,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         @Override
         public void onClick(View v) {
             onGameListener.onGameClick(getAdapterPosition());
+
         }
 
         public void isThisAFavorite (final int gameId ){
