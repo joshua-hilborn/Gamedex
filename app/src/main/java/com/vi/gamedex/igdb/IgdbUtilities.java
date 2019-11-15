@@ -10,4 +10,9 @@ public class IgdbUtilities {
 
     public static final String IGDB_ENDPOINT_RELEASE_DATES = "/release_dates";
     public static final String IGDB_ENDPOINT_GAMES = "/games";
+
+    public static final String IGDB_IMAGE_BASE_URL = "https://images.igdb.com/igdb/image/upload/t_";
+    public static final String IGDB_IMAGE_SIZE_T_COVER_BIG = "cover_big/";
+    public static final String IGDB_IMAGE_FORMAT_JPG = ".jpg";
+
 }

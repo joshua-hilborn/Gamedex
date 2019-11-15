@@ -17,8 +17,11 @@ import com.squareup.picasso.Picasso;
 import com.vi.gamedex.AppExecutors;
 import com.vi.gamedex.R;
 import com.vi.gamedex.database.GameDatabase;
+import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.Platform;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,6 +61,84 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     @Override
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
+        String gameSummary = gameList.get(position).getSummary();
+        if (gameSummary == null){
+            gameSummary = context.getString(R.string.summary_unavailable);
+        }
+
+        String platformString = generatePlatformString(position);
+        String ratingString = generateHighestRatingString(position);
+        String gameReleaseDateString = generateReleaseDateString(position);
+        String imageUrl = generateCoverUrlString(position);
+        Picasso.get()
+                .load(imageUrl)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_launcher_foreground)
+                .into(holder.ivCover);
+
+
+        // set TextViews
+        holder.tvName.setText(gameName);
+        holder.tvRating.setText(ratingString);
+        holder.tvPlatform.setText(platformString);
+        holder.tvSummary.setText(gameSummary);
+        holder.tvReleaseDate.setText(gameReleaseDateString);
+        holder.isThisAFavorite(gameList.get(position).getId());
+
+        //Log.d(TAG, "onBindViewHolder: Name: " + gameName + "(" + gameList.get(position).getId() + ")");
+        //Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
+        //Log.d(TAG, "onBindViewHolder: Cover: " + imageUrl);
+
+    }
+
+    @NotNull
+    private String generateCoverUrlString(int position) {
+        // Image link format https://images.igdb.com/igdb/image/upload/t_{size}/{id}.jpg
+        String coverId = "";
+        if (gameList.get(position).getCover() != null ){
+            coverId = gameList.get(position).getCover().getImageId();
+        }
+        return IgdbUtilities.IGDB_IMAGE_BASE_URL +
+                IgdbUtilities.IGDB_IMAGE_SIZE_T_COVER_BIG +
+                coverId +
+                IgdbUtilities.IGDB_IMAGE_FORMAT_JPG;
+    }
+
+    private String generateReleaseDateString(int position) {
+        int gameReleaseDateTimeStamp = gameList.get(position).getFirstReleaseDate();
+        //Log.d(TAG, "onBindViewHolder: Release Timestamp: " + gameReleaseDateTimeStamp);
+        String gameReleaseDateString = context.getString(R.string.to_be_determined_abbreviation);
+        if (gameReleaseDateTimeStamp != 0){
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+            gameReleaseDateString = sdf.format( (long) gameReleaseDateTimeStamp * 1000 );
+
+        }
+        return gameReleaseDateString;
+    }
+
+    @NotNull
+    private String generateHighestRatingString(int position) {
+        double criticScore = gameList.get(position).getAggregatedRating();
+        int criticCount = gameList.get(position).getAggregatedRatingCount();
+        double userScore = gameList.get(position).getRating();
+        int userCount = gameList.get(position).getRatingCount();
+        String ratingString = "";
+
+        if (criticCount >= userCount){
+            if (criticCount == 0){
+                ratingString = context.getString(R.string.to_be_determined_abbreviation);
+            }else {
+                ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
+            }
+        } else {
+            ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
+
+        }
+        return ratingString;
+    }
+
+    @NotNull
+    private String generatePlatformString(int position) {
         List<Platform> gamePlatforms = gameList.get(position).getPlatforms();
         String platformString = "";
         if (gamePlatforms != null){
@@ -75,62 +156,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             }
         }
         Log.d(TAG, "onBindViewHolder: PlatformString " + platformString);
-        String gameSummary = gameList.get(position).getSummary();
-        if (gameSummary == null){
-            gameSummary = holder.itemView.getContext().getString(R.string.summary_unavailable);
-        }
-        double criticScore = gameList.get(position).getAggregatedRating();
-        int criticCount = gameList.get(position).getAggregatedRatingCount();
-        double userScore = gameList.get(position).getRating();
-        int userCount = gameList.get(position).getRatingCount();
-        String ratingString = "";
-
-        if (criticCount >= userCount){
-            if (criticCount == 0){
-                ratingString = holder.itemView.getContext().getString(R.string.to_be_determined_abbreviation);
-            }else {
-                ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
-            }
-        } else {
-            ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
-
-        }
-
-        Log.d(TAG, "onBindViewHolder: Name: " + gameName + "(" + gameList.get(position).getId() + ")");
-        Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
-
-        //https://images.igdb.com/igdb/image/upload/t_{size}/{hash}.jpg
-        String gameCoverBaseUrl = "https://images.igdb.com/igdb/image/upload/t_cover_big/";
-        String coverId = "";
-        if (gameList.get(position).getCover() != null ){
-            coverId = gameList.get(position).getCover().getImageId();
-        }
-        String imageUrl = gameCoverBaseUrl + coverId + ".jpg";
-        Log.d(TAG, "onBindViewHolder: Cover: " + imageUrl);
-
-
-        Picasso.get()
-                .load(imageUrl)
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground)
-                .into(holder.ivCover);
-
-        int gameReleaseDateTimeStamp = gameList.get(position).getFirstReleaseDate();
-        Log.d(TAG, "onBindViewHolder: Release Timestamp: " + gameReleaseDateTimeStamp);
-        String gameReleaseDateString = holder.itemView.getContext().getString(R.string.to_be_determined_abbreviation);
-        if (gameReleaseDateTimeStamp != 0){
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
-            gameReleaseDateString = sdf.format( (long) gameReleaseDateTimeStamp * 1000 );
-
-        }
-        // set TextViews
-        holder.tvName.setText(gameName);
-        holder.tvRating.setText(ratingString);
-        holder.tvPlatform.setText(platformString);
-        holder.tvSummary.setText(gameSummary);
-        holder.tvReleaseDate.setText(gameReleaseDateString);
-        holder.isThisAFavorite(gameList.get(position).getId());
-
+        return platformString;
     }
 
     @Override
@@ -222,7 +248,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 public void onClick(View v) {
                     Game clickedGame = gameList.get(getAdapterPosition());
 
-                    String strTitle = clickedGame.getName() + " Release";
+                    String strTitle = clickedGame.getName() + " " + context.getString(R.string.release);
+                    String strDescription = strTitle + "\n" +
+                            generatePlatformString(getAdapterPosition());
+
+
                     int releaseDateTimeStamp = clickedGame.getFirstReleaseDate();
                     Date releaseDate = new Date( (long) releaseDateTimeStamp * 1000 );
 
@@ -232,7 +262,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                     intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, releaseDate.getTime());
                     intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, releaseDate.getTime());
                     intent.putExtra(CalendarContract.Events.ALL_DAY, true);
-                    intent.putExtra(CalendarContract.Events.DESCRIPTION, strTitle);
+                    intent.putExtra(CalendarContract.Events.DESCRIPTION, strDescription);
                     context.startActivity(intent);
 
                 }
