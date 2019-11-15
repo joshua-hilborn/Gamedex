@@ -1,6 +1,8 @@
 package com.vi.gamedex.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
@@ -20,9 +19,9 @@ import com.vi.gamedex.R;
 import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.Platform;
-import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -129,10 +128,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         holder.tvRating.setText(ratingString);
         holder.tvPlatform.setText(platformString);
         holder.tvSummary.setText(gameSummary);
-        //holder.tvSummary.setText(gameSummary.substring(0, Math.min(gameSummary.length(), 160)));
         holder.tvReleaseDate.setText(gameReleaseDateString);
         holder.isThisAFavorite(gameList.get(position).getId());
-        //holder.setFavoriteDrawable(holder.isFavorite);
 
     }
 
@@ -148,8 +145,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         GameDatabase gameDatabase = GameDatabase.getInstance(context);
-        //GameListViewModel gameListViewModel;
-        //GameListRepository repo = GameListRepository.getInstance(context.);
         OnGameListener onGameListener;
         TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
         ImageView ivCover, ivFavorite, ivCalendar;
@@ -169,12 +164,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
             ivFavorite = itemView.findViewById(R.id.iv_gameListItem_Favorite);
             ivCalendar = itemView.findViewById(R.id.iv_gameListItem_Calendar);
-            //gameListViewModel = ViewModelProviders.of((FragmentActivity) context).get(GameListViewModel.class);
-
             setFavoriteDrawable(isFavorite);
-
-
-
 
             itemView.setOnClickListener(this);
 
@@ -202,10 +192,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //onGameListener.onFavoritesButtonClick(v, getAdapterPosition(), isFavorite);
                     final Game clickedGame = gameList.get(getAdapterPosition());
-
                     setFavoriteDrawable(!isFavorite);
 
                     // Add To Favorites/ Wishlist
@@ -218,12 +205,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                                 //delete from db
                                 isFavorite = false;
                                 gameDatabase.gameDao().deleteGame(clickedGame);
-                                //gameListViewModel.deleteFavorite(clickedGame);
                             } else {
                                 //insert into db
                                 isFavorite = true;
                                 gameDatabase.gameDao().insertGame(clickedGame);
-                                //gameListViewModel.addFavorite(clickedGame);
                             }
 
                         }
@@ -235,7 +220,20 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             ivCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //onGameListener.onCalendarButtonClick(v, getAdapterPosition());
+                    Game clickedGame = gameList.get(getAdapterPosition());
+
+                    String strTitle = clickedGame.getName() + " Release";
+                    int releaseDateTimeStamp = clickedGame.getFirstReleaseDate();
+                    Date releaseDate = new Date( (long) releaseDateTimeStamp * 1000 );
+
+                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                    intent.setType("vnd.android.cursor.item/event");
+                    intent.putExtra(CalendarContract.Events.TITLE, strTitle);
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, releaseDate.getTime());
+                    intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, releaseDate.getTime());
+                    intent.putExtra(CalendarContract.Events.ALL_DAY, true);
+                    intent.putExtra(CalendarContract.Events.DESCRIPTION, strTitle);
+                    context.startActivity(intent);
 
                 }
             });
@@ -251,7 +249,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             AppExecutors.getInstance().diskIO().execute(new Runnable() {
                 @Override
                 public void run() {
-                    //if ( gameListViewModel.isThisAFavorite(gameId)) {
                     if ( gameDatabase.gameDao().loadGameById(gameId) == null) {
                         isFavorite = false;
                         setFavoriteDrawable(isFavorite);
@@ -268,16 +265,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         private void setFavoriteDrawable (boolean isFavorite){
             if (isFavorite) {
-                //isFavorite = false;
                 ivFavorite.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
-                //mFavoritesButtonImageView.setImageResource(R.drawable.ic_favorite_filled_black_24);
             } else {
-               // isFavorite = false;
                 ivFavorite.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
             }
         }
-
-
 
     }
 
@@ -289,7 +281,5 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
        // void onFavoritesButtonClick(View view, int position, boolean isFav);
         //void onCalendarButtonClick (View view, int position);
     }
-
-
 
 }

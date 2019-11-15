@@ -44,7 +44,7 @@
             android:padding="5dp"
             android:clickable="true"
             android:focusable="true"
-            android:background="@drawable/ic_calendar_event_black_24dp"
+            android:background="@drawable/calendar_button_selector"
             android:backgroundTint="@color/color_primary_dark_blueGrey"
             cardview:layout_constraintTop_toBottomOf="@id/iv_gameListItem_Cover"
             cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_Favorite"
