@@ -38,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(pageAdapter);
         // Stop Tabs from refreshing by navigating to different tab, cache them
         viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
+        // Sync tabs with viewpager
         tabLayout.setupWithViewPager(viewPager);
 
+        // Setup Admob Banner
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -49,17 +51,6 @@ public class MainActivity extends AppCompatActivity {
         adView = findViewById(R.id.av_main);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
-
-        /*
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
-         */
 
     }
 

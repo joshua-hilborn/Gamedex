@@ -8,25 +8,6 @@
     android:background="@color/color_primary_light_blueGrey"
     tools:context=".ui.SearchFragment">
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
-        android:drawableEnd="@drawable/ic_search_black_24dp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/et_searchBox"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/et_searchBox"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:hint="@string/search_game_hint"
-        app:layout_constraintLeft_toRightOf="@id/btn_search"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_search"
         android:layout_width="match_parent"
@@ -34,8 +15,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_searchBox" />
-
-
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
