@@ -84,8 +84,9 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
             @Override
             public boolean onQueryTextSubmit(String query) {
                 performSearch(query);
-                searchTextBox.clearFocus();
-                searchItem.collapseActionView();
+                // First call clears text, second call returns to icon
+                searchTextBox.setIconified(true);
+                searchTextBox.setIconified(true);
                 return true;
             }
 
