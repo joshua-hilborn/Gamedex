@@ -71,7 +71,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
 
         String platformString = generatePlatformString(position);
-        String ratingString = generateHighestRatingString(position);
+        String ratingString = generateUserRatingString(position);
+        String criticRatingString = generateCriticRatingString(position);
         String gameReleaseDateString = generateReleaseDateString(position);
         String imageUrl = generateCoverUrlString(position);
         Picasso.get()
@@ -84,6 +85,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         // set TextViews
         holder.tvName.setText(gameName);
         holder.tvRating.setText(ratingString);
+        holder.tvRatingCritic.setText(criticRatingString);
         holder.tvPlatform.setText(platformString);
         holder.tvSummary.setText(gameSummary);
         holder.tvReleaseDate.setText(gameReleaseDateString);
@@ -116,6 +118,33 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         return gameReleaseDateString;
     }
 
+    private String generateUserRatingString (int position){
+        double userScore = gameList.get(position).getRating();
+        int userCount = gameList.get(position).getRatingCount();
+        String ratingString = "";
+        if (userCount == 0){
+            ratingString = context.getString(R.string.to_be_determined_abbreviation);
+        }else {
+            ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
+        }
+        return ratingString;
+
+    }
+
+    private String generateCriticRatingString (int position){
+        double criticScore = gameList.get(position).getAggregatedRating();
+        int criticCount = gameList.get(position).getAggregatedRatingCount();
+        String ratingString = "";
+        if (criticCount == 0){
+            ratingString = context.getString(R.string.to_be_determined_abbreviation);
+        }else {
+            ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
+        }
+        return ratingString;
+
+    }
+
+    /*
     private String generateHighestRatingString(int position) {
         double criticScore = gameList.get(position).getAggregatedRating();
         int criticCount = gameList.get(position).getAggregatedRatingCount();
@@ -135,6 +164,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
         return ratingString;
     }
+
+     */
 
     private String generatePlatformString(int position) {
         List<Platform> gamePlatforms = gameList.get(position).getPlatforms();
@@ -170,7 +201,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         GameDatabase gameDatabase = GameDatabase.getInstance(context);
         OnGameListener onGameListener;
-        TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
+        TextView tvName, tvPlatform, tvSummary, tvRating, tvRatingCritic, tvReleaseDate;
         ImageView ivCover, ivFavorite, ivCalendar, ivSummaryArrow;
         boolean isFavorite;
         boolean isSummaryExpanded = false;
@@ -188,6 +219,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
             ivFavorite = itemView.findViewById(R.id.iv_gameListItem_Favorite);
             ivCalendar = itemView.findViewById(R.id.iv_gameListItem_Calendar);
+            tvRatingCritic = itemView.findViewById(R.id.tv_gameListItem_RatingCritic);
             ivSummaryArrow = itemView.findViewById(R.id.iv_dropArrow);
 
             itemView.setOnClickListener(this);

@@ -100,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:alpha=".6"
             android:scaleType="fitCenter"
             android:background="@drawable/ic_star_solid"
             android:backgroundTint="@color/color_primary_light_blueGrey"
@@ -118,6 +119,59 @@
             android:textSize="18sp"
             cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_StarIcon"
             cardview:layout_constraintTop_toBottomOf="@id/v_separator"/>
+
+        <TextView
+            android:id="@+id/tv_gameListItem_RatingLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_primary_dark_blueGrey"
+            android:padding="5dp"
+            android:text="User"
+            android:textSize="10sp"
+            cardview:layout_constraintStart_toStartOf="@id/iv_gameListItem_StarIcon"
+            cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_StarIcon"
+            cardview:layout_constraintEnd_toEndOf="@id/iv_gameListItem_StarIcon"
+            cardview:layout_constraintBottom_toBottomOf="@id/iv_gameListItem_StarIcon"
+            />
+
+        <ImageView
+            android:id="@+id/iv_gameListItem_StarIconCritic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:alpha=".6"
+            android:background="@drawable/ic_star_solid"
+            android:backgroundTint="@color/color_primary_light_blueGrey"
+            android:contentDescription="@string/content_description_iv_rating"
+            android:scaleType="fitCenter"
+            cardview:layout_constraintBottom_toBottomOf="@id/tv_gameListItem_RatingCritic"
+            cardview:layout_constraintEnd_toStartOf="@id/tv_gameListItem_RatingCritic"
+            cardview:layout_constraintStart_toEndOf="@id/tv_gameListItem_Rating"
+            cardview:layout_constraintTop_toTopOf="@+id/tv_gameListItem_RatingCritic" />
+
+        <TextView
+            android:id="@+id/tv_gameListItem_RatingCritic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/rating_unavailable"
+            android:textSize="18sp"
+            cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_StarIconCritic"
+            cardview:layout_constraintTop_toBottomOf="@id/v_separator"
+            />
+        <TextView
+            android:id="@+id/tv_gameListItem_RatingCriticLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_primary_dark_blueGrey"
+            android:padding="5dp"
+            android:text="Critic"
+            android:textSize="10sp"
+            cardview:layout_constraintStart_toStartOf="@id/iv_gameListItem_StarIconCritic"
+            cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_StarIconCritic"
+            cardview:layout_constraintEnd_toEndOf="@id/iv_gameListItem_StarIconCritic"
+            cardview:layout_constraintBottom_toBottomOf="@id/iv_gameListItem_StarIconCritic"
+            />
 
         <ImageView
             android:id="@+id/iv_dropArrow"
@@ -139,7 +193,7 @@
             android:padding="5dp"
             android:layout_marginEnd="8dp"
             android:text="@string/placeholder_releaseDate"
-            android:textSize="16sp"
+            android:textSize="14sp"
             cardview:layout_constraintBottom_toBottomOf="@id/tv_gameListItem_Rating"
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintTop_toBottomOf="@id/v_separator" />
