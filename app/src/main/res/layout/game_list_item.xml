@@ -21,6 +21,7 @@
 
         <ImageView
             android:id="@+id/iv_gameListItem_Favorite"
+            android:contentDescription="@string/content_description_iv_favorite"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
@@ -37,6 +38,7 @@
 
         <ImageView
             android:id="@+id/iv_gameListItem_Calendar"
+            android:contentDescription="@string/content_description_iv_calendar"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="5dp"
@@ -94,6 +96,7 @@
 
         <ImageView
             android:id="@+id/iv_gameListItem_StarIcon"
+            android:contentDescription="@string/content_description_iv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="8dp"

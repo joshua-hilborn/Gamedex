@@ -28,4 +28,9 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 
+    <string name="content_description_iv_cover">Cover</string>
+    <string name="content_description_iv_calendar">Add to Calendar</string>
+    <string name="content_description_iv_favorite">Add and Remove from Wishlist</string>
+    <string name="content_description_iv_rating">Rating</string>
+
 </resources>
