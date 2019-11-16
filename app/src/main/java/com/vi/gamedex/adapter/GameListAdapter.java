@@ -64,8 +64,10 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public void onBindViewHolder(@NonNull GameViewHolder holder, int position) {
         String gameName = gameList.get(position).getName();
         String gameSummary = gameList.get(position).getSummary();
+        holder.ivSummaryArrow.setVisibility(View.VISIBLE);
         if (gameSummary == null){
-            gameSummary = context.getString(R.string.summary_unavailable);
+            gameSummary = "\n" + context.getString(R.string.summary_unavailable);
+            holder.ivSummaryArrow.setVisibility(View.INVISIBLE);
         }
 
         String platformString = generatePlatformString(position);
@@ -197,7 +199,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                     if (isSummaryExpanded){
                         isSummaryExpanded = false;
                         final float scale = context.getResources().getDisplayMetrics().density;
-                        int pixels = (int) (80 * scale + 0.5f);
+                        int pixels = (int) (50 * scale + 0.5f);
                         ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
                         layoutParams.height = pixels;
                         tvSummary.setLayoutParams(layoutParams);
