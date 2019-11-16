@@ -1,5 +1,7 @@
 package com.vi.gamedex.adapter;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.CalendarContract;
@@ -20,6 +22,7 @@ import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.Platform;
+import com.vi.gamedex.ui.CountdownWidget;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -236,6 +239,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
                         }
                     });
+
+                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                    int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CountdownWidget.class));
+                    CountdownWidget.updateCountdownWidgets(context, appWidgetManager, appWidgetIds);
+
 
                 }
             });

@@ -17,6 +17,9 @@ public interface GameDao {
     @Query("SELECT * FROM gameFavorites ORDER BY id")
     LiveData<List<Game>> loadAllGameFavorites();
 
+    @Query("SELECT * FROM gameFavorites ORDER BY id")
+    List<Game> loadFavoritesListForWidget();
+
     @Insert
     void insertGame (Game game);
 

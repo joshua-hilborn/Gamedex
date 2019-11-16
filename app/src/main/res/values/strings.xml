@@ -16,4 +16,13 @@
 
     <string name="release">Release</string>
 
+    <string name="widget_no_favorites">No Favorites Selected Yet!</string>
+    <string name="widget_title">Gamedex Wishlist</string>
+    <string name="widget_out_in">\u0020out in\u0020</string>
+    <string name="widget_unit_days">\u0020days to go</string>
+    <string name="widget_out_now">\u0020is RELEASED!</string>
+    <string name="widget_release_unknown">\u0020has no release date yet.</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+
 </resources>

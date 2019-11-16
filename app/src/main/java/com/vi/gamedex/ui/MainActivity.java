@@ -1,5 +1,7 @@
 package com.vi.gamedex.ui;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(toolbar);
 
-        
+
 
         tabLayout = findViewById(R.id.tl_main);
         viewPager = findViewById(R.id.vp_main);
@@ -53,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
         adView = findViewById(R.id.av_main);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, CountdownWidget.class));
+        CountdownWidget.updateCountdownWidgets(this, appWidgetManager, appWidgetIds);
 
     }
 

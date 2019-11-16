@@ -3,7 +3,6 @@ package com.vi.gamedex.igdb;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.ProgressBar;
 
 import com.vi.gamedex.BuildConfig;
 import com.vi.gamedex.R;
