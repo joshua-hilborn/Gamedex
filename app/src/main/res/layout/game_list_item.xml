@@ -77,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="80dp"
             android:paddingStart="6dp"
-            android:padding="5dp"
+            android:padding="10dp"
             android:text="@string/placeholder_summary"
             android:textSize="12sp"
             cardview:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +90,7 @@
             android:layout_height="1dp"
             android:background="@color/color_primary_dark_blueGrey"
             cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Summary"
-            cardview:layout_constraintEnd_toEndOf="@id/tv_gameListItem_Name"
+            cardview:layout_constraintEnd_toEndOf="@id/tv_gameListItem_ReleaseDate"
             cardview:layout_constraintStart_toStartOf="@id/iv_gameListItem_StarIcon"
             />
 
@@ -119,11 +119,25 @@
             cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_StarIcon"
             cardview:layout_constraintTop_toBottomOf="@id/v_separator"/>
 
+        <ImageView
+            android:id="@+id/iv_dropArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_arrow_drop_down_black_24dp"
+            android:backgroundTint="@color/color_primary_blueGrey"
+            android:scaleType="center"
+            cardview:layout_constraintBottom_toTopOf="@id/v_separator"
+            cardview:layout_constraintEnd_toEndOf="@id/v_separator"
+            cardview:layout_constraintStart_toStartOf="@id/v_separator"
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Summary"
+            cardview:layout_constraintVertical_bias="0.73" />
+
         <TextView
             android:id="@+id/tv_gameListItem_ReleaseDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/placeholder_releaseDate"
             android:textSize="16sp"
             cardview:layout_constraintBottom_toBottomOf="@id/tv_gameListItem_Rating"

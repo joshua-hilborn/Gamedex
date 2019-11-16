@@ -169,7 +169,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         GameDatabase gameDatabase = GameDatabase.getInstance(context);
         OnGameListener onGameListener;
         TextView tvName, tvPlatform, tvSummary, tvRating, tvReleaseDate;
-        ImageView ivCover, ivFavorite, ivCalendar;
+        ImageView ivCover, ivFavorite, ivCalendar, ivSummaryArrow;
         boolean isFavorite;
         boolean isSummaryExpanded = false;
 
@@ -186,12 +186,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
             ivFavorite = itemView.findViewById(R.id.iv_gameListItem_Favorite);
             ivCalendar = itemView.findViewById(R.id.iv_gameListItem_Calendar);
+            ivSummaryArrow = itemView.findViewById(R.id.iv_dropArrow);
 
             itemView.setOnClickListener(this);
 
             tvSummary.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     if (isSummaryExpanded){
                         isSummaryExpanded = false;
                         final float scale = context.getResources().getDisplayMetrics().density;
@@ -199,12 +201,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                         ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
                         layoutParams.height = pixels;
                         tvSummary.setLayoutParams(layoutParams);
+                        ivSummaryArrow.setRotation(0);
 
                     }else {
                         isSummaryExpanded = true;
                         ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
                         layoutParams.height = layoutParams.WRAP_CONTENT;
                         tvSummary.setLayoutParams(layoutParams);
+                        ivSummaryArrow.setRotation(180);
                     }
 
                 }
