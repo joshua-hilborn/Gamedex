@@ -28,31 +28,33 @@
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ti_main_discover"
+            android:contentDescription="@string/content_description_tab_discover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Discover" />
+            android:text="@string/tab_discover_title" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ti_main_search"
+            android:contentDescription="@string/content_description_tab_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search" />
+            android:text="@string/tab_search_title" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ti_main_wishlist"
+            android:contentDescription="@string/content_desctiption_tab_wishlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wishlist" />
+            android:text="@string/tab_wishlist_title" />
     </com.google.android.material.tabs.TabLayout>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/av_main"
+        android:contentDescription="@string/content_description_ad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
     </com.google.android.gms.ads.AdView>
@@ -61,10 +63,5 @@
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
-
-
-
 
 </LinearLayout>

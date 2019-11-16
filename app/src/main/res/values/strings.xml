@@ -30,13 +30,20 @@
 
     <string name="menu_refresh_title">Refresh</string>
     <string name="menu_search_title">Search</string>
+    <string name="tab_discover_title">Discover</string>
+    <string name="tab_search_title">Search</string>
+    <string name="tab_wishlist_title">Wishlist</string>
 
+    <string name="content_description_tab_discover">Discover Tab</string>
+    <string name="content_description_tab_search">Search Tab</string>
+    <string name="content_desctiption_tab_wishlist">Wishlist Tab</string>
     <string name="content_description_iv_cover">Cover</string>
     <string name="content_description_iv_calendar">Add to Calendar</string>
     <string name="content_description_iv_favorite">Add and Remove from Wishlist</string>
     <string name="content_description_iv_rating">Rating</string>
     <string name="content_description_search">Search</string>
     <string name="content_description_refresh">Refresh</string>
+    <string name="content_description_ad">Advertisement</string>
 
 
 
