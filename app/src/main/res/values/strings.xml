@@ -6,7 +6,7 @@
     <string name="summary_unavailable">Summary Unavailable</string>
     <string name="progress_message">Fetching Games…</string>
 
-    <string name="search_game_button">SEARCH</string>
+
     <string name="search_game_hint">Search Game Title</string>
 
     <string name="placeholder_summary">This game is about staying alive and shooting them before they can shoot you.  Use a variety of household objects, improvised weapons, and guns.  You know, just go nuts.</string>
@@ -32,5 +32,6 @@
     <string name="content_description_iv_calendar">Add to Calendar</string>
     <string name="content_description_iv_favorite">Add and Remove from Wishlist</string>
     <string name="content_description_iv_rating">Rating</string>
+    <string name="content_description_search">Search</string>
 
 </resources>
