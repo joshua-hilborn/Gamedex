@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,8 +24,6 @@ import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.model.Platform;
 import com.vi.gamedex.ui.CountdownWidget;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -87,10 +86,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         holder.tvSummary.setText(gameSummary);
         holder.tvReleaseDate.setText(gameReleaseDateString);
         holder.isThisAFavorite(gameList.get(position).getId());
-
-        //Log.d(TAG, "onBindViewHolder: Name: " + gameName + "(" + gameList.get(position).getId() + ")");
-        //Log.d(TAG, "onBindViewHolder: Ratings: " + "Critic: " + criticScore + " from " + criticCount + " User: " + userScore + " from " + userCount );
-        //Log.d(TAG, "onBindViewHolder: Cover: " + imageUrl);
 
     }
 
@@ -190,7 +185,6 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             tvReleaseDate = itemView.findViewById(R.id.tv_gameListItem_ReleaseDate);
             ivFavorite = itemView.findViewById(R.id.iv_gameListItem_Favorite);
             ivCalendar = itemView.findViewById(R.id.iv_gameListItem_Calendar);
-            setFavoriteDrawable(isFavorite);
 
             itemView.setOnClickListener(this);
 
@@ -219,7 +213,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 @Override
                 public void onClick(View v) {
                     final Game clickedGame = gameList.get(getAdapterPosition());
-                    setFavoriteDrawable(!isFavorite);
+                    displayFavoriteToast(isFavorite);
 
                     // Add To Favorites/ Wishlist
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
@@ -286,24 +280,24 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 public void run() {
                     if ( gameDatabase.gameDao().loadGameById(gameId) == null) {
                         isFavorite = false;
-                        setFavoriteDrawable(isFavorite);
+                        //setFavoriteDrawable(isFavorite);
                     } else{
                         isFavorite = true;
-                        setFavoriteDrawable(isFavorite);
+                        //setFavoriteDrawable(isFavorite);
                     }
 
                 }
             });
 
-
         }
 
-        private void setFavoriteDrawable (boolean isFavorite){
-            if (isFavorite) {
-                ivFavorite.setBackgroundResource(R.drawable.ic_favorite_black_24dp);
+        private void displayFavoriteToast (boolean isFavorite){
+            if (!isFavorite) {
+                Toast.makeText(context, context.getString(R.string.toast_favorite_add), Toast.LENGTH_SHORT).show();
             } else {
-                ivFavorite.setBackgroundResource(R.drawable.ic_favorite_border_black_24dp);
+                Toast.makeText(context, context.getString(R.string.toast_favorite_del), Toast.LENGTH_SHORT).show();
             }
+
         }
 
     }
