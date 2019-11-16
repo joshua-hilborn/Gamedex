@@ -7,7 +7,7 @@
     <string name="progress_message">Fetching Games…</string>
 
 
-    <string name="search_game_hint">Search Game Title</string>
+    <string name="search_game_hint">Enter Game Name</string>
 
     <string name="placeholder_summary">This game is about staying alive and shooting them before they can shoot you.  Use a variety of household objects, improvised weapons, and guns.  You know, just go nuts.</string>
     <string name="placeholder_platform">PC | MAC | PS4 | XONE</string>
@@ -18,6 +18,8 @@
 
     <string name="toast_favorite_add">Game Added to Wishlist</string>
     <string name="toast_favorite_del">Game Removed from Wishlist</string>
+    <string name="toast_no_network">No Network Connection</string>
+    <string name="toast_no_results">No Games Found</string>
 
     <string name="widget_no_favorites">No Favorites Selected Yet!</string>
     <string name="widget_title">Gamedex Wishlist</string>

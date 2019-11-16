@@ -14,7 +14,7 @@
             android:id="@+id/iv_gameListItem_Cover"
             android:layout_width="100dp"
             android:layout_height="150dp"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
             cardview:layout_constraintStart_toStartOf="parent"
             cardview:layout_constraintTop_toTopOf="parent" />

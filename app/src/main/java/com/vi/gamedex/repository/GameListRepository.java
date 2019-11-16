@@ -2,7 +2,10 @@ package com.vi.gamedex.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -10,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;
+import com.vi.gamedex.R;
 import com.vi.gamedex.database.GameDao;
 import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.igdb.OkHttpAsyncTask;
@@ -28,6 +32,7 @@ public class GameListRepository {
     private static final String TAG = "GameListRepository: ";
 
     private static GameListRepository instance;
+    private ConnectivityManager connectivity;
     private MutableLiveData<List<Game>> gameList = new MutableLiveData<>();
     private MutableLiveData<List<Game>> searchResultsList = new MutableLiveData<>();
     private LiveData<List<Game>> favoritesList;
@@ -35,6 +40,7 @@ public class GameListRepository {
     private GameDao gameDao;
 
     GameListRepository( Application application) {
+        connectivity = (ConnectivityManager) application.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         GameDatabase gameDatabase = GameDatabase.getInstance(application);
         gameDao = gameDatabase.gameDao();
         Log.d(TAG, "GameListRepository: Loading Favorites from db" );
@@ -79,7 +85,27 @@ public class GameListRepository {
     }
 
 
-    public void queryIGDBSearch(Context context, String searchString){
+    public boolean isConnectedToInternet(){
+        if (connectivity != null)
+        {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED)
+                    {
+                        return true;
+                    }
+
+        }
+        return false;
+    }
+
+    public void queryIGDBSearch(final Context context, String searchString){
+        if ( !isConnectedToInternet() ){
+            //Log.d(TAG, "queryIGDBComingSoon: isConnectedToInternet: " + isConnectedToInternet());
+            Toast.makeText(context, context.getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
+            return;
+        }
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
@@ -95,10 +121,15 @@ public class GameListRepository {
                 try{
                     Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
-                        searchResultsList.postValue(gamesJsonAdapter.fromJson(result));
+                        if (result.equals("[]")){
+                            Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
+                        }else{
+                            searchResultsList.postValue(gamesJsonAdapter.fromJson(result));
+                        }
                     }else{
                         //handle null result
                         Log.d(TAG, "onTaskComplete: Null Result");
+                        Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (IOException e) {
@@ -110,7 +141,12 @@ public class GameListRepository {
 
     }
 
-    public void queryIGDBComingSoon(Context context, int page){
+    public void queryIGDBComingSoon(final Context context, int page){
+        if ( !isConnectedToInternet() ){
+            //Log.d(TAG, "queryIGDBComingSoon: isConnectedToInternet: " + isConnectedToInternet());
+            Toast.makeText(context, context.getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
+            return;
+        }
 
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
@@ -133,10 +169,15 @@ public class GameListRepository {
                 try{
                     Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
-                        gameList.postValue(gamesJsonAdapter.fromJson(result));
+                        if (result.equals("[]")){
+                            Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
+                        } else {
+                            gameList.postValue(gamesJsonAdapter.fromJson(result));
+                        }
                     }else{
                         //handle null result
                         Log.d(TAG, "onTaskComplete: Null Result");
+                        Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
                     }
 
                 } catch (IOException e) {

@@ -80,6 +80,10 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         final SearchView searchTextBox = (SearchView) searchItem.getActionView();
 
         searchTextBox.setQueryHint(getString(R.string.search_game_hint));
+
+        // Use these to expand the search bar and close the keyboard when tab is switched to, not sure if i like this yet.
+        //searchTextBox.setIconified(false);
+        //searchTextBox.clearFocus();
         searchTextBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
