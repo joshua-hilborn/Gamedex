@@ -151,7 +151,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 }
             }
         }
-        Log.d(TAG, "onBindViewHolder: PlatformString " + platformString);
+        //Log.d(TAG, "onBindViewHolder: PlatformString " + platformString);
         return platformString;
     }
 
@@ -220,8 +220,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                     AppExecutors.getInstance().diskIO().execute(new Runnable() {
                         @Override
                         public void run() {
-                            //Log.d(TAG, "run: Is this a favorite? : " + gameListViewModel.isThisAFavorite(clickedGame.getId()) );
-                            Log.d(TAG, "run: Is this a favorite? : " + isFavorite );
+                            //Log.d(TAG, "run: Is this a favorite? : " + isFavorite );
                             if (isFavorite){
                                 //delete from db
                                 isFavorite = false;
@@ -281,10 +280,8 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 public void run() {
                     if ( gameDatabase.gameDao().loadGameById(gameId) == null) {
                         isFavorite = false;
-                        //setFavoriteDrawable(isFavorite);
                     } else{
                         isFavorite = true;
-                        //setFavoriteDrawable(isFavorite);
                     }
 
                 }
@@ -303,7 +300,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
     }
 
-    // interface for clicking the viewholder to open detail screen
+    // interface for clicking the viewholder to open detail screen, Not yet needed
     public interface OnGameListener {
         // Send holder click to fragment
         void onGameClick (int position);
