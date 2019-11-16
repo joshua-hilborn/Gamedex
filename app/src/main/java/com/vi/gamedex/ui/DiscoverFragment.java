@@ -2,7 +2,6 @@ package com.vi.gamedex.ui;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.vi.gamedex.AppExecutors;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.model.Game;
@@ -81,6 +79,18 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_d_refresh){
             gameListViewModel.queryDiscover(getContext(), currentPage);
+        }else if (item.getItemId() == R.id.menu_d_prev){
+            if (currentPage == 0){
+                Toast.makeText(getContext(), "First Page", Toast.LENGTH_SHORT).show();
+            }else{
+                currentPage--;
+                gameListViewModel.queryDiscover(getContext(), currentPage);
+            }
+
+        }else if (item.getItemId() == R.id.menu_d_next){
+            currentPage++;
+            gameListViewModel.queryDiscover(getContext(), currentPage);
+
         }
         return true;
     }

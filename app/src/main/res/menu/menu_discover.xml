@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_d_prev"
+        android:contentDescription="@string/content_description_previous"
+        android:icon="@drawable/ic_first_page_black_24dp"
+        android:title="@string/menu_previous_title"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/menu_d_next"
+        android:contentDescription="@string/content_description_next"
+        android:icon="@drawable/ic_last_page_black_24dp"
+        android:title="@string/menu_next_title"
+        app:showAsAction="ifRoom"
+        />
+
     <item
         android:id="@+id/menu_d_refresh"
         android:contentDescription="@string/content_description_refresh"

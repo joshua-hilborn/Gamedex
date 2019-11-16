@@ -29,6 +29,8 @@
     <string name="widget_release_unknown">\u0020has no release date yet.</string>
 
     <string name="menu_refresh_title">Refresh</string>
+    <string name="menu_previous_title">Previous</string>
+    <string name="menu_next_title">Next</string>
     <string name="menu_search_title">Search</string>
     <string name="tab_discover_title">Discover</string>
     <string name="tab_search_title">Search</string>
@@ -43,6 +45,8 @@
     <string name="content_description_iv_rating">Rating</string>
     <string name="content_description_search">Search</string>
     <string name="content_description_refresh">Refresh</string>
+    <string name="content_description_previous">Previous Page</string>
+    <string name="content_description_next">Next Page</string>
     <string name="content_description_ad">Advertisement</string>
 
 
