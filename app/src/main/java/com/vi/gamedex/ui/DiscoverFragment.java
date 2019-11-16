@@ -63,7 +63,10 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         gameListAdapter = new GameListAdapter(getContext(),  this);
         recyclerView.setAdapter(gameListAdapter);
 
-        gameListViewModel.queryDiscover(getContext(), currentPage);
+        // Only query the api if the discover tab is empty, not on state change
+        if (gameListViewModel.getGameList().getValue() == null) {
+            gameListViewModel.queryDiscover(getContext(), currentPage);
+        }
 
         return rootView;
     }
