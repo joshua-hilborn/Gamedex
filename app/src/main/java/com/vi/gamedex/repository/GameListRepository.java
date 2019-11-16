@@ -165,7 +165,7 @@ public class GameListRepository {
             @Override
             public void onTaskComplete(String result) {
                 try{
-                    //Log.d(TAG, "onTaskComplete: " + result);
+                    Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
                         if (result.equals("[]")){
                             Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();

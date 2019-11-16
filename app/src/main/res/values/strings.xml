@@ -27,8 +27,6 @@
     <string name="widget_unit_days">\u0020days to go</string>
     <string name="widget_out_now">\u0020is RELEASED!</string>
     <string name="widget_release_unknown">\u0020has no release date yet.</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
 
     <string name="menu_refresh_title">Refresh</string>
     <string name="menu_search_title">Search</string>
