@@ -22,6 +22,7 @@ import com.vi.gamedex.R;
 import com.vi.gamedex.database.GameDatabase;
 import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.model.Game;
+import com.vi.gamedex.model.Genre;
 import com.vi.gamedex.model.Platform;
 import com.vi.gamedex.ui.CountdownWidget;
 
@@ -71,6 +72,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
 
         String platformString = generatePlatformString(position);
+        String genreString = generateGenreString(position);
         String ratingString = generateUserRatingString(position);
         String criticRatingString = generateCriticRatingString(position);
         String gameReleaseDateString = generateReleaseDateString(position);
@@ -87,6 +89,11 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         holder.tvRating.setText(ratingString);
         holder.tvRatingCritic.setText(criticRatingString);
         holder.tvPlatform.setText(platformString);
+        if (genreString == ""){
+            holder.tvGenre.setVisibility(View.GONE);
+        }else {
+            holder.tvGenre.setText(genreString);
+        }
         holder.tvSummary.setText(gameSummary);
         holder.tvReleaseDate.setText(gameReleaseDateString);
         holder.isThisAFavorite(gameList.get(position).getId());
@@ -144,28 +151,22 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
     }
 
-    /*
-    private String generateHighestRatingString(int position) {
-        double criticScore = gameList.get(position).getAggregatedRating();
-        int criticCount = gameList.get(position).getAggregatedRatingCount();
-        double userScore = gameList.get(position).getRating();
-        int userCount = gameList.get(position).getRatingCount();
-        String ratingString = "";
-
-        if (criticCount >= userCount){
-            if (criticCount == 0){
-                ratingString = context.getString(R.string.to_be_determined_abbreviation);
-            }else {
-                ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
+    private String generateGenreString (int position){
+        List<Genre> genreList = gameList.get(position).getGenres();
+        String genreString = "";
+        if (genreList != null){
+            for ( int i = 0; i < genreList.size(); i++){
+                genreString = genreString + genreList.get(i).getName();
+                if ( i < genreList.size() - 1 ){
+                    genreString = genreString + ", ";
+                }
             }
-        } else {
-            ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
-
         }
-        return ratingString;
+
+        Log.d(TAG, "generateGenreString: " + genreString);
+        return genreString;
     }
 
-     */
 
     private String generatePlatformString(int position) {
         List<Platform> gamePlatforms = gameList.get(position).getPlatforms();
@@ -201,7 +202,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         GameDatabase gameDatabase = GameDatabase.getInstance(context);
         OnGameListener onGameListener;
-        TextView tvName, tvPlatform, tvSummary, tvRating, tvRatingCritic, tvReleaseDate;
+        TextView tvName, tvPlatform, tvGenre, tvSummary, tvRating, tvRatingCritic, tvReleaseDate;
         ImageView ivCover, ivFavorite, ivCalendar, ivSummaryArrow;
         boolean isFavorite;
         boolean isSummaryExpanded = false;
@@ -213,6 +214,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
             tvName = itemView.findViewById(R.id.tv_gameListItem_Name);
             tvPlatform = itemView.findViewById(R.id.tv_gameListItem_Platform);
+            tvGenre = itemView.findViewById(R.id.tv_gameListItem_Genre);
             tvRating = itemView.findViewById(R.id.tv_gameListItem_Rating);
             tvSummary = itemView.findViewById(R.id.tv_gameListItem_Summary);
             ivCover = itemView.findViewById(R.id.iv_gameListItem_Cover);

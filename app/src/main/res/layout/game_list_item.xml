@@ -72,6 +72,19 @@
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
             cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Name" />
+
+        <TextView
+            android:id="@+id/tv_gameListItem_Genre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:padding="3dp"
+            android:text="@string/placeholder_genre"
+            android:textSize="12sp"
+            cardview:layout_constraintEnd_toEndOf="parent"
+            cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Platform" />
+
         <TextView
             android:id="@+id/tv_gameListItem_Summary"
             android:layout_width="0dp"
@@ -82,7 +95,7 @@
             android:textSize="12sp"
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
-            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Platform" />
+            cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Genre" />
 
         <View
             android:id="@+id/v_separator"
@@ -126,7 +139,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_primary_dark_blueGrey"
             android:padding="5dp"
-            android:text="User"
+            android:text="@string/list_item_user_title"
             android:textSize="10sp"
             cardview:layout_constraintStart_toStartOf="@id/iv_gameListItem_StarIcon"
             cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_StarIcon"
@@ -165,7 +178,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/color_primary_dark_blueGrey"
             android:padding="5dp"
-            android:text="Critic"
+            android:text="@string/list_item_critic_title"
             android:textSize="10sp"
             cardview:layout_constraintStart_toStartOf="@id/iv_gameListItem_StarIconCritic"
             cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_StarIconCritic"
