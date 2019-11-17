@@ -8,6 +8,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/iv_gameListItem_BackgroundArt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha=".2"
+            android:scaleType="centerCrop"
+            cardview:layout_constraintTop_toTopOf="parent"
+            cardview:layout_constraintBottom_toBottomOf="parent"
+            cardview:layout_constraintStart_toStartOf="parent"
+            cardview:layout_constraintEnd_toEndOf="parent"
+            />
 
         <ImageView
             android:id="@+id/iv_gameListItem_Cover"
@@ -55,18 +66,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:padding="3dp"
             android:text="@string/placeholder_name"
             android:textSize="20sp"
+            android:textStyle="bold"
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
             cardview:layout_constraintTop_toTopOf="@id/iv_gameListItem_Cover" />
+
         <TextView
             android:id="@+id/tv_gameListItem_Platform"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
-            android:padding="3dp"
+            android:paddingEnd="8dp"
+            android:padding="2dp"
             android:text="@string/placeholder_platform"
             android:textSize="14sp"
             cardview:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +93,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
-            android:padding="3dp"
+            android:paddingEnd="8dp"
+            android:padding="2dp"
             android:text="@string/placeholder_genre"
             android:textSize="12sp"
             cardview:layout_constraintEnd_toEndOf="parent"
@@ -88,11 +104,12 @@
         <TextView
             android:id="@+id/tv_gameListItem_Summary"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:paddingStart="6dp"
-            android:padding="11dp"
+            android:padding="15dp"
             android:text="@string/placeholder_summary"
             android:textSize="12sp"
+            android:textStyle="bold"
             cardview:layout_constraintEnd_toEndOf="parent"
             cardview:layout_constraintStart_toEndOf="@+id/iv_gameListItem_Cover"
             cardview:layout_constraintTop_toBottomOf="@id/tv_gameListItem_Genre" />
@@ -113,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:alpha=".7"
+            android:alpha=".9"
             android:scaleType="fitCenter"
             android:background="@drawable/ic_star_solid"
             android:backgroundTint="@color/color_primary_light_blueGrey"
@@ -152,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:alpha=".7"
+            android:alpha=".9"
             android:background="@drawable/ic_star_solid"
             android:backgroundTint="@color/color_primary_light_blueGrey"
             android:contentDescription="@string/content_description_iv_rating"
