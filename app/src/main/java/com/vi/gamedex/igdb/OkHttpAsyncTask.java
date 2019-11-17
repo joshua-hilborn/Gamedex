@@ -28,7 +28,7 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
     public OkHttpAsyncTask(Context context, OkHttpAsyncTaskCallback callback){
         this.okHttpAsyncTaskCallback = callback;
         progressDialog = new ProgressDialog(context);
-        progressDialog.setTitle(context.getString(R.string.progress_message));
+        progressDialog.setMessage(context.getString(R.string.progress_message));
     }
 
     @Override
