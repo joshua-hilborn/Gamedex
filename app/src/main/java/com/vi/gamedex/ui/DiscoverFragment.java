@@ -2,6 +2,7 @@ package com.vi.gamedex.ui;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,9 +34,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
-    private int currentPage = 0;
-    private boolean pageChanged = true;
-
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -52,8 +50,15 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
             @Override
             public void onChanged(List<Game> gameList) {
                 gameListAdapter.setGameList(gameList);
-                pageChanged = true;
+            }
+        });
 
+        gameListViewModel.getCurrentDicoverPage().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                Log.d(TAG, "onChanged: PAGE CHANGED to: " + integer);
+                // TODO
+                // update display page number here NYI
             }
         });
 
@@ -65,7 +70,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
         // Only query the api if the discover tab is empty, not on state change
         if (gameListViewModel.getGameList().getValue() == null) {
-            gameListViewModel.queryDiscover(getContext(), currentPage);
+            gameListViewModel.queryDiscover(getContext());
         }
 
         return rootView;
@@ -80,26 +85,45 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_d_refresh){
-            gameListViewModel.queryDiscover(getContext(), currentPage);
+            gameListViewModel.queryDiscover(getContext());
         }else if (item.getItemId() == R.id.menu_d_prev){
-            if (currentPage == 0){
-                Toast.makeText(getContext(), "First Page", Toast.LENGTH_SHORT).show();
-            }else if (pageChanged) {
-                pageChanged = false;
-                gameListViewModel.queryDiscover(getContext(), currentPage);
-                currentPage--;
-            }
+            decrementPage();
 
         }else if (item.getItemId() == R.id.menu_d_next){
-            if (pageChanged) {
-                currentPage++;
-                pageChanged = false;
-                gameListViewModel.queryDiscover(getContext(), currentPage);
-
-            }
-
+            incrementPage();
         }
         return true;
+    }
+
+    private void incrementPage(){
+       Integer currentPage = gameListViewModel.getCurrentDicoverPage().getValue();
+        //Log.d(TAG, "incrementPage: current Page: " + currentPage );
+       if (currentPage != null){
+           currentPage++;
+           gameListViewModel.getCurrentDicoverPage().setValue(currentPage);
+           gameListViewModel.queryDiscover(getContext());
+       } else {
+           gameListViewModel.getCurrentDicoverPage().setValue(0);
+       }
+
+    }
+
+    private void decrementPage(){
+        Integer currentPage = gameListViewModel.getCurrentDicoverPage().getValue();
+        //Log.d(TAG, "decrementPage: current Page: " + currentPage );
+        if (currentPage != null){
+            if (currentPage == 0){
+                Toast.makeText(getContext(), getString(R.string.toast_first_page), Toast.LENGTH_SHORT).show();
+                return;
+            }else {
+                currentPage--;
+                gameListViewModel.getCurrentDicoverPage().setValue(currentPage);
+                gameListViewModel.queryDiscover(getContext());
+            }
+        } else {
+            gameListViewModel.getCurrentDicoverPage().setValue(0);
+        }
+
     }
 
 

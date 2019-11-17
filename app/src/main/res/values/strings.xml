@@ -20,6 +20,7 @@
     <string name="toast_favorite_del">Removed from Wishlist</string>
     <string name="toast_no_network">No Network Connection</string>
     <string name="toast_no_results">No Games Found</string>
+    <string name="toast_first_page">First Page Reached</string>
 
     <string name="widget_no_favorites">No Favorites Selected Yet!</string>
     <string name="widget_title">Gamedex Wishlist</string>
