@@ -1,6 +1,7 @@
 package com.vi.gamedex.ui;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +32,8 @@ import java.util.List;
 public class DiscoverFragment extends Fragment implements GameListAdapter.OnGameListener {
     public static final String TAG = "DiscoverFragment: ";
 
+    private Activity activity;
+
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
@@ -44,6 +47,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         setHasOptionsMenu(true);
+        this.activity = getActivity();
 
         gameListViewModel = ViewModelProviders.of(this).get(GameListViewModel.class);
         gameListViewModel.getGameList().observe(this, new Observer<List<Game>>() {
@@ -56,9 +60,14 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         gameListViewModel.getCurrentDicoverPage().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                Log.d(TAG, "onChanged: PAGE CHANGED to: " + integer);
-                // TODO
-                // update display page number here NYI
+                //Log.d(TAG, "onChanged: PAGE CHANGED to: " + integer);
+                // Send page number to MainActivity
+                try{
+                    ((PageNumberListener) activity).onPageChanged(integer);
+                }catch (ClassCastException cce){
+                    cce.printStackTrace();
+
+                }
             }
         });
 
@@ -129,9 +138,11 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     @Override
     public void onGameClick(int position) {
-        // Detail Activity NYI
-        //Toast.makeText(getActivity(), gameListViewModel.getGameList().getValue().get(position).getName() + " Clicked", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public interface PageNumberListener{
+        void onPageChanged(int page);
     }
 
 

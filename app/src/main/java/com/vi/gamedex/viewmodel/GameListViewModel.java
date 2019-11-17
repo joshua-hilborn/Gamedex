@@ -35,7 +35,7 @@ public class GameListViewModel extends AndroidViewModel {
 
     }
 
-    
+
     public MutableLiveData<Integer> getCurrentDicoverPage(){
         return currentDicoverPage;
     }

@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.PageAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DiscoverFragment.PageNumberListener {
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -62,4 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onPageChanged(int page) {
+        int displayPage = page + 1;
+        tabLayout.getTabAt(0).setText(getString(R.string.tab_discover_title) + " (" + displayPage + ")");
+    }
 }
