@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Gamedex</string>
 
-    <string name="to_be_determined_abbreviation">TBD</string>
-    <string name="rating_unavailable">N/A</string>
+    <string name="na_not_available">N/A</string>
     <string name="summary_unavailable">Summary Unavailable</string>
     <string name="progress_message">Fetching Games…</string>
 
@@ -17,8 +16,8 @@
 
     <string name="release">Release</string>
 
-    <string name="toast_favorite_add">Game Added to Wishlist</string>
-    <string name="toast_favorite_del">Game Removed from Wishlist</string>
+    <string name="toast_favorite_add">Added to Wishlist</string>
+    <string name="toast_favorite_del">Removed from Wishlist</string>
     <string name="toast_no_network">No Network Connection</string>
     <string name="toast_no_results">No Games Found</string>
 

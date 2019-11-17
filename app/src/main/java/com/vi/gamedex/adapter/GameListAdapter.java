@@ -100,13 +100,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         holder.tvRating.setText(ratingString);
         holder.tvRating.setAlpha(1f);
-        if ( ratingString.equals("TBD") ){
+        if ( ratingString.equals("N/A") ){
             holder.tvRating.setAlpha(.3f);
         }
 
         holder.tvRatingCritic.setText(criticRatingString);
         holder.tvRatingCritic.setAlpha(1f);
-        if ( criticRatingString.equals("TBD") ){
+        if ( criticRatingString.equals("N/A") ){
             holder.tvRatingCritic.setAlpha(.3f);
         }
 
@@ -123,7 +123,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         holder.tvReleaseDate.setText(gameReleaseDateString);
         holder.tvReleaseDate.setAlpha(1f);
-        if ( gameReleaseDateString.equals("TBD") ){
+        if ( gameReleaseDateString.equals("N/A") ){
             holder.tvReleaseDate.setAlpha(.3f);
         }
 
@@ -171,7 +171,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
     private String generateReleaseDateString(int position) {
         int gameReleaseDateTimeStamp = gameList.get(position).getFirstReleaseDate();
         //Log.d(TAG, "onBindViewHolder: Release Timestamp: " + gameReleaseDateTimeStamp);
-        String gameReleaseDateString = context.getString(R.string.to_be_determined_abbreviation);
+        String gameReleaseDateString = context.getString(R.string.na_not_available);
         if (gameReleaseDateTimeStamp != 0){
             SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
             gameReleaseDateString = sdf.format( (long) gameReleaseDateTimeStamp * 1000 );
@@ -185,7 +185,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         int userCount = gameList.get(position).getRatingCount();
         String ratingString = "";
         if (userCount == 0){
-            ratingString = context.getString(R.string.to_be_determined_abbreviation);
+            ratingString = context.getString(R.string.na_not_available);
         }else {
             ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
         }
@@ -198,7 +198,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         int criticCount = gameList.get(position).getAggregatedRatingCount();
         String ratingString = "";
         if (criticCount == 0){
-            ratingString = context.getString(R.string.to_be_determined_abbreviation);
+            ratingString = context.getString(R.string.na_not_available);
         }else {
             ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
         }

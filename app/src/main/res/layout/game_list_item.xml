@@ -145,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/rating_unavailable"
+            android:text="@string/na_not_available"
             android:textSize="18sp"
             cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_StarIcon"
             cardview:layout_constraintTop_toBottomOf="@id/v_separator"/>
@@ -185,7 +185,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/rating_unavailable"
+            android:text="@string/na_not_available"
             android:textSize="18sp"
             cardview:layout_constraintStart_toEndOf="@id/iv_gameListItem_StarIconCritic"
             cardview:layout_constraintTop_toBottomOf="@id/v_separator"
