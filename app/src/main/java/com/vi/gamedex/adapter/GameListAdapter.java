@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,16 +97,36 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         // set TextViews
         holder.tvName.setText(gameName);
+
         holder.tvRating.setText(ratingString);
+        holder.tvRating.setAlpha(1f);
+        if ( ratingString.equals("TBD") ){
+            holder.tvRating.setAlpha(.3f);
+        }
+
         holder.tvRatingCritic.setText(criticRatingString);
+        holder.tvRatingCritic.setAlpha(1f);
+        if ( criticRatingString.equals("TBD") ){
+            holder.tvRatingCritic.setAlpha(.3f);
+        }
+
         holder.tvPlatform.setText(platformString);
+
         if (genreString == ""){
             holder.tvGenre.setVisibility(View.GONE);
         }else {
             holder.tvGenre.setText(genreString);
         }
+
         holder.tvSummary.setText(gameSummary);
+
+
         holder.tvReleaseDate.setText(gameReleaseDateString);
+        holder.tvReleaseDate.setAlpha(1f);
+        if ( gameReleaseDateString.equals("TBD") ){
+            holder.tvReleaseDate.setAlpha(.3f);
+        }
+
         holder.isThisAFavorite(gameList.get(position).getId());
         holder.ivCover.setContentDescription(gameName + " " + context.getString(R.string.content_description_iv_cover));
 
@@ -271,34 +292,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
              */
 
-
             itemView.setOnClickListener(this);
-
-            tvSummary.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (isSummaryExpanded){
-                        isSummaryExpanded = false;
-                        ivBackground.setVisibility(View.VISIBLE);
-                        final float scale = context.getResources().getDisplayMetrics().density;
-                        int pixels = (int) (60 * scale + 0.5f);
-                        ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
-                        layoutParams.height = pixels;
-                        tvSummary.setLayoutParams(layoutParams);
-                        ivSummaryArrow.setRotation(0);
-
-                    }else {
-                        isSummaryExpanded = true;
-                        ivBackground.setVisibility(View.INVISIBLE);
-                        ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
-                        layoutParams.height = layoutParams.WRAP_CONTENT;
-                        tvSummary.setLayoutParams(layoutParams);
-                        ivSummaryArrow.setRotation(180);
-                    }
-
-                }
-            });
 
             ivFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -358,8 +352,34 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             });
         }
 
+        private void toggleExpandedMode() {
+            if (isSummaryExpanded){
+                //Small Mode
+                isSummaryExpanded = false;
+                ivBackground.setVisibility(View.VISIBLE);
+                tvSummary.setTypeface(null, Typeface.BOLD);
+                final float scale = context.getResources().getDisplayMetrics().density;
+                int pixels = (int) (60 * scale + 0.5f);
+                ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
+                layoutParams.height = pixels;
+                tvSummary.setLayoutParams(layoutParams);
+                ivSummaryArrow.setRotation(0);
+
+            }else {
+                //Big Mode
+                isSummaryExpanded = true;
+                ivBackground.setVisibility(View.INVISIBLE);
+                tvSummary.setTypeface(null, Typeface.NORMAL);
+                ViewGroup.LayoutParams layoutParams = tvSummary.getLayoutParams();
+                layoutParams.height = layoutParams.WRAP_CONTENT;
+                tvSummary.setLayoutParams(layoutParams);
+                ivSummaryArrow.setRotation(180);
+            }
+        }
+
         @Override
         public void onClick(View v) {
+            toggleExpandedMode();
             onGameListener.onGameClick(getAdapterPosition());
 
         }

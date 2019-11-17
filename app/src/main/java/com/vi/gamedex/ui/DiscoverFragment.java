@@ -34,6 +34,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
     private int currentPage = 0;
+    private boolean pageChanged = true;
 
 
     public DiscoverFragment() {
@@ -51,6 +52,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
             @Override
             public void onChanged(List<Game> gameList) {
                 gameListAdapter.setGameList(gameList);
+                pageChanged = true;
 
             }
         });
@@ -82,14 +84,19 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         }else if (item.getItemId() == R.id.menu_d_prev){
             if (currentPage == 0){
                 Toast.makeText(getContext(), "First Page", Toast.LENGTH_SHORT).show();
-            }else{
-                currentPage--;
+            }else if (pageChanged) {
+                pageChanged = false;
                 gameListViewModel.queryDiscover(getContext(), currentPage);
+                currentPage--;
             }
 
         }else if (item.getItemId() == R.id.menu_d_next){
-            currentPage++;
-            gameListViewModel.queryDiscover(getContext(), currentPage);
+            if (pageChanged) {
+                currentPage++;
+                pageChanged = false;
+                gameListViewModel.queryDiscover(getContext(), currentPage);
+
+            }
 
         }
         return true;
