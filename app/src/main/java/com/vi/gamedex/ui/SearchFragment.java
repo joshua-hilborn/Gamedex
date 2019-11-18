@@ -73,7 +73,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search, menu);
 
         final MenuItem searchItem = menu.findItem(R.id.menu_s_search);

@@ -62,7 +62,6 @@ public class OkHttpAsyncTask extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
         return null;
-
     }
 
     @Override

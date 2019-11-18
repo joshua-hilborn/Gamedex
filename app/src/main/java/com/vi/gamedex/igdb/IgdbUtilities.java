@@ -38,6 +38,4 @@ micro	        35 x 35	    Thumb, Center gravity
     public static final String IGDB_IMAGE_SIZE_35x35 = "micro/";
     public static final String IGDB_IMAGE_SIZE_1280x720p = "720p/";
     public static final String IGDB_IMAGE_SIZE_1920x1080 = "1080p/";
-
-
 }

@@ -60,7 +60,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         gameListViewModel.getCurrentDicoverPage().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                //Log.d(TAG, "onChanged: PAGE CHANGED to: " + integer);
                 // Send page number to MainActivity
                 try{
                     ((PageNumberListener) activity).onPageChanged(integer);
@@ -81,13 +80,11 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         if (gameListViewModel.getGameList().getValue() == null) {
             gameListViewModel.queryDiscover(getContext());
         }
-
         return rootView;
     }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_discover, menu);
     }
 
@@ -106,7 +103,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     private void incrementPage(){
        Integer currentPage = gameListViewModel.getCurrentDicoverPage().getValue();
-        //Log.d(TAG, "incrementPage: current Page: " + currentPage );
        if (currentPage != null){
            currentPage++;
            gameListViewModel.getCurrentDicoverPage().setValue(currentPage);
@@ -119,7 +115,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     private void decrementPage(){
         Integer currentPage = gameListViewModel.getCurrentDicoverPage().getValue();
-        //Log.d(TAG, "decrementPage: current Page: " + currentPage );
         if (currentPage != null){
             if (currentPage == 0){
                 Toast.makeText(getContext(), getString(R.string.toast_first_page), Toast.LENGTH_SHORT).show();

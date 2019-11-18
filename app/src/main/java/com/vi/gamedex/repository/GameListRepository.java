@@ -43,7 +43,6 @@ public class GameListRepository {
         connectivity = (ConnectivityManager) application.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         GameDatabase gameDatabase = GameDatabase.getInstance(application);
         gameDao = gameDatabase.gameDao();
-        //Log.d(TAG, "GameListRepository: Loading Favorites from db" );
         favoritesList = gameDao.loadAllGameFavorites();
     }
 
@@ -100,7 +99,6 @@ public class GameListRepository {
 
     public void queryIGDBSearch(final Context context, String searchString){
         if ( !isConnectedToInternet() ){
-            //Log.d(TAG, "queryIGDBComingSoon: isConnectedToInternet: " + isConnectedToInternet());
             Toast.makeText(context, context.getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
             return;
         }
@@ -126,7 +124,7 @@ public class GameListRepository {
                         }
                     }else{
                         //handle null result
-                        Log.d(TAG, "onTaskComplete: Null Result");
+                        //Log.d(TAG, "onTaskComplete: Null Result");
                         Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
                     }
 
@@ -141,7 +139,6 @@ public class GameListRepository {
 
     public void queryIGDBComingSoon(final Context context, int page){
         if ( !isConnectedToInternet() ){
-            //Log.d(TAG, "queryIGDBComingSoon: isConnectedToInternet: " + isConnectedToInternet());
             Toast.makeText(context, context.getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
             return;
         }
@@ -165,7 +162,7 @@ public class GameListRepository {
             @Override
             public void onTaskComplete(String result) {
                 try{
-                    Log.d(TAG, "onTaskComplete: " + result);
+                    //Log.d(TAG, "onTaskComplete: " + result);
                     if (result != null){
                         if (result.equals("[]")){
                             Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
@@ -174,7 +171,7 @@ public class GameListRepository {
                         }
                     }else{
                         //handle null result
-                        Log.d(TAG, "onTaskComplete: Null Result");
+                        //Log.d(TAG, "onTaskComplete: Null Result");
                         Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
                     }
 

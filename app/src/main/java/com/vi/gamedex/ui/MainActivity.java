@@ -38,20 +38,17 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         DateFormat format = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault());
-
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
         firebaseAnalytics.logEvent("ActivityStart", bundle);
 
-
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(toolbar);
-
-
 
         tabLayout = findViewById(R.id.tl_main);
         viewPager = findViewById(R.id.vp_main);

@@ -26,8 +26,6 @@ public class CountdownWidget extends AppWidgetProvider {
     static void updateAppWidget(final Context context, final AppWidgetManager appWidgetManager, final int appWidgetId) {
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.countdown_widget);
 
-
-
         new AsyncTask<Context, Void, List<Game>>(){
 
             @Override
@@ -54,13 +52,9 @@ public class CountdownWidget extends AppWidgetProvider {
                                     context.getString(R.string.widget_release_unknown) + "\n";
                             continue;
                         }
-                        //Log.d(TAG, "onPostExecute: releaseDateMillis: " + releaseDate.getTime());
 
                         long diff = releaseDate.getTime() - currenDate.getTime();
-                        //Log.d(TAG, "onPostExecute: diff: "+ diff);
-
                         long days = 1 + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-                        //Log.d(TAG, "onPostExecute: days: " + days);
 
                         if (days <=1 ){
                             widgetText = widgetText + (i+1) + ") " + gameList.get(i).getName() + "\n\t" +
@@ -68,11 +62,7 @@ public class CountdownWidget extends AppWidgetProvider {
                         }else {
                             widgetText = widgetText + (i+1) + ") " + gameList.get(i).getName() + "\n\t" +
                                     days + context.getString(R.string.widget_unit_days) +"\n";
-                                    //context.getString(R.string.widget_out_in) +
-                                    //days + context.getString(R.string.widget_unit_days) +"\n";
-
                         }
-
                     }
 
                 } else {
@@ -83,33 +73,8 @@ public class CountdownWidget extends AppWidgetProvider {
 
                 // Instruct the widget manager to update the widget
                 appWidgetManager.updateAppWidget(appWidgetId, views);
-
-
             }
         }.execute(context);
-        /*
-        AppExecutors.getInstance().diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                List<Game> favoritesList = gameDatabase.gameDao().loadFavoritesListForWidget();
-
-
-            }
-        });
-
-         */
-
-
-
-
-
-        //CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-
-        //views.setTextViewText(R.id.appwidget_text, widgetText);
-
-        // Instruct the widget manager to update the widget
-        //appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     public static void updateCountdownWidgets (Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds){
