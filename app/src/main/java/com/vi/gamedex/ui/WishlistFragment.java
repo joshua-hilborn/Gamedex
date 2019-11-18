@@ -42,6 +42,23 @@ public class WishlistFragment extends Fragment implements GameListAdapter.OnGame
         final View rootView = inflater.inflate(R.layout.fragment_wishlist, container, false);
         setHasOptionsMenu(true);
 
+        setupViewModel();
+
+        setupRecyclerView(rootView);
+
+        // Inflate the layout for this fragment
+        return rootView;
+    }
+
+    private void setupRecyclerView(View rootView) {
+        recyclerView = rootView.findViewById(R.id.rv_wishlist);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        gameListAdapter = new GameListAdapter( getContext(), this);
+        recyclerView.setAdapter(gameListAdapter);
+    }
+
+    private void setupViewModel() {
         gameListViewModel = ViewModelProviders.of(this).get(GameListViewModel.class);
         gameListViewModel.getFavoritesList().observe(this, new Observer<List<Game>>() {
             @Override
@@ -50,15 +67,6 @@ public class WishlistFragment extends Fragment implements GameListAdapter.OnGame
 
             }
         });
-
-        recyclerView = rootView.findViewById(R.id.rv_wishlist);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter( getContext(), this);
-        recyclerView.setAdapter(gameListAdapter);
-
-        // Inflate the layout for this fragment
-        return rootView;
     }
 
     @Override

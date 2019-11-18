@@ -49,6 +49,32 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         setHasOptionsMenu(true);
         this.activity = getActivity();
 
+        setupViewModel();
+
+        setupRecyclerView(rootView);
+
+        queryIfEmpty();
+
+        return rootView;
+    }
+
+    private void queryIfEmpty() {
+        // Only query the api if the discover tab is empty, not on state change
+        if (gameListViewModel.getGameList().getValue() == null) {
+            gameListViewModel.queryDiscover(getContext());
+        }
+    }
+
+    private void setupRecyclerView(View rootView) {
+        //Initialize the recyclerview
+        recyclerView = rootView.findViewById(R.id.rv_discover);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        gameListAdapter = new GameListAdapter(getContext(),  this);
+        recyclerView.setAdapter(gameListAdapter);
+    }
+
+    private void setupViewModel() {
         gameListViewModel = ViewModelProviders.of(this).get(GameListViewModel.class);
         gameListViewModel.getGameList().observe(this, new Observer<List<Game>>() {
             @Override
@@ -56,7 +82,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                 gameListAdapter.setGameList(gameList);
             }
         });
-
         gameListViewModel.getCurrentDicoverPage().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
@@ -69,18 +94,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                 }
             }
         });
-
-        recyclerView = rootView.findViewById(R.id.rv_discover);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter(getContext(),  this);
-        recyclerView.setAdapter(gameListAdapter);
-
-        // Only query the api if the discover tab is empty, not on state change
-        if (gameListViewModel.getGameList().getValue() == null) {
-            gameListViewModel.queryDiscover(getContext());
-        }
-        return rootView;
     }
 
     @Override

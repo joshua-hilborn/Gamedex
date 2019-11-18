@@ -47,6 +47,23 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         setHasOptionsMenu(true);
 
+        setupViewModel();
+
+        setupRecyclerView(rootView);
+
+        return rootView;
+
+    }
+
+    private void setupRecyclerView(View rootView) {
+        recyclerView = rootView.findViewById(R.id.rv_search);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+        gameListAdapter = new GameListAdapter(getContext(), this);
+        recyclerView.setAdapter(gameListAdapter);
+    }
+
+    private void setupViewModel() {
         gameListViewModel = ViewModelProviders.of(this).get(GameListViewModel.class);
         gameListViewModel.getSearchResultsList().observe(this, new Observer<List<Game>>() {
             @Override
@@ -55,15 +72,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
             }
         });
-
-        recyclerView = rootView.findViewById(R.id.rv_search);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setHasFixedSize(true);
-        gameListAdapter = new GameListAdapter(getContext(), this);
-        recyclerView.setAdapter(gameListAdapter);
-
-        return rootView;
-
     }
 
     private void performSearch(String searchString) {
