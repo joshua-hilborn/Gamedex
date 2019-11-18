@@ -38,18 +38,16 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        DateFormat format = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault());
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
-        firebaseAnalytics.logEvent("ActivityStart", bundle);
+        setupAnalytics();
+        setupViews();
+        setupAdmob();
+        updateWidgets();
+    }
 
+    private void setupViews() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(toolbar);
-
         tabLayout = findViewById(R.id.tl_main);
         viewPager = findViewById(R.id.vp_main);
         pageAdapter = new PageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -58,7 +56,15 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
         viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
         // Sync tabs with viewpager
         tabLayout.setupWithViewPager(viewPager);
+    }
 
+    private void updateWidgets() {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, CountdownWidget.class));
+        CountdownWidget.updateCountdownWidgets(this, appWidgetManager, appWidgetIds);
+    }
+
+    private void setupAdmob() {
         // Setup Admob Banner
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -69,11 +75,15 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
         adView = findViewById(R.id.av_main);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+    }
 
-        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, CountdownWidget.class));
-        CountdownWidget.updateCountdownWidgets(this, appWidgetManager, appWidgetIds);
-
+    private void setupAnalytics() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        DateFormat format = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault());
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
+        firebaseAnalytics.logEvent("ActivityStart", bundle);
     }
 
     @Override
