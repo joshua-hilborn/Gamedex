@@ -14,10 +14,18 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.PageAdapter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements DiscoverFragment.PageNumberListener {
+
+    private FirebaseAnalytics firebaseAnalytics;
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -30,6 +38,15 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        DateFormat format = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault());
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
+        firebaseAnalytics.logEvent("ActivityStart", bundle);
+
+
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));
         setSupportActionBar(toolbar);

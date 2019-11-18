@@ -14,3 +14,4 @@
 .cxx
 /gradle.properties
 *.jks
+app/google-services.json
