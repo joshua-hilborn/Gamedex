@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        release {
-            storeFile file("$rootDir/keystore.jks")
+        reviewer {
+            storeFile file("$rootDir/reviewer.jks")
             storePassword sPw
-            keyAlias = 'vi'
+            keyAlias = 'reviewKey'
             keyPassword kPw
         }
     }
@@ -24,7 +24,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.reviewer
         }
     }
 }
