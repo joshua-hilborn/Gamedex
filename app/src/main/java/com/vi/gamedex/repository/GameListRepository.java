@@ -57,6 +57,7 @@ public class GameListRepository {
         return favoritesList;
     }
 
+    /*
     public Game loadGameById (int gameId){
         return gameDao.loadGameById(gameId);
     }
@@ -68,6 +69,8 @@ public class GameListRepository {
     public void deleteGameFromFavorites ( Game game ){
         gameDao.deleteGame(game);
     }
+
+     */
 
 
     public void addDiscoverSource(LiveData<List<Game>> data) {

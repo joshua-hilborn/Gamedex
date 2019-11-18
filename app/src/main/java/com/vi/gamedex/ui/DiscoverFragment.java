@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.igdb.IgdbReceiver;
+import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.igdb.QueryIgdbService;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.repository.GameListRepository;
@@ -203,10 +204,10 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
         int offset = page * IGDB_API_PAGE_LIMIT;
         String body = IGDB_API_GAMELIST_FIELDS +
-                "where first_release_date > " + currentTimestamp + ";" +
-                "sort first_release_date asc;" +
-                "limit " + IGDB_API_PAGE_LIMIT + "; " +
-                "offset " + offset + ";"; // add offset 50 to start at page 2
+            IgdbUtilities.IGDB_WHERE_RELEASE_DATE_GREATER + currentTimestamp + IgdbUtilities.IGDB_SEMICOLON +
+                IgdbUtilities.IGDB_SORT_RELEASE_DATE_ASC +
+                IgdbUtilities.IGDB_API_KEYWORD_LIMIT + IGDB_API_PAGE_LIMIT + "; " +
+                IgdbUtilities.IGDB_API_KEYWORD_OFFSET + offset + IgdbUtilities.IGDB_SEMICOLON; // add offset 50 to start at page 2
 
         Intent queryIntent = new Intent(getContext(), QueryIgdbService.class);
         queryIntent.putExtra(QueryIgdbService.EXTRA_ENDPOINT, IGDB_ENDPOINT_GAMES);

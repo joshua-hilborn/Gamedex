@@ -5,6 +5,8 @@
     <string name="na_not_available">N/A</string>
     <string name="summary_unavailable">Summary Unavailable</string>
     <string name="progress_message">Fetching Games…</string>
+    <string name="genre_seperator">,\u0020</string>
+    <string name="platform_separator">\u0020|\u0020</string>
 
     <string name="search_game_hint">Enter Game Name</string>
 
@@ -28,6 +30,7 @@
     <string name="widget_unit_days">\u0020days to go</string>
     <string name="widget_out_now">\u0020is RELEASED!</string>
     <string name="widget_release_unknown">\u0020has no release date yet.</string>
+    <string name="widget_parenthesis_separator">)\u0020</string>
 
     <string name="menu_refresh_title">Refresh</string>
     <string name="menu_previous_title">Previous</string>
@@ -38,6 +41,8 @@
     <string name="tab_wishlist_title">Wishlist</string>
     <string name="list_item_critic_title">Critic</string>
     <string name="list_item_user_title">User</string>
+    <string name="tab_discover_title_open_parenthesis">\u0020(</string>
+    <string name="tab_discover_title_close_parenthesis">)</string>
 
     <string name="content_description_tab_discover">Discover Tab</string>
     <string name="content_description_tab_search">Search Tab</string>

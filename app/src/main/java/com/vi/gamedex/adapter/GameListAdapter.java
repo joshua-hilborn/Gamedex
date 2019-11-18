@@ -38,6 +38,8 @@ import java.util.Random;
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameViewHolder> {
 
     private static final String TAG = "GameListAdapter: ";
+    private static final String RATING_STRING_FORMAT = "%.1f";
+    private static final String RELEASE_DATE_FORMAT = "MMM dd, yyyy";
     private Context context;
     private List<Game> gameList;
     private OnGameListener onGameListener;
@@ -97,13 +99,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
         holder.tvRating.setText(ratingString);
         holder.tvRating.setAlpha(1f);
-        if ( ratingString.equals("N/A") ){
+        if ( ratingString.equals(context.getString(R.string.na_not_available)) ){
             holder.tvRating.setAlpha(.3f);
         }
 
         holder.tvRatingCritic.setText(criticRatingString);
         holder.tvRatingCritic.setAlpha(1f);
-        if ( criticRatingString.equals("N/A") ){
+        if ( criticRatingString.equals(context.getString(R.string.na_not_available)) ){
             holder.tvRatingCritic.setAlpha(.3f);
         }
 
@@ -118,7 +120,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         holder.tvSummary.setText(gameSummary);
         holder.tvReleaseDate.setText(gameReleaseDateString);
         holder.tvReleaseDate.setAlpha(1f);
-        if ( gameReleaseDateString.equals("N/A") ){
+        if ( gameReleaseDateString.equals(context.getString(R.string.na_not_available)) ){
             holder.tvReleaseDate.setAlpha(.3f);
         }
         holder.isThisAFavorite(gameList.get(position).getId());
@@ -162,7 +164,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         int gameReleaseDateTimeStamp = gameList.get(position).getFirstReleaseDate();
         String gameReleaseDateString = context.getString(R.string.na_not_available);
         if (gameReleaseDateTimeStamp != 0){
-            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+            SimpleDateFormat sdf = new SimpleDateFormat(RELEASE_DATE_FORMAT, Locale.getDefault());
             gameReleaseDateString = sdf.format( (long) gameReleaseDateTimeStamp * 1000 );
 
         }
@@ -176,7 +178,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         if (userCount == 0){
             ratingString = context.getString(R.string.na_not_available);
         }else {
-            ratingString = String.format(Locale.getDefault(), "%.1f", userScore / 10);
+            ratingString = String.format(Locale.getDefault(), RATING_STRING_FORMAT, userScore / 10);
         }
         return ratingString;
     }
@@ -188,7 +190,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         if (criticCount == 0){
             ratingString = context.getString(R.string.na_not_available);
         }else {
-            ratingString = String.format(Locale.getDefault(), "%.1f", criticScore / 10);
+            ratingString = String.format(Locale.getDefault(), RATING_STRING_FORMAT, criticScore / 10);
         }
         return ratingString;
 
@@ -201,7 +203,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             for ( int i = 0; i < genreList.size(); i++){
                 genreString = genreString + genreList.get(i).getName();
                 if ( i < genreList.size() - 1 ){
-                    genreString = genreString + ", ";
+                    genreString = genreString + context.getString(R.string.genre_seperator);
                 }
             }
         }
@@ -222,7 +224,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                 }
 
                 if ( i < gamePlatforms.size() - 1 ){
-                    platformString = platformString + " | ";
+                    platformString = platformString + context.getString(R.string.platform_separator);
                 }
             }
         }
@@ -240,6 +242,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
 
 
     public class GameViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private static final String VND_ANDROID_CURSOR_ITEM_EVENT = "vnd.android.cursor.item/event";
         GameDatabase gameDatabase = GameDatabase.getInstance(context);
         OnGameListener onGameListener;
         TextView tvName, tvPlatform, tvGenre, tvSummary, tvRating, tvRatingCritic, tvReleaseDate;
@@ -308,7 +311,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
                     Date releaseDate = new Date( (long) releaseDateTimeStamp * 1000 );
 
                     Intent intent = new Intent(Intent.ACTION_EDIT);
-                    intent.setType("vnd.android.cursor.item/event");
+                    intent.setType(VND_ANDROID_CURSOR_ITEM_EVENT);
                     intent.putExtra(CalendarContract.Events.TITLE, strTitle);
                     intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, releaseDate.getTime());
                     intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, releaseDate.getTime());

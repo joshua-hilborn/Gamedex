@@ -24,7 +24,7 @@ public abstract class GameDatabase extends RoomDatabase {
     public static GameDatabase getInstance( Context context){
         if (instance == null){
             synchronized (LOCK){
-                Log.d(TAG, "getInstance: Creating new database instance");
+                //Log.d(TAG, "getInstance: Creating new database instance");
                 instance = Room.databaseBuilder(
                         context.getApplicationContext(),
                         GameDatabase.class,
@@ -32,11 +32,9 @@ public abstract class GameDatabase extends RoomDatabase {
                         .build();
             }
         }
-        Log.d(TAG, "getInstance: Getting database instance");
+        //Log.d(TAG, "getInstance: Getting database instance");
         return instance;
-
     }
 
     public abstract GameDao gameDao();
-
 }

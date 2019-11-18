@@ -31,5 +31,4 @@ public interface GameDao {
 
     @Query("SELECT * FROM gameFavorites WHERE id = :id")
     Game loadGameById(int id);
-
 }

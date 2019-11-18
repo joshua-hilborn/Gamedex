@@ -20,6 +20,7 @@ import java.util.List;
 public class IgdbReceiver extends BroadcastReceiver {
     public static final String TAG = "IgdbReceiver";
     public static final String ACTION_RESPONSE = "com.vi.gamedex.intent.action.RESPONSE_RECEIVED";
+    public static final String EMPTY_RESULT_BRACKETS = "[]";
 
     private final MutableLiveData<List<Game>> receivedData = new MutableLiveData<>();
 
@@ -46,7 +47,7 @@ public class IgdbReceiver extends BroadcastReceiver {
 
         try {
             if (resultString != null){
-                if (resultString.equals("[]")){
+                if (resultString.equals(EMPTY_RESULT_BRACKETS)){
                     //Log.d(TAG, "onReceive: no result? " + resultString);
                     Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
                 } else {

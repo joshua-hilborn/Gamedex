@@ -25,6 +25,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements DiscoverFragment.PageNumberListener {
     private static final String TAG = "MainActivity: ";
+    public static final String ACTIVITY_START = "ActivityStart";
+    public static final String MAIN_ACTIVITY = "MainActivity";
+    public static final String ANALYTICS_TIMESTAMP_FORMAT = "ddMMyyyyhhmmss";
 
     private FirebaseAnalytics firebaseAnalytics;
 
@@ -80,16 +83,16 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
 
     private void setupAnalytics() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        DateFormat format = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault());
+        DateFormat format = new SimpleDateFormat(ANALYTICS_TIMESTAMP_FORMAT, Locale.getDefault());
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "MainActivity");
-        firebaseAnalytics.logEvent("ActivityStart", bundle);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, MAIN_ACTIVITY);
+        firebaseAnalytics.logEvent(ACTIVITY_START, bundle);
     }
 
     @Override
     public void onPageChanged(int page) {
         int displayPage = page + 1;
-        tabLayout.getTabAt(0).setText(getString(R.string.tab_discover_title) + " (" + displayPage + ")");
+        tabLayout.getTabAt(0).setText(getString(R.string.tab_discover_title) + getString(R.string.tab_discover_title_open_parenthesis) + displayPage + getString(R.string.tab_discover_title_close_parenthesis));
     }
 }

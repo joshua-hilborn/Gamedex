@@ -12,6 +12,9 @@ import com.vi.gamedex.ui.WishlistFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
 
+    private static final String TITLE_DISCOVER = "Discover";
+    private static final String TITLE_SEARCH = "Search";
+    private static final String TITLE_WISHLIST = "Wishlist";
     private int numberOfTabs;
 
     public PageAdapter(FragmentManager fm, int numTabs){
@@ -35,21 +38,24 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     }
 
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         //return super.getPageTitle(position);
         switch (position){
             case 0:
-                return "Discover";
+                return TITLE_DISCOVER;
             case 1:
-                return "Search";
+                return TITLE_SEARCH;
             case 2:
-                return "Wishlist";
+                return TITLE_WISHLIST;
             default:
                 return null;
         }
     }
+
+
 
     @Override
     public int getCount() {

@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
 import com.vi.gamedex.igdb.IgdbReceiver;
+import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.igdb.QueryIgdbService;
 import com.vi.gamedex.model.Game;
 import com.vi.gamedex.repository.GameListRepository;
@@ -154,8 +155,8 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
             return;
         }
 
-        String query = "search \""+ searchString +"\";";
-        String limit = "limit " + IGDB_API_PAGE_LIMIT + ";";
+        String query = IgdbUtilities.IGDB_API_KEYWORD_SEARCH_OPEN + searchString + IgdbUtilities.IGDB_API_KEYWORD_SEARCH_CLOSE;
+        String limit = IgdbUtilities.IGDB_API_KEYWORD_LIMIT + IGDB_API_PAGE_LIMIT + IgdbUtilities.IGDB_SEMICOLON;
         String body = IGDB_API_GAMELIST_FIELDS + " " + query + " " + limit;
 
         Intent queryIntent = new Intent(getContext(), QueryIgdbService.class);

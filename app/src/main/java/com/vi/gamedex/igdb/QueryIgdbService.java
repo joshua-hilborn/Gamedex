@@ -23,6 +23,7 @@ public class QueryIgdbService extends IntentService {
     public static final String EXTRA_ENDPOINT = "requestEndpoint";
     public static final String EXTRA_BODY = "requestBody";
     public static final String EXTRA_RESPONSE = "responseJson";
+    public static final String TEXT_PLAIN = "text/plain";
 
     private final OkHttpClient okHttpClient = new OkHttpClient();
 
@@ -51,7 +52,7 @@ public class QueryIgdbService extends IntentService {
 
         String responseString = "";
 
-        MediaType mediaType = MediaType.parse("text/plain");
+        MediaType mediaType = MediaType.parse(TEXT_PLAIN);
         RequestBody body = RequestBody.create(bodyString, mediaType);
         Request request = new Request.Builder()
                 .url(IgdbUtilities.IGDB_BASE_URL + endpoint)

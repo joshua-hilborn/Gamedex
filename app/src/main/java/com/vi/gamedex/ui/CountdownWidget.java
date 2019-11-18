@@ -48,7 +48,7 @@ public class CountdownWidget extends AppWidgetProvider {
                         Date releaseDate = new Date( (long) releaseDateTimeStamp * 1000 );
 
                         if (releaseDate.getTime() == 0){
-                            widgetText = widgetText + (i+1) + ") " + gameList.get(i).getName() + "\n\t" +
+                            widgetText = widgetText + (i+1) + context.getString(R.string.widget_parenthesis_separator) + gameList.get(i).getName() + "\n\t" +
                                     context.getString(R.string.widget_release_unknown) + "\n";
                             continue;
                         }
@@ -57,10 +57,10 @@ public class CountdownWidget extends AppWidgetProvider {
                         long days = 1 + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
                         if (days <=1 ){
-                            widgetText = widgetText + (i+1) + ") " + gameList.get(i).getName() + "\n\t" +
+                            widgetText = widgetText + (i+1) + context.getString(R.string.widget_parenthesis_separator) + gameList.get(i).getName() + "\n\t" +
                                     context.getString(R.string.widget_out_now) + "\n";
                         }else {
-                            widgetText = widgetText + (i+1) + ") " + gameList.get(i).getName() + "\n\t" +
+                            widgetText = widgetText + (i+1) + context.getString(R.string.widget_parenthesis_separator) + gameList.get(i).getName() + "\n\t" +
                                     days + context.getString(R.string.widget_unit_days) +"\n";
                         }
                     }

@@ -21,6 +21,13 @@ micro	        35 x 35	    Thumb, Center gravity
     public static final int IGDB_API_PAGE_LIMIT = 50;
 
     public static final String IGDB_API_GAMELIST_FIELDS = "fields *, cover.*, artworks.*, screenshots.*, platforms.*, genres.*;";
+    public static final String IGDB_SEMICOLON = "; ";
+    public static final String IGDB_API_KEYWORD_LIMIT = "limit ";
+    public static final String IGDB_API_KEYWORD_OFFSET = "offset ";
+    public static final String IGDB_API_KEYWORD_SEARCH_OPEN = "search \"";
+    public static final String IGDB_API_KEYWORD_SEARCH_CLOSE = "\";";
+
+
 
     public static final String IGDB_ENDPOINT_RELEASE_DATES = "/release_dates";
     public static final String IGDB_ENDPOINT_GAMES = "/games";
@@ -38,4 +45,7 @@ micro	        35 x 35	    Thumb, Center gravity
     public static final String IGDB_IMAGE_SIZE_35x35 = "micro/";
     public static final String IGDB_IMAGE_SIZE_1280x720p = "720p/";
     public static final String IGDB_IMAGE_SIZE_1920x1080 = "1080p/";
+
+    public static final String IGDB_WHERE_RELEASE_DATE_GREATER = "where first_release_date > ";
+    public static final String IGDB_SORT_RELEASE_DATE_ASC = "sort first_release_date asc;";
 }
