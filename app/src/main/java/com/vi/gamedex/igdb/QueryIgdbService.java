@@ -40,13 +40,13 @@ public class QueryIgdbService extends IntentService {
         String endpoint = "";
         if (intent.hasExtra(EXTRA_ENDPOINT)) {
             endpoint = intent.getStringExtra(EXTRA_ENDPOINT);
-            Log.d(TAG, "onHandleIntent: endpoint: " +  endpoint);
+            //Log.d(TAG, "onHandleIntent: endpoint: " +  endpoint);
         }
 
         String bodyString = "";
         if (intent.hasExtra(EXTRA_BODY)) {
             bodyString = intent.getStringExtra(EXTRA_BODY);
-            Log.d(TAG, "onHandleIntent: bodyString: " + bodyString);
+            //Log.d(TAG, "onHandleIntent: bodyString: " + bodyString);
         }
 
         String responseString = "";
@@ -65,7 +65,7 @@ public class QueryIgdbService extends IntentService {
             ResponseBody responseBody = response.body();
             if (responseBody != null){
                 responseString = responseBody.string();
-                Log.d(TAG, "onHandleIntent: responseString: " + responseString);
+                //Log.d(TAG, "onHandleIntent: responseString: " + responseString);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +77,6 @@ public class QueryIgdbService extends IntentService {
         broadcastIntent.putExtra(EXTRA_RESPONSE, responseString);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
         localBroadcastManager.sendBroadcast(broadcastIntent);
-        Log.d(TAG, "onHandleIntent: Broadcast Sent");
-
+        //Log.d(TAG, "onHandleIntent: Broadcast Sent");
     }
 }
