@@ -48,7 +48,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     private Activity activity;
     private IgdbReceiver igdbReceiver;
     private ConnectivityManager connectivity;
-    
+
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
