@@ -1,8 +1,6 @@
 package com.vi.gamedex.viewmodel;
 
 import android.app.Application;
-import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -35,7 +33,6 @@ public class GameListViewModel extends AndroidViewModel {
 
     }
 
-
     public MutableLiveData<Integer> getCurrentDicoverPage(){
         return currentDicoverPage;
     }
@@ -50,16 +47,4 @@ public class GameListViewModel extends AndroidViewModel {
 
     public LiveData<List<Game>> getFavoritesList() { return favoritesList; }
 
-    public void queryDiscover (Context context){
-        Integer page = currentDicoverPage.getValue();
-        if (page == null){
-            page = 0;
-        }
-        //Log.d(TAG, "queryDiscover: sending query with page: " + page);
-        repo.queryIGDBComingSoon(context, page);
-    }
-
-    public void querySearch (Context context, String searchString){
-        repo.queryIGDBSearch(context, searchString);
-    }
 }

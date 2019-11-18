@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements DiscoverFragment.PageNumberListener {
+    private static final String TAG = "MainActivity: ";
 
     private FirebaseAnalytics firebaseAnalytics;
 

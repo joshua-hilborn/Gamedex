@@ -1,6 +1,12 @@
 package com.vi.gamedex.ui;
 
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,21 +14,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.GameListAdapter;
+import com.vi.gamedex.igdb.IgdbReceiver;
+import com.vi.gamedex.igdb.QueryIgdbService;
 import com.vi.gamedex.model.Game;
+import com.vi.gamedex.repository.GameListRepository;
 import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.util.List;
+
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_API_GAMELIST_FIELDS;
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_API_PAGE_LIMIT;
+import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_ENDPOINT_GAMES;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +45,11 @@ import java.util.List;
 public class SearchFragment extends Fragment implements GameListAdapter.OnGameListener {
 
     public static final String TAG = "SearchFragment: ";
+
+    private Activity activity;
+    private IgdbReceiver igdbReceiver;
+    private ConnectivityManager connectivity;
+
 
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
@@ -40,19 +60,36 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        igdbReceiver = new IgdbReceiver();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        localBroadcastManager.registerReceiver(igdbReceiver, filter);
+        GameListRepository.getInstance(activity.getApplication()).addSearchSource(igdbReceiver.getReceivedData());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        localBroadcastManager.unregisterReceiver(igdbReceiver);
+        GameListRepository.getInstance(activity.getApplication()).removeSearchSource(igdbReceiver.getReceivedData());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        this.activity = getActivity();
+        connectivity = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
         setHasOptionsMenu(true);
-
         setupViewModel();
-
         setupRecyclerView(rootView);
-
         return rootView;
-
     }
 
     private void setupRecyclerView(View rootView) {
@@ -74,10 +111,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         });
     }
 
-    private void performSearch(String searchString) {
-        gameListViewModel.querySearch(getContext(), searchString);
-    }
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -94,7 +127,8 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         searchTextBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                performSearch(query);
+                //performSearch(query);
+                queryIGDBSearch(query);
                 // First call clears text, second call returns to icon
                 searchTextBox.setIconified(true);
                 searchTextBox.setIconified(true);
@@ -112,6 +146,35 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
     @Override
     public void onGameClick(int position) {
 
+    }
+
+    public void queryIGDBSearch(String searchString){
+        if ( !isConnectedToInternet()){
+            Toast.makeText(getContext(), getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        String query = "search \""+ searchString +"\";";
+        String limit = "limit " + IGDB_API_PAGE_LIMIT + ";";
+        String body = IGDB_API_GAMELIST_FIELDS + " " + query + " " + limit;
+
+        Intent queryIntent = new Intent(getContext(), QueryIgdbService.class);
+        queryIntent.putExtra(QueryIgdbService.EXTRA_ENDPOINT, IGDB_ENDPOINT_GAMES);
+        queryIntent.putExtra(QueryIgdbService.EXTRA_BODY, body);
+        activity.startService(queryIntent);
+    }
+
+    private boolean isConnectedToInternet(){
+        if (connectivity != null) {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null)
+                for (int i = 0; i < info.length; i++)
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+
+        }
+        return false;
     }
 
 }
