@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
         updateWidgets();
     }
 
+
     private void setupViews() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.app_name));

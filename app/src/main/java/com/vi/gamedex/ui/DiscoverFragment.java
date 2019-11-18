@@ -2,6 +2,7 @@ package com.vi.gamedex.ui;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -45,6 +46,7 @@ import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_ENDPOINT_GAMES;
  */
 public class DiscoverFragment extends Fragment implements GameListAdapter.OnGameListener {
     public static final String TAG = "DiscoverFragment: ";
+    private static int DISCOVER_TAB = 0;
 
     private Activity activity;
     private IgdbReceiver igdbReceiver;
@@ -85,11 +87,11 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.unregisterReceiver(igdbReceiver);
-        GameListRepository.getInstance(activity.getApplication()).removeDiscoverSource(igdbReceiver.getReceivedData());
+    public void onDetach() {
+        super.onDetach();
+        //LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        //localBroadcastManager.unregisterReceiver(igdbReceiver);
+        //GameListRepository.getInstance(activity.getApplication()).removeDiscoverSource(igdbReceiver.getReceivedData());
     }
 
     private void queryIfEmpty() {
@@ -212,6 +214,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         Intent queryIntent = new Intent(getContext(), QueryIgdbService.class);
         queryIntent.putExtra(QueryIgdbService.EXTRA_ENDPOINT, IGDB_ENDPOINT_GAMES);
         queryIntent.putExtra(QueryIgdbService.EXTRA_BODY, body);
+        queryIntent.putExtra(QueryIgdbService.EXTRA_REQUESTING_TAB, DISCOVER_TAB);
         activity.startService(queryIntent);
     }
 

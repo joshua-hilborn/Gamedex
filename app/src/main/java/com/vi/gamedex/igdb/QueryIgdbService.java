@@ -2,7 +2,6 @@ package com.vi.gamedex.igdb;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -22,6 +21,7 @@ public class QueryIgdbService extends IntentService {
 
     public static final String EXTRA_ENDPOINT = "requestEndpoint";
     public static final String EXTRA_BODY = "requestBody";
+    public static final String EXTRA_REQUESTING_TAB = "tabNumberThatSentRequest";
     public static final String EXTRA_RESPONSE = "responseJson";
     public static final String TEXT_PLAIN = "text/plain";
 
@@ -47,6 +47,12 @@ public class QueryIgdbService extends IntentService {
         String bodyString = "";
         if (intent.hasExtra(EXTRA_BODY)) {
             bodyString = intent.getStringExtra(EXTRA_BODY);
+            //Log.d(TAG, "onHandleIntent: bodyString: " + bodyString);
+        }
+
+        int tabNumber = 0;
+        if (intent.hasExtra(EXTRA_REQUESTING_TAB)) {
+            tabNumber = intent.getIntExtra(EXTRA_REQUESTING_TAB, 0);
             //Log.d(TAG, "onHandleIntent: bodyString: " + bodyString);
         }
 
@@ -76,8 +82,10 @@ public class QueryIgdbService extends IntentService {
         broadcastIntent.setAction(IgdbReceiver.ACTION_RESPONSE);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
         broadcastIntent.putExtra(EXTRA_RESPONSE, responseString);
+        broadcastIntent.putExtra(EXTRA_REQUESTING_TAB, tabNumber);
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getApplicationContext());
         localBroadcastManager.sendBroadcast(broadcastIntent);
         //Log.d(TAG, "onHandleIntent: Broadcast Sent");
     }
+
 }

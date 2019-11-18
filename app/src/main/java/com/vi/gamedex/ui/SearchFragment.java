@@ -49,9 +49,9 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
     private Activity activity;
     private IgdbReceiver igdbReceiver;
+    private static int SEARCH_TAB = 1;
     private ConnectivityManager connectivity;
-
-
+    
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
@@ -69,15 +69,15 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         localBroadcastManager.registerReceiver(igdbReceiver, filter);
-        GameListRepository.getInstance(activity.getApplication()).addSearchSource(igdbReceiver.getReceivedData());
+        GameListRepository.getInstance(activity.getApplication()).addSearchSource(igdbReceiver.getReceivedSearchData());
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        localBroadcastManager.unregisterReceiver(igdbReceiver);
-        GameListRepository.getInstance(activity.getApplication()).removeSearchSource(igdbReceiver.getReceivedData());
+    public void onDetach() {
+        super.onDetach();
+        //LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        //localBroadcastManager.unregisterReceiver(igdbReceiver);
+        //GameListRepository.getInstance(activity.getApplication()).removeSearchSource(igdbReceiver.getReceivedSearchData());
     }
 
     @Override
@@ -128,7 +128,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         searchTextBox.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //performSearch(query);
                 queryIGDBSearch(query);
                 // First call clears text, second call returns to icon
                 searchTextBox.setIconified(true);
@@ -162,6 +161,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         Intent queryIntent = new Intent(getContext(), QueryIgdbService.class);
         queryIntent.putExtra(QueryIgdbService.EXTRA_ENDPOINT, IGDB_ENDPOINT_GAMES);
         queryIntent.putExtra(QueryIgdbService.EXTRA_BODY, body);
+        queryIntent.putExtra(QueryIgdbService.EXTRA_REQUESTING_TAB, SEARCH_TAB);
         activity.startService(queryIntent);
     }
 
