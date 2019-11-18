@@ -51,7 +51,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
     private IgdbReceiver igdbReceiver;
     private static int SEARCH_TAB = 1;
     private ConnectivityManager connectivity;
-    
+
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
