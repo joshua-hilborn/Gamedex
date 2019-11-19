@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -55,18 +56,25 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
+    private ProgressBar discoverProgressBar;
 
     public DiscoverFragment() {
         // Required empty public constructor
     }
 
-
+    private BroadcastReceiver progressReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            discoverProgressBar.setVisibility(View.GONE);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         setHasOptionsMenu(true);
         this.activity = getActivity();
+        discoverProgressBar = rootView.findViewById(R.id.pb_discover);
         connectivity = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         setupViewModel();
@@ -83,15 +91,8 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         localBroadcastManager.registerReceiver(igdbReceiver, filter);
+        localBroadcastManager.registerReceiver(progressReceiver, filter);
         GameListRepository.getInstance(activity.getApplication()).addDiscoverSource(igdbReceiver.getReceivedData());
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        //localBroadcastManager.unregisterReceiver(igdbReceiver);
-        //GameListRepository.getInstance(activity.getApplication()).removeDiscoverSource(igdbReceiver.getReceivedData());
     }
 
     private void queryIfEmpty() {
@@ -117,6 +118,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
             @Override
             public void onChanged(List<Game> gameList) {
                 gameListAdapter.setGameList(gameList);
+                recyclerView.setAlpha(1);
             }
         });
         gameListViewModel.getCurrentDicoverPage().observe(this, new Observer<Integer>() {
@@ -180,7 +182,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
 
     }
 
-
     @Override
     public void onGameClick(int position) {
 
@@ -190,7 +191,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         void onPageChanged(int page);
     }
 
-    public void queryIGDBComingSoon(){
+    private void queryIGDBComingSoon(){
         Integer page = gameListViewModel.getCurrentDicoverPage().getValue();
         if (page == null){
             page = 0;
@@ -199,6 +200,9 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
             Toast.makeText(getContext(), getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
             return;
         }
+
+        discoverProgressBar.setVisibility(View.VISIBLE);
+        recyclerView.setAlpha(.5f);
 
         Date currentDate = new Date();
         long currentMillis = currentDate.getTime();

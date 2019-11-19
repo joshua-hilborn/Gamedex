@@ -2,6 +2,7 @@ package com.vi.gamedex.ui;
 
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -55,11 +57,19 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
     private RecyclerView recyclerView;
     private GameListAdapter gameListAdapter;
     private GameListViewModel gameListViewModel;
+    private ProgressBar searchProgressBar;
 
 
     public SearchFragment() {
         // Required empty public constructor
     }
+
+    private BroadcastReceiver progressReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            searchProgressBar.setVisibility(View.GONE);
+        }
+    };
 
     @Override
     public void onResume() {
@@ -69,21 +79,15 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         localBroadcastManager.registerReceiver(igdbReceiver, filter);
+        localBroadcastManager.registerReceiver(progressReceiver, filter);
         GameListRepository.getInstance(activity.getApplication()).addSearchSource(igdbReceiver.getReceivedSearchData());
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        //LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
-        //localBroadcastManager.unregisterReceiver(igdbReceiver);
-        //GameListRepository.getInstance(activity.getApplication()).removeSearchSource(igdbReceiver.getReceivedSearchData());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+        searchProgressBar = rootView.findViewById(R.id.pb_search);
         this.activity = getActivity();
         connectivity = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -107,11 +111,11 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
             @Override
             public void onChanged(List<Game> gameList) {
                 gameListAdapter.setGameList(gameList);
+                recyclerView.setAlpha(1);
 
             }
         });
     }
-
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -148,11 +152,14 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
     }
 
-    public void queryIGDBSearch(String searchString){
+    private void queryIGDBSearch(String searchString){
         if ( !isConnectedToInternet()){
             Toast.makeText(getContext(), getString(R.string.toast_no_network), Toast.LENGTH_LONG).show();
             return;
         }
+
+        searchProgressBar.setVisibility(View.VISIBLE);
+        recyclerView.setAlpha(.5f);
 
         String query = IgdbUtilities.IGDB_API_KEYWORD_SEARCH_OPEN + searchString + IgdbUtilities.IGDB_API_KEYWORD_SEARCH_CLOSE;
         String limit = IgdbUtilities.IGDB_API_KEYWORD_LIMIT + IGDB_API_PAGE_LIMIT + IgdbUtilities.IGDB_SEMICOLON;

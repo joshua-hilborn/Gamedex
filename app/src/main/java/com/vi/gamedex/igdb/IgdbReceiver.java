@@ -54,7 +54,6 @@ public class IgdbReceiver extends BroadcastReceiver {
             //Log.d(TAG, "onReceive: broadcast received");
         }
 
-
         Moshi moshi = new Moshi.Builder().build();
         Type type = Types.newParameterizedType(List.class, Game.class);
         final JsonAdapter<List> gamesJsonAdapter = moshi.adapter(type);
@@ -74,7 +73,6 @@ public class IgdbReceiver extends BroadcastReceiver {
                     }else {
                         Log.d(TAG, "onReceive: no tab number processed");
                     }
-                    //receivedData.postValue(gamesJsonAdapter.fromJson(resultString));
                     //Log.d(TAG, "onReceive: posting value to livedata: " + resultString);
                 }
             } else {
