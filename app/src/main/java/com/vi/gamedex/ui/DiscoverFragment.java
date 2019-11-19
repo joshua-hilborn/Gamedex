@@ -47,6 +47,8 @@ import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_ENDPOINT_GAMES;
  */
 public class DiscoverFragment extends Fragment implements GameListAdapter.OnGameListener {
     public static final String TAG = "DiscoverFragment: ";
+    private static final float ALPHA_DIMMED = .5f;
+    private static final float ALPHA_FULL = 1;
     private static int DISCOVER_TAB = 0;
 
     private Activity activity;
@@ -66,7 +68,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         @Override
         public void onReceive(Context context, Intent intent) {
             discoverProgressBar.setVisibility(View.GONE);
-            recyclerView.setAlpha(1);
+            recyclerView.setAlpha(ALPHA_FULL);
         }
     };
 
@@ -202,7 +204,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         }
 
         discoverProgressBar.setVisibility(View.VISIBLE);
-        recyclerView.setAlpha(.5f);
+        recyclerView.setAlpha(ALPHA_DIMMED);
 
         Date currentDate = new Date();
         long currentMillis = currentDate.getTime();

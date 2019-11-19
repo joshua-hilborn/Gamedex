@@ -46,8 +46,9 @@ import static com.vi.gamedex.igdb.IgdbUtilities.IGDB_ENDPOINT_GAMES;
  * A simple {@link Fragment} subclass.
  */
 public class SearchFragment extends Fragment implements GameListAdapter.OnGameListener {
-
     public static final String TAG = "SearchFragment: ";
+    private static final float ALPHA_DIMMED = .5f;
+    private static final float ALPHA_FULL = 1;
 
     private Activity activity;
     private IgdbReceiver igdbReceiver;
@@ -68,7 +69,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         @Override
         public void onReceive(Context context, Intent intent) {
             searchProgressBar.setVisibility(View.GONE);
-            recyclerView.setAlpha(1);
+            recyclerView.setAlpha(ALPHA_FULL);
         }
     };
 
@@ -159,7 +160,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         }
 
         searchProgressBar.setVisibility(View.VISIBLE);
-        recyclerView.setAlpha(.5f);
+        recyclerView.setAlpha(ALPHA_DIMMED);
 
         String query = IgdbUtilities.IGDB_API_KEYWORD_SEARCH_OPEN + searchString + IgdbUtilities.IGDB_API_KEYWORD_SEARCH_CLOSE;
         String limit = IgdbUtilities.IGDB_API_KEYWORD_LIMIT + IGDB_API_PAGE_LIMIT + IgdbUtilities.IGDB_SEMICOLON;
