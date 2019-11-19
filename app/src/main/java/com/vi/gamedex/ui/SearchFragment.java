@@ -68,6 +68,7 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         @Override
         public void onReceive(Context context, Intent intent) {
             searchProgressBar.setVisibility(View.GONE);
+            recyclerView.setAlpha(1);
         }
     };
 
@@ -111,7 +112,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
             @Override
             public void onChanged(List<Game> gameList) {
                 gameListAdapter.setGameList(gameList);
-                recyclerView.setAlpha(1);
 
             }
         });

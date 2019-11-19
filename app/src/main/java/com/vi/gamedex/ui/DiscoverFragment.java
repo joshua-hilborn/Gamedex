@@ -66,6 +66,7 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         @Override
         public void onReceive(Context context, Intent intent) {
             discoverProgressBar.setVisibility(View.GONE);
+            recyclerView.setAlpha(1);
         }
     };
 
@@ -118,7 +119,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
             @Override
             public void onChanged(List<Game> gameList) {
                 gameListAdapter.setGameList(gameList);
-                recyclerView.setAlpha(1);
             }
         });
         gameListViewModel.getCurrentDicoverPage().observe(this, new Observer<Integer>() {
