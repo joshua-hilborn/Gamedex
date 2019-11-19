@@ -125,6 +125,9 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
         }
         holder.isThisAFavorite(gameList.get(position).getId());
         holder.ivCover.setContentDescription(gameName + " " + context.getString(R.string.content_description_iv_cover));
+        if (holder.isSummaryExpanded){
+            holder.toggleExpandedMode();
+        }
     }
 
 
