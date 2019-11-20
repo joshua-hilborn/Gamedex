@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,7 +34,6 @@ import com.vi.gamedex.igdb.IgdbReceiver;
 import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.igdb.QueryIgdbService;
 import com.vi.gamedex.model.Game;
-import com.vi.gamedex.repository.GameListRepository;
 import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.util.List;
@@ -49,10 +49,9 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
     public static final String TAG = "SearchFragment: ";
     private static final float ALPHA_DIMMED = .5f;
     private static final float ALPHA_FULL = 1;
+    private static int SEARCH_TAB = 1;
 
     private Activity activity;
-    private IgdbReceiver igdbReceiver;
-    private static int SEARCH_TAB = 1;
     private ConnectivityManager connectivity;
 
     private RecyclerView recyclerView;
@@ -76,21 +75,32 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
     @Override
     public void onResume() {
         super.onResume();
-        igdbReceiver = new IgdbReceiver();
+        registerProgressReceiver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterProgressReceiver();
+    }
+
+    private void registerProgressReceiver() {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
-        localBroadcastManager.registerReceiver(igdbReceiver, filter);
         localBroadcastManager.registerReceiver(progressReceiver, filter);
-        GameListRepository.getInstance(activity.getApplication()).addSearchSource(igdbReceiver.getReceivedSearchData());
+    }
+
+    private void unregisterProgressReceiver(){
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        localBroadcastManager.unregisterReceiver(progressReceiver);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-        searchProgressBar = rootView.findViewById(R.id.pb_search);
         this.activity = getActivity();
+        searchProgressBar = rootView.findViewById(R.id.pb_search);
         connectivity = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         setHasOptionsMenu(true);
@@ -124,7 +134,6 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
 
         final MenuItem searchItem = menu.findItem(R.id.menu_s_search);
         final SearchView searchTextBox = (SearchView) searchItem.getActionView();
-
         searchTextBox.setQueryHint(getString(R.string.search_game_hint));
 
         // Use these to expand the search bar and close the keyboard when tab is switched to, not sure if i like this yet.
@@ -185,5 +194,4 @@ public class SearchFragment extends Fragment implements GameListAdapter.OnGameLi
         }
         return false;
     }
-
 }

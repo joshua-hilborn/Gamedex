@@ -2,10 +2,14 @@ package com.vi.gamedex.ui;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.ads.AdRequest;
@@ -17,6 +21,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.vi.gamedex.R;
 import com.vi.gamedex.adapter.PageAdapter;
+import com.vi.gamedex.igdb.IgdbReceiver;
+import com.vi.gamedex.repository.GameListRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,8 +34,11 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
     public static final String ACTIVITY_START = "ActivityStart";
     public static final String MAIN_ACTIVITY = "MainActivity";
     public static final String ANALYTICS_TIMESTAMP_FORMAT = "ddMMyyyyhhmmss";
+    public static final String KEY_RECIVER_REGISTERED = "isReceiverRegistered";
 
     private FirebaseAnalytics firebaseAnalytics;
+    private IgdbReceiver igdbReceiver;
+    private boolean recieverRegistered = false;
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -39,8 +48,19 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
 
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(KEY_RECIVER_REGISTERED, recieverRegistered);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            if (savedInstanceState.containsKey(KEY_RECIVER_REGISTERED)){
+                recieverRegistered = savedInstanceState.getBoolean(KEY_RECIVER_REGISTERED);
+            }
+        }
         setContentView(R.layout.activity_main);
         setupAnalytics();
         setupViews();
@@ -48,6 +68,12 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
         updateWidgets();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerIgdbReceiver();
+        recieverRegistered = true;
+    }
 
     private void setupViews() {
         toolbar = findViewById(R.id.toolbar);
@@ -69,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
         CountdownWidget.updateCountdownWidgets(this, appWidgetManager, appWidgetIds);
     }
 
+    // Setup Admob Banner
     private void setupAdmob() {
-        // Setup Admob Banner
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
@@ -89,6 +115,25 @@ public class MainActivity extends AppCompatActivity implements DiscoverFragment.
         bundle.putString(FirebaseAnalytics.Param.ITEM_ID, format.format(new Date()));
         bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, MAIN_ACTIVITY);
         firebaseAnalytics.logEvent(ACTIVITY_START, bundle);
+    }
+
+    private void registerIgdbReceiver() {
+        if (!recieverRegistered) {
+            igdbReceiver = new IgdbReceiver();
+            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+            IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
+            filter.addCategory(Intent.CATEGORY_DEFAULT);
+            localBroadcastManager.registerReceiver(igdbReceiver, filter);
+            GameListRepository.getInstance(getApplication()).addDiscoverSource(igdbReceiver.getReceivedData());
+            GameListRepository.getInstance(getApplication()).addSearchSource(igdbReceiver.getReceivedSearchData());
+        }
+    }
+
+    private void unregisterIgdbReceiver(){
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager.unregisterReceiver(igdbReceiver);
+        GameListRepository.getInstance(getApplication()).removeDiscoverSource(igdbReceiver.getReceivedData());
+        GameListRepository.getInstance(getApplication()).removeSearchSource(igdbReceiver.getReceivedSearchData());
     }
 
     @Override

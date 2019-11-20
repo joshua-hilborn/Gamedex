@@ -32,7 +32,6 @@ import com.vi.gamedex.igdb.IgdbReceiver;
 import com.vi.gamedex.igdb.IgdbUtilities;
 import com.vi.gamedex.igdb.QueryIgdbService;
 import com.vi.gamedex.model.Game;
-import com.vi.gamedex.repository.GameListRepository;
 import com.vi.gamedex.viewmodel.GameListViewModel;
 
 import java.util.Date;
@@ -52,7 +51,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     private static int DISCOVER_TAB = 0;
 
     private Activity activity;
-    private IgdbReceiver igdbReceiver;
     private ConnectivityManager connectivity;
 
     private RecyclerView recyclerView;
@@ -75,11 +73,11 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
-        setHasOptionsMenu(true);
         this.activity = getActivity();
         discoverProgressBar = rootView.findViewById(R.id.pb_discover);
         connectivity = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
+        setHasOptionsMenu(true);
         setupViewModel();
         setupRecyclerView(rootView);
         queryIfEmpty();
@@ -89,25 +87,35 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     @Override
     public void onResume() {
         super.onResume();
-        igdbReceiver = new IgdbReceiver();
+        registerProgressReceiver();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterProgressReceiver();
+    }
+
+    private void registerProgressReceiver() {
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         IntentFilter filter = new IntentFilter(IgdbReceiver.ACTION_RESPONSE);
         filter.addCategory(Intent.CATEGORY_DEFAULT);
-        localBroadcastManager.registerReceiver(igdbReceiver, filter);
         localBroadcastManager.registerReceiver(progressReceiver, filter);
-        GameListRepository.getInstance(activity.getApplication()).addDiscoverSource(igdbReceiver.getReceivedData());
     }
 
+    private void unregisterProgressReceiver(){
+        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
+        localBroadcastManager.unregisterReceiver(progressReceiver);
+    }
+
+    // Only query the api if the discover tab is empty, not on state change
     private void queryIfEmpty() {
-        // Only query the api if the discover tab is empty, not on state change
         if (gameListViewModel.getGameList().getValue() == null) {
             queryIGDBComingSoon();
-            //gameListViewModel.queryDiscover(getContext());
         }
     }
 
     private void setupRecyclerView(View rootView) {
-        //Initialize the recyclerview
         recyclerView = rootView.findViewById(R.id.rv_discover);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -131,7 +139,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                     ((PageNumberListener) activity).onPageChanged(integer);
                 }catch (ClassCastException cce){
                     cce.printStackTrace();
-
                 }
             }
         });
@@ -164,7 +171,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
        } else {
            gameListViewModel.getCurrentDicoverPage().setValue(0);
        }
-
     }
 
     private void decrementPage(){
@@ -181,7 +187,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
         } else {
             gameListViewModel.getCurrentDicoverPage().setValue(0);
         }
-
     }
 
     @Override
@@ -232,7 +237,6 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
                     if (info[i].getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
-
         }
         return false;
     }

@@ -61,8 +61,8 @@ public class IgdbReceiver extends BroadcastReceiver {
         try {
             if (resultString != null){
                 if (resultString.equals(EMPTY_RESULT_BRACKETS)){
-                    //Log.d(TAG, "onReceive: no result? " + resultString);
-                    Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "onReceive: [] result: " + resultString);
+                    Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_SHORT).show();
                 } else {
                     if (requestingTab == 0 ) {
                         receivedData.postValue(gamesJsonAdapter.fromJson(resultString));
@@ -77,8 +77,8 @@ public class IgdbReceiver extends BroadcastReceiver {
                 }
             } else {
                 //handle null result
-                //Log.d(TAG, "onReceive: Null result? " + resultString );
-                Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_LONG).show();
+                Log.d(TAG, "onReceive: null result: " + resultString );
+                Toast.makeText(context, context.getString(R.string.toast_no_results), Toast.LENGTH_SHORT).show();
             }
         }catch (IOException e){
             e.printStackTrace();
