@@ -145,7 +145,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameVi
             bgId = screenshotList.get(indexS).getImageId();
         }
         return IgdbUtilities.IGDB_IMAGE_BASE_URL +
-                IgdbUtilities.IGDB_IMAGE_SIZE_284x160 +
+                IgdbUtilities.IGDB_IMAGE_SIZE_569x320 +
                 bgId +
                 IgdbUtilities.IGDB_IMAGE_FORMAT_JPG;
     }
