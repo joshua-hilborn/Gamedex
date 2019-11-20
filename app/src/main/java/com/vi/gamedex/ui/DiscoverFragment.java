@@ -91,8 +91,8 @@ public class DiscoverFragment extends Fragment implements GameListAdapter.OnGame
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         unregisterProgressReceiver();
     }
 
